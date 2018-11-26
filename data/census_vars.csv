@@ -1,0 +1,317 @@
+plain_text_variable,acs2016_variable,description
+name,NAME,Canonical Name of Geography
+age_median,B01002_001E,Median age of population
+commute_bike,B08006_014E,Number of workers biking to work
+commute_bike_female,B08006_048E,Number of women biking to work
+commute_bike_male,B08006_031E,Number of men biking to work
+commute_public_transport,B08006_008E,Number of workers commuting on public transportation
+commute_public_transport_asian,B08105D_004E,Number of people who identify as asian who take public transportation to work
+commute_public_transport_black,B08105B_004E,Number of people who identify as black who take public transportation to work
+commute_public_transport_female,B08006_042E,Number of women taking public transportation to work
+commute_public_transport_hispanic,B08105I_004E,Number of people who identify as hispanic who take public transportation to work
+commute_public_transport_male,B08006_025E,Number of men taking public transportation to work
+commute_public_transport_multi,B08105G_004E,Number of people who identify as more than one race who take public transportation to work
+commute_public_transport_native,B08105C_004E,Number of people who identify as native american or alaskan who take public transportation to work
+commute_public_transport_other,B08105F_004E,Number of people who identify as another race who take public transportation to work
+commute_public_transport_pacific,B08105E_004E,Number of people who identify as native hawaiian or pacific islander who take public transportation to work
+commute_public_transport_white,B08105H_004E,Number of people who identify as white who take public transportation to work
+commute_walk_asian,B08105D_005E,Number of people who identify as asian who walk to work
+commute_walk_black,B08105B_005E,Number of people who identify as black who walk to work
+commute_walk_female,B08006_049E,Number of women walking to work
+commute_walk_hispanic,B08105I_005E,Number of people who identify as hispanic who walk to work
+commute_walk_male,B08006_032E,Number of men walking to work
+commute_walk_multi,B08105G_005E,Number of people who identify as more than one race who walk to work
+commute_walk_native,B08105C_005E,Number of people who identify as native american or alaskan who walk to work
+commute_walk_other,B08105F_005E,Number of people who identify as another race who walk to work
+commute_walk_pacific,B08105E_005E,Number of people who identify as native hawaiian or pacific islander who walk to work
+commute_walk_white,B08105H_005E,Number of people who identify as white who walk to work
+employment_fulltime_female,B24090_012E,"Number of women over age 16 in full-time, year-round civilian employment"
+employment_fulltime_male,B24090_002E,"Number of men over age 16 in full-time, year-round civilian employment"
+employment_local_female,B08008_013E,Number of women living and working in the same Census place
+employment_local_male,B08008_008E,Number of men living and working in the same Census place
+employment_nonlocal_female,B08008_014E,Number of women working somewhere other than where they live
+employment_nonlocal_male,B08008_009E,Number of men working somewhere other than where they live
+employment_wfh,B08006_017E,Number of workers working from home
+employment_wfh_asian,B08105D_007E,Number of people who identify as asian who work from home
+employment_wfh_black,B08105B_007E,Number of people who identify as black who work from home
+employment_wfh_female,B08006_051E,Number of women working from home
+employment_wfh_hispanic,B08105I_007E,Number of people who identify as hispanic who work from home
+employment_wfh_male,B08006_034E,Number of men working from home
+employment_wfh_multi,B08105G_007E,Number of people who identify as more than one race who work from home
+employment_wfh_native,B08105C_007E,Number of people who identify as native american or alaskan who work from home
+employment_wfh_other,B08105F_007E,Number of people who identify as another race who work from home
+employment_wfh_pacific,B08105E_007E,Number of people who identify as native hawaiian or pacific islander who work from home
+employment_wfh_white,B08105H_007E,Number of people who identify as white who work from home
+house_median_construction_year,B25035_001E,Median construction year of houses
+house_median_value,B25077_001E,Median value of houses
+house_owner_occupied,B25003_002E,Owner occupied houses
+house_renter_occupied,B25003_003E,Renter occupied houses
+house_units,B25001_001E,Total houses
+house_vacant,B25005_001E,Vacant houses
+household_average_size,B25010_001E,Average household size
+household_average_size_own,B25010_002E,Average household size of owned occupied units
+household_average_size_rent,B25010_003E,Average household size of rented occupied units
+household_with_children,B11005_002E,Number of households with someone under 18
+income_median,B19013_001E,Median income
+income_median_asian,B19013D_001E,Median income for people who identify as asian
+income_median_black,B19013B_001E,Median income for people who identify as black
+income_median_hispanic,B19013I_001E,Median income for people who identify as hispanic
+income_median_multi,B19013G_001E,Median income for people who identify as more than one race
+income_median_native,B19013C_001E,Median income for people who identify as native american or alaskan
+income_median_other,B19013F_001E,Median income for people who identify as another race
+income_median_pacific,B19013E_001E,Median income for people who identify as native hawaiian or pacific islander
+income_median_white,B19013H_001E,Median income for people who identify as white
+income_per_capita,B19301_001E,Income per capita
+inequality_gini_index,B19083_001E,Gini index of inequality
+median_income_female,B19326_005E,Median income for women
+median_income_male,B19326_002E,Median income for men
+movers_nonmovers,B07013_004E,Number of people in the same house as one year ago
+movers_diff_state,B07013_013E,Number of people who moved from another state
+movers_same_state,B07013_010E,Number of people who moved to a new county within the state
+noncitizen,B05001_006E,Non-citizen residents
+population_asian,B03002_006E,Number of people who identify as asian
+population_black,B03002_004E,Number of people who identify as black (non-hispanic)
+population_hispanic,B03001_003E,Number of people who identify as hispanic
+population_multi,B03002_009E,Number of people who identify as more than one race
+population_native,B03002_005E,Number of people who identify as native american or alaskan
+population_other,B03002_008E,Number of people who identify as another race
+population_pacific,B03002_007E,Number of people who identify as native hawaiian or pacific islander
+population_total,B01003_001E,Total population
+population_white,B03002_003E,Number of people who identify as white (non-hispanic)
+poverty_benefit_recipient,B09010_002E,"Number of households receiveing Supplemental Security, SNAP, or Public Assistance Income"
+poverty_children,B17006_001E,Number of children under 18 in poverty
+poverty_family,B17012_002E,Number of families in poverty
+rent_contract_median,B25058_001E,Median cost of advertised rent
+rent_gross_median,B25064_001E,Median cost of rent + utilities
+veteran,B21001_002E,Veterans
+poverty_asian,B17001D_002E,Number of people in poverty who identify as asian
+poverty_black,B17001B_002E,Number of people in poverty who identify as black
+poverty_hispanic,B17001I_002E,Number of people in poverty who identify as Hispanic
+poverty_multi,B17001G_002E,Number of people in poverty who identify as two or more races
+poverty_native,B17001C_002E,Number of people in poverty who identify as Native Americans
+poverty_other,B17001F_002E,number of people in poverty who identify as another race
+poverty_pacific,B17001E_002E,Number of people in poverty who identify as Native Hawaiian or Pacific Islander
+poverty_total,B17001_002E,Number of people in poverty
+poverty_white,B17001H_002E,Number of people in poverty who identify as white
+poverty_asian_male,B17001D_003E,Number of men in poverty who identify as asian
+poverty_black_male,B17001B_003E,Number of men in poverty who identify as black
+poverty_hispanic_male,B17001I_003E,Number of men in poverty who identify as Hispanic
+poverty_multi_male,B17001G_003E,Number of men in poverty who identify as two or more races
+poverty_native_male,B17001C_003E,Number of men in poverty who identify as Native Americans
+poverty_other_male,B17001F_003E,number of men in poverty who identify as another race
+poverty_pacific_male,B17001E_003E,Number of men in poverty who identify as Native Hawaiian or Pacific Islander
+poverty_total_male,B17001_003E,Number of men in poverty
+poverty_white_male,B17001H_003E,Number of men in poverty who identify as white
+poverty_asian_female,B17001D_017E,Number of women in poverty who identify as asian
+poverty_black_female,B17001B_017E,Number of women in poverty who identify as black
+poverty_hispanic_female,B17001I_017E,Number of women in poverty who identify as Hispanic
+poverty_multi_female,B17001G_017E,Number of women in poverty who identify as two or more races
+poverty_native_female,B17001C_017E,Number of women in poverty who identify as Native Americans
+poverty_other_female,B17001F_017E,number of women in poverty who identify as another race
+poverty_pacific_female,B17001E_017E,Number of women in poverty who identify as Native Hawaiian or Pacific Islander
+poverty_total_female,B17001_017E,Number of women in poverty
+poverty_white_female,B17001H_017E,Number of women in poverty who identify as white
+education_associates_female,B15002_031E,Number of women with an associates degree
+education_bachelors_female,B15002_032E,Number of women with a bachelors degree
+education_doctorate_female,B15002_035E,Number of women with a doctorate
+education_high_school_female,B15002_028E,Number of women with a high school education
+education_masters_female,B15002_033E,Number of women with a masters degree
+education_female,B15002_019E,Number of women over age 25
+education_associates_male,B15002_014E,Number of men with an associates degree
+education_bachelors_male,B15002_015E,Number of men with a bachelors degree
+education_doctorate_male,B15002_018E,Number of men with a doctorate
+education_high_school_male,B15002_011E,Number of men with a high school education
+education_masters_male,B15002_016E,Number of men with a masters degree
+education_men,B15002_002E,Number of men over age 25
+household_income_own_median,B25119_002E,Median household income by tenure: Owner occupied
+household_income_rent_median,B25119_003E,Median household income by tenure: Renter occupied
+household_income_01,B19001_002E,Number of housing units with household income less than $10000
+household_income_02,B19001_003E,Number of housing units with household income between $10000 and $14999
+household_income 03,B19001_004E,Number of housing units with household income between $15000 and $19999
+household_income_04,B19001_005E,Number of housing units with household income between $20000 and $24999
+household_income_05,B19001_006E,Number of housing units with household income between $25000 and $29999
+household_income_06,B19001_007E,Number of housing units with household income between $30000 and $34999
+household_income_07,B19001_008E,Number of housing units with household income between $35000 and $39999
+household_income_08,B19001_009E,Number of housing units with household income between $40000 and $44999
+household_income_09,B19001_010E,Number of housing units with household income between $45000 and $49999
+household_income_10,B19001_011E,Number of housing units with household income between $50000 and $59999
+household_income_11,B19001_012E,Number of housing units with household income between $60000 and $74999
+household_income_12,B19001_013E,Number of housing units with household income between $75000 and $99999
+household_income_13,B19001_014E,Number of housing units with household income between $100000 and $124999
+household_income_14,B19001_015E,Number of housing units with household income between $125000 and $149999
+household_income_15,B19001_016E,Number of housing units with household income between $150000 and $199999
+household_income_16,B19001_017E,Number of housing units with household income more than $200000
+household_income_median,B19019_001E,Median household income in the past 12 months
+household_income_1phh_median,B19019_002E,Median household income for 1 person households
+household_income_2phh_median,B19019_003E,Median household income for 2 people households
+household_income_3phh_median,B19019_004E,Median household income for 3 people households
+household_income_4phh_median,B19019_005E,Median household income for 4 people households
+household_income_5phh_median,B19019_006E,Median household income for 5 people households
+household_income_6phh_median,B19019_007E,Median household income for 6 people households
+household_income_7morephh_median,B19019_008E,Median household income for 7 or more people households
+rent_01,B25061_002E,Rent asked: Less than $100
+rent_02,B25061_003E,Rent asked: $100 to $149
+rent_03,B25061_004E,Rent asked: $150 to $199
+rent_04,B25061_005E,Rent asked: $200 to $249
+rent_05,B25061_006E,Rent asked: $250 to $299
+rent_06,B25061_007E,Rent asked: $300 to $349
+rent_07,B25061_008E,Rent asked: $350 to $399
+rent_08,B25061_009E,Rent asked: $400 to $449
+rent_09,B25061_010E,Rent asked: $450 to $499
+rent_10,B25061_011E,Rent asked: $500 to $549
+rent_11,B25061_012E,Rent asked: $550 to $599
+rent_12,B25061_013E,Rent asked: $600 to $649
+rent_13,B25061_014E,Rent asked: $650 to $699
+rent_14,B25061_015E,Rent asked: $700 to $749
+rent_15,B25061_016E,Rent asked: $750 to $799
+rent_16,B25061_017E,Rent asked: $800 to $899
+rent_17,B25061_018E,Rent asked: $900 to $999
+rent_18,B25061_019E,Rent asked: $1000 to $1249
+rent_19,B25061_020E,Rent asked: $1250 to $1499
+rent_20,B25061_021E,Rent asked: $1500 to $1999
+rent_21,B25061_022E,Rent asked: $2000 or more
+rent_gros_pctincome_median,B25071_001E,Median gross rent as a percentage of household income
+owner_costs_pctincome_mortg_median,B25092_002E,Median selected monthly owner costs as a percentage of household income for housing units with a mortgage
+owner_costs_pctincome_nomortg_median,B25092_003E,Median selected monthly owner costs as a percentage of household income for housing units without a mortgage
+house_price_tot,B25085_001E,Total number of housing units (vacant-for-sale-only and sold)
+house_price_01,B25085_002E,Number of housing units (vacant-for-sale-only and sold) with price asked: Less than $10000
+house_price_02,B25085_003E,Number of housing units (vacant-for-sale-only and sold) with price asked: $10000 to $14999
+house_price_03,B25085_004E,Number of housing units (vacant-for-sale-only and sold) with price asked: $15000 to $19999
+house_price_04,B25085_005E,Number of housing units (vacant-for-sale-only and sold) with price asked: $20000 to $24999
+house_price_05,B25085_006E,Number of housing units (vacant-for-sale-only and sold) with price asked: $25000 to $29999
+house_price_06,B25085_007E,Number of housing units (vacant-for-sale-only and sold) with price asked: $30000 to $34999
+house_price_07,B25085_008E,Number of housing units (vacant-for-sale-only and sold) with price asked: $35000 to $39999
+house_price_08,B25085_009E,Number of housing units (vacant-for-sale-only and sold) with price asked: $40000 to $49999
+house_price_09,B25085_010E,Number of housing units (vacant-for-sale-only and sold) with price asked: $50000 to $59999
+house_price_10,B25085_011E,Number of housing units (vacant-for-sale-only and sold) with price asked: $60000 to $69999
+house_price_11,B25085_012E,Number of housing units (vacant-for-sale-only and sold) with price asked: $70000 to $79999
+house_price_12,B25085_013E,Number of housing units (vacant-for-sale-only and sold) with price asked: $80000 to $89999
+house_price_13,B25085_014E,Number of housing units (vacant-for-sale-only and sold) with price asked: $90000 to $99999
+house_price_14,B25085_015E,Number of housing units (vacant-for-sale-only and sold) with price asked: $100000 to $124999
+house_price_15,B25085_016E,Number of housing units (vacant-for-sale-only and sold) with price asked: $125000 to $149999
+house_price_16,B25085_017E,Number of housing units (vacant-for-sale-only and sold) with price asked: $150000 to $174999
+house_price_17,B25085_018E,Number of housing units (vacant-for-sale-only and sold) with price asked: $175000 to $199999
+house_price_18,B25085_019E,Number of housing units (vacant-for-sale-only and sold) with price asked: $200000 to $249999
+house_price_19,B25085_020E,Number of housing units (vacant-for-sale-only and sold) with price asked: $250000 to $299999
+house_price_20,B25085_021E,Number of housing units (vacant-for-sale-only and sold) with price asked: $300000 to $399999
+house_price_21,B25085_022E,Number of housing units (vacant-for-sale-only and sold) with price asked: $400000 to $499999
+house_price_22,B25085_023E,Number of housing units (vacant-for-sale-only and sold) with price asked: $500000 to $749999
+house_price_23,B25085_024E,Number of housing units (vacant-for-sale-only and sold) with price asked: $750000 to $999999
+house_price_24,B25085_025E,Number of housing units (vacant-for-sale-only and sold) with price asked: $1000000 or more
+real_state_tax_mortg_median,B25103_002E,Median real estate taxes paid for units with a mortgage
+real_state_tax_nomortg_median,B25103_003E,Median real estate taxes paid for units without a mortgage
+rent_gross_0beds_1,B25068_004E,Gross rent less than $200 for housing units with no bedrooms
+rent_gross_0beds_2,B25068_005E,Gross rent from $200 to $299 for housing units with no bedrooms
+rent_gross_0beds_3,B25068_006E,Gross rent from $300 to $499 for housing units with no bedrooms
+rent_gross_0beds_4,B25068_007E,Gross rent from $500 to $749 for housing units with no bedrooms
+rent_gross_0beds_5,B25068_008E,Gross rent from    $750 to $999 for housing units with no bedrooms
+rent_gross_0beds_6,B25068_009E,Gross rent $1000 or more for housing units with no bedrooms
+rent_gross_1beds_1,B25068_013E,Gross rent less than $200 for housing units with 1 bedroom
+rent_gross_1beds_2,B25068_014E,Gross rent from $200 to $299 for housing units with 1 bedroom
+rent_gross_1beds_3,B25068_015E,Gross rent from $300 to $499 for housing units with 1 bedroom
+rent_gross_1beds_4,B25068_016E,Gross rent from $500 to $749 for housing units with 1 bedroom
+rent_gross_1beds_5,B25068_017E,Gross rent from $750 to $999 for housing units with 1 bedroom
+rent_gross_1beds_6,B25068_018E,Gross rent $1000 or more for housing units with 1 bedroom
+rent_gross_2beds_1,B25068_022E,Gross rent less than $200 for housing units with 2 bedrooms
+rent_gross_2beds_2,B25068_023E,Gross rent from $200 to $299 for housing units with 2 bedrooms
+rent_gross_2beds_3,B25068_024E,Gross rent from $300 to $499 for housing units with 2 bedrooms
+rent_gross_2beds_4,B25068_025E,Gross rent from $500 to $749 for housing units with 2 bedrooms
+rent_gross_2beds_5,B25068_026E,Gross rent from $750 to $999 for housing units with 2 bedrooms
+rent_gross_2beds_6,B25068_027E,Gross rent $1000 or more  for housing units with 2 bedrooms
+rent_gross_3beds_1,B25068_031E,Gross rent less than $200 for housing units with 3 or more bedrooms
+rent_gross_3beds_2,B25068_032E,Gross rent from $200 to $299 for housing units with 3 or more bedrooms
+rent_gross_3beds_3,B25068_033E,Gross rent from $300 to $499 for housing units with 3 or more bedrooms
+rent_gross_3beds_4,B25068_034E,Gross rent from $500 to $749 for housing units with 3 or more bedrooms
+rent_gross_3beds_5,B25068_035E,Gross rent from $750 to $999 for housing units with 3 or more bedrooms
+rent_gross_3beds_6,B25068_036E,Gross rent from $1000 or more for housing units with 3 or more bedrooms
+pop_owned,B25008_002E,Total population in owner occupied housing units
+pop_rented,B25008_003E,Total population in rented occupied housing units
+house_own_0beds,B25042_003E,Number of owner occupied housing units with no bedroom
+house_own_1beds,B25042_004E,Number of owner occupied housing units with 1 bedroom
+house_own_2beds,B25042_005E,Number of owner occupied housing units with 2 bedrooms
+house_own_3beds,B25042_006E,Number of owner occupied housing units with 3 bedrooms
+house_own_4beds,B25042_007E,Number of owner occupied housing units with 4 bedrooms
+house_own_5beds,B25042_008E,Number of owner occupied housing units with 5 or more bedrooms
+house_rent_0beds,B25042_010E,Number of renter occupied housing units with No bedroom
+house_rent_1beds,B25042_011E,Number of renter occupied housing units with 1 bedroom
+house_rent_2beds,B25042_012E,Number of renter occupied housing units with 2 bedrooms
+house_rent_3beds,B25042_013E,Number of renter occupied housing units with 3 bedrooms
+house_rent_4beds,B25042_014E,Number of renter occupied housing units with 4 bedrooms
+house_rent_5beds,B25042_015E,Number of renter occupied housing units with 5 or more bedrooms
+own_costs_distr_01,B25094_002E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: Less than $100
+own_costs_distr_02,B25094_003E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $100 to $199
+own_costs_distr_03,B25094_004E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $200 to $299
+own_costs_distr_04,B25094_005E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $300 to $399
+own_costs_distr_05,B25094_006E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $400 to $499
+own_costs_distr_06,B25094_007E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $500 to $599
+own_costs_distr_07,B25094_008E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $600 to $699
+own_costs_distr_08,B25094_009E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $700 to $799
+own_costs_distr_09,B25094_010E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $800 to $899
+own_costs_distr_10,B25094_011E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $900 to $999
+own_costs_distr_11,B25094_012E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $1000 to $1499
+own_costs_distr_12,B25094_013E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $1500 to $1999
+own_costs_distr_13,B25094_014E,Selected Monthly Owner Costs for Owner-Occupied Housing Units: $2000 or more
+rent_gross_cashtot,B25063_002E,Total number of renter-occupied housing units with cash rent
+rent_gross_distr_01,B25063_003E,Gross rent less than $100
+rent_gross_distr_02,B25063_004E,Gross rent $100 to $149
+rent_gross_distr_03,B25063_005E,Gross rent $150 to $199
+rent_gross_distr_04,B25063_006E,Gross rent $200 to $249
+rent_gross_distr_05,B25063_007E,Gross rent $250 to $299
+rent_gross_distr_06,B25063_008E,Gross rent $300 to $349
+rent_gross_distr_07,B25063_009E,Gross rent $350 to $399
+rent_gross_distr_08,B25063_010E,Gross rent $400 to $449
+rent_gross_distr_09,B25063_011E,Gross rent $450 to $499
+rent_gross_distr_10,B25063_012E,Gross rent $500 to $549
+rent_gross_distr_11,B25063_013E,Gross rent $550 to $599
+rent_gross_distr_12,B25063_014E,Gross rent $600 to $649
+rent_gross_distr_13,B25063_015E,Gross rent $650 to $699
+rent_gross_distr_14,B25063_016E,Gross rent $700 to $749
+rent_gross_distr_15,B25063_017E,Gross rent $750 to $799
+rent_gross_distr_16,B25063_018E,Gross rent $800 to $899
+rent_gross_distr_17,B25063_019E,Gross rent $900 to $999
+rent_gross_distr_18,B25063_020E,Gross rent $1000 to $1249
+rent_gross_distr_19,B25063_021E,Gross rent $1250 to $1499
+rent_gross_distr_20,B25063_022E,Gross rent $1500 to $1999
+rent_gross_distr_21,B25063_023E,Gross rent $2000 or more
+own_costs_med,B25088_001E,Median selected monthly owner costs
+own_costs_med_mortg,B25088_002E,Median selected monthly owner costs for housing units with a mortgage (dollars)
+own_costs_med_nomortg,B25088_003E,Median selected monthly owner costs for housing units without a mortgage (dollars)
+ownhh_age_distrib_1,B25093_002E,Number of owner householders 15 to 24 years
+owner_costs_pctincome_age_1,B25093_006E,Number of owner householders 15 to 24 years with selected monthly owner costs between 30-35% of household income
+owner_costs_pctincome_age_2,B25093_007E,Number of owner householders 15 to 24 years with selected monthly owner costs more than 35% of household income
+ownhh_age_distrib_2,B25093_009E,Number of owner householders 25 to 34 years
+owner_costs_pctincome_age_3,B25093_013E,Number of owner householders 25 to 34 years with selected monthly owner costs between 30-35% of household income
+owner_costs_pctincome_age_4,B25093_014E,Number of owner householders 25 to 34 years with selected monthly owner costs more than 35% of household income
+ownhh_age_distrib_3,B25093_016E,Number of owner householders 35 to 64 years
+owner_costs_pctincome_age_5,B25093_020E,Number of owner householders 35 to 64 years with selected monthly owner costs between 30-35% of household income
+owner_costs_pctincome_age_6,B25093_021E,Number of owner householders 35 to 64 years with selected monthly owner costs more than 35% of household income
+ownhh_age_distrib_4,B25093_023E,Number of owner householders 65 years and over
+owner_costs_pctincome_age_7,B25093_027E,Number of owner householders 65 and over years with selected monthly owner costs between 30-35% of household income
+owner_costs_pctincome_age_8,B25093_028E,Number of owner householders 65 and over years with selected monthly owner costs more than 35% of household income
+renthh_age_distrib_1,B25072_002E,Number of renter householders 15 to 24 years
+renter_costs_pctincome_age_1,B25072_006E,Number of renter householders 15 to 24 years with gross rent between 30-35% of household income
+renter_costs_pctincome_age_2,B25072_007E,Number of renter householders 15 to 24 years with gross rent more than 35% of household income
+renthh_age_distrib_2,B25072_009E,Number of renter householders 25 to 34 years
+renter_costs_pctincome_age_3,B25072_013E,Number of renter householders 25 to 34 years with gross rent between 30-35% of household income
+renter_costs_pctincome_age_4,B25072_014E,Number of renter householders 25 to 34 years with gross rent more than 35% of household income
+renthh_age_distrib_3,B25072_016E,Number of renter householders 35 to 64 years
+renter_costs_pctincome_age_5,B25072_020E,Number of renter householders 35 to 64 years with gross rent between 30-35% of household income
+renter_costs_pctincome_age_6,B25072_021E,Number of renter householders 35 to 64 years with gross rent more than 35% of household income
+renthh_age_distrib_4,B25072_023E,Number of renter householders 65 years and over
+renter_costs_pctincome_age_7,B25072_027E,Number of renter householders 65 and over years with gross rent between 30-35% of household income
+renter_costs_pctincome_age_8,B25072_028E,Number of renter householders 65 and over years with gross rent more than 35% of household income
+owner_costs_pctincome_mortg_tot,B25091_002E,Total housing units with a mortgage:
+owner_costs_pctincome_mortg_1,B25091_008E,Number of housing units with a mortgage that spends 30.0 to 34.9 % of the income on housing
+owner_costs_pctincome_mortg_2,B25091_009E,Number of housing units with a mortgage that spends 35.0 to 39.9 % of the income on housing
+owner_costs_pctincome_mortg_3,B25091_010E,Number of housing units with a mortgage that spends 40.0 to 49.9 % of the income on housing
+owner_costs_pctincome_mortg_4,B25091_011E,Number of housing units with a mortgage that spends 50.0 % or more of the income on housing
+owner_costs_pctincome_nomortg_tot,B25091_013E,Total housing units without a mortgage
+owner_costs_pctincome_nomortg_1,B25091_019E,Number of housing units without a mortgage that spends 30.0 to 34.9 % of the income on housing
+owner_costs_pctincome_nomortg_2,B25091_020E,Number of housing units without a mortgage that spends 35.0 to 39.9 % of the income on housing
+owner_costs_pctincome_nomortg_3,B25091_021E,Number of housing units without a mortgage that spends 40.0 to 49.9 % of the income on housing
+owner_costs_pctincome_nomortg_4,B25091_022E,Number of housing units without a mortgage that spends 50.0 % or more of the income on housing
+rent_pctincome_tot,B25070_001E,Total rented housing units
+rent_pctincome_1,B25070_007E,Number of rented housing units that spends 30% - 34.99% of their income on housing
+rent_pctincome_2,B25070_008E,Number of rented housing units that spends 35% - 39.99% of their income on housing
+rent_pctincome_3,B25070_009E,Number of rented housing units that spends 40% - 49.99% of their income on housing
+rent_pctincome_4,B25070_010E,Number of rented housing units that spends 50% of their income on housing

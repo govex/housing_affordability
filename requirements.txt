@@ -1,0 +1,16 @@
+-e git+https://github.com/datamade/census@5a1aa8239339aa7e42a2e29df107d536f0c1cbbe#egg=census
+Django==2.0.1
+gunicorn==19.6.0
+Jinja2==2.10
+numpy==1.14.0
+pandas==0.22.0
+plotly==3.3.0
+psycopg2==2.7.4
+python-dateutil==2.6.0
+python-dotenv==0.7.1
+requests==2.18.4
+scipy==1.1.0
+SQLAlchemy==1.2.1
+us==1.0.0
+usaddress==0.5.10
+zope.interface==4.3.2

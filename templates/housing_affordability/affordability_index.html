@@ -1,0 +1,41 @@
+{% extends 'housing_affordability/base_affordability.html' %}
+{% load humanize %}
+
+{% block content %}
+<nav>
+    <li><a href="/affordability/">Home</a></li>
+    <li><a href="/affordability/select/">Select a city</a></li>
+    <li><a href="/affordability/overview/{{ govid }}/">Housing Overview</a></li>
+    <li><a href="/affordability/index/{{ govid }}/" style="color:#20B2AA;">Housing Affordability</a></li>
+    <li><a href="/affordability/wwc/">WWC Comparison</a></li>
+</nav>
+
+  <main>
+
+    <table style="width:90%; border: 0px solid black; border-spacing:10px;">
+        <tr>
+            <td colspan="6"><h2 id="affcity">{{ cityname_div |safe  }}</h2></td>
+        </tr>
+        <tr>
+            <td colspan="2" id="affquestion">Are housing/renting prices rising faster than incomes?</td>
+            <td colspan="2" id="affquestion">How affordable is the city on average?</td>
+            <td colspan="2" id="affquestion">Is the city affordable to ELI households?</td>
+        </tr>
+        <tr>
+            <td colspan="2" id="affplot">{{ pricechange_div |safe  }}</td>
+            <td colspan="2" id="affplot">{{ aff_div |safe  }}</td>
+            <td colspan="2" id="affplot">{{ eli_div |safe }}</td>
+        </tr>
+        <tr>
+            <td colspan="3" id="affquestion">How many renters live beyond affordability?</td>
+            <td colspan="3" style="width:50%;" id="affquestion">How many owners live beyond affordability?</td>
+        </tr>
+        <tr>
+            <td colspan="3" id="affplot">{{ affagerent_div |safe }}</td>
+            <td colspan="3" style="width:50%;" id="affplot">{{ affageown_div |safe }}</td>
+        </tr>
+    </table>
+
+  </main>
+
+{% endblock %}

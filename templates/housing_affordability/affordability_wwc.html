@@ -1,0 +1,34 @@
+{% extends 'housing_affordability/base_affordability.html' %}
+{% load humanize %}
+
+{% block content %}
+<nav>
+    <li><a href="/affordability/">Home</a></li>
+    <li><a href="/affordability/select/">Select a city</a></li>
+    <li><a href="/affordability/wwc/" style="color:#20B2AA;">WWC Comparison</a></li>
+</nav>
+<main>
+
+    <table style="width:90%; border: 0px solid black; border-spacing:10px;">
+        <tr>
+            <td id="affquestion">How much owners spend on the property tax?</td>
+            <td id="affquestion">Housing changes since 2009</td>
+        </tr>
+        <tr>
+            <td id="affplot" style="width:45%;">{{ tax_div |safe  }}</td>
+            <td id="affplot" rowspan="4">{{ price_div |safe  }}</td>
+        </tr>
+        <tr>
+            <td id="affquestion">How has rental/housing affordability changed?</td>
+        </tr>
+        <tr>
+            <td id="affplot">{{ aff_div |safe  }}</td>
+        </tr>
+        <tr>
+            <td id="affplot"> </td>
+        </tr>
+
+
+</main>
+
+{% endblock %}

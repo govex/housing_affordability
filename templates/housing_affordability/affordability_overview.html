@@ -1,0 +1,53 @@
+{% extends 'housing_affordability/base_affordability.html' %}
+{% load humanize %}
+
+{% block content %}
+<nav>
+    <li><a href="/affordability/">Home</a></li>
+    <li><a href="/affordability/select/">Select a city</a></li>
+    <li><a href="/affordability/overview/{{ govid }}/" style="color:#20B2AA;">Housing Overview</a></li>
+    <li><a href="/affordability/index/{{ govid }}/">Housing Affordability</a></li>
+    <li><a href="/affordability/wwc/">WWC Comparison</a></li>
+</nav>
+
+  <main>
+
+    <table style="width:90%; border: 0px solid black; border-spacing:10px;">
+        <tr>
+            <td colspan="3"><h2 id="affcity">{{ cityname_div |safe  }}</h2></td>
+        </tr>
+        <tr>
+            <td id="affquestion">What percentage of the homes are owned vs. rented? </td>
+            <td colspan="2" id="affquestion">What is the city's household income compared to state and country?</td>
+        </tr>
+        <tr>
+            <td id="affplot">{{ ownrent_div |safe  }}</td>
+            <td colspan="2" id="affplot">{{ hhinc_div |safe  }}</td>
+        </tr>
+        <tr>
+            <td id="affquestion">What percentage of the population live in owned vs. rented? </td>
+            <td colspan="2" id="affquestion">What is the city's average house price compared to state wide average and country wide average?</td>
+        </tr>
+        <tr>
+            <td style="width:35%;" id="affplot">{{ ownrentpop_div |safe }}</td>
+            <td colspan="2" id="affplot">{{ houseprice_div |safe }}</td>
+        </tr>
+        <tr>
+            <td id="affquestion">What is the average home occupancy?</td>
+            <td id="affquestion">How much is the gross rent per bedroom?</td>
+            <td id="affquestion">What are the average monthly housing expenses?</td>
+        </tr>
+        <tr>
+            <td id="affplot">{{ hhsize_div |safe  }}
+                <div id="afftext">
+                    Occupancy is defined as the avg(people)/avg(bedrooms), which is not the same as avg(people/bedrooms)
+                </div>
+            </td>
+            <td style="width:32.5%;" id="affplot"> {{ beds_div |safe  }} </td>
+            <td id="affplot">{{ monthexp_div |safe }}</td>
+        </tr>
+    </table>
+    
+  </main>
+
+{% endblock %}
