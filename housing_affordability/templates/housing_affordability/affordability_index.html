@@ -2,15 +2,10 @@
 {% load humanize %}
 
 {% block content %}
-<nav>
-    <li><a href="/affordability/">Home</a></li>
-    <li><a href="/affordability/select/">Select a city</a></li>
-    <li><a href="/affordability/overview/{{ govid }}/">Housing Overview</a></li>
-    <li><a href="/affordability/index/{{ govid }}/" style="color:#20B2AA;">Housing Affordability</a></li>
-    <li><a href="/affordability/wwc/">WWC Comparison</a></li>
-</nav>
 
-  <main>
+<main>
+
+  <a href="/analysis/housing/overview/{{ govid }}">Overview</a> 
 
     <table style="width:90%; border: 0px solid black; border-spacing:10px;">
         <tr>

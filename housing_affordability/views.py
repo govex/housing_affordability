@@ -75,7 +75,7 @@ def affordability_select(request):
             marksize = 4 + 5*np.log2(p/50000)
             if marksize < 4: marksize = 4
             mrks.append(marksize)
-            link.append('<a target="_top" href="/affordability/overview/'+str(gov.id)+\
+            link.append('<a target="_top" href="/analysis/housing/overview/'+str(gov.id)+\
                         '" style="color:rgba(0,0,0,0);">.</a>')
 
     # Map Data

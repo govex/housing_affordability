@@ -1,0 +1,587 @@
+:root{
+    --green: #2C9342;
+    --yellow: #fbbc05;
+    --red: #e03c31;
+    --govex-purple: #57114c;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 65px 65px 1fr 65px;
+    grid-template-columns: 1fr;
+    grid-template-areas: "header"
+			 "nav"
+			 "main"
+                         "footer";
+    font-family: "gentona","Palanquin","Geneva",sans-serif;
+    margin: 0;
+}
+
+header {
+    grid-area: header;
+    background-color: var(--govex-purple);
+    color: white;
+    text-transform: uppercase;
+    font-size: 2rem;
+    line-height: 25px;
+    display: flex;
+    align-items: flex-end;
+}
+header img {
+    width: auto;
+    height: 50px;
+    margin-left: 2%;
+}
+header #user_auth {
+    margin-left: auto;
+    margin-right: 2%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+header #user_auth input {
+    background-color: #8E8C87;
+    border-color: #8E8C87;
+    color: #FFFAF2;
+    padding: 15px;
+    /* font-size: small; */
+    font-weight: bolder;
+    border-radius: 45px;
+}
+header search {
+    margin-left: auto;
+    margin-right: 2%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+ 
+
+nav {
+    grid-area: nav;
+}
+nav li {
+    display: inline-block;
+    padding: 20px;
+    list-style: none;
+}
+nav li a {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--govex-purple);
+    font-weight: bold;
+}
+nav .dropdown {
+    list-style: none;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--govex-purple);
+    font-weight: bold;
+}
+nav .dropdown-content {
+    display: none;
+}
+.dropdown:hover .dropdown-content {
+    display: block;    
+    padding: 0;
+    margin: 0;
+    width: auto;
+    position: absolute;
+    z-index: 100;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+footer {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas: "left"
+			 "right";
+    align-items: center;
+    justify-items: center;
+    background-color: #292d2e;
+    color: white;
+}
+footer a {
+    color: white; }
+
+main {
+    grid-area: main;
+    align-items:flex-end;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+h1 a {
+    text-decoration:none !important;
+}
+main li {
+    margin: 2px;
+    list-style: none;
+    padding: 5px;
+}
+main h1 {
+    text-align: center;
+}
+main p {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+main #homepage_map {
+    height: 450px;
+    width: 100%;
+    margin-bottom: 30px;
+    z-index: 2;
+}
+
+main accordian {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin-top: 15px;
+}
+main accordian-section {
+    display: grid;
+    box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+/*    grid-template-rows: 75px 1fr;*/    
+    grid-template-columns: 1fr;
+    grid-template-areas: "accordian-header"
+			 "accordian-section-content";
+    border-radius: 5px;
+    margin: 3px;
+    background-color: #f6f6f6;
+}
+main accordian-section-header {
+    grid-area: accordian-header;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+main accordian-section-header-trigger {
+    display: flex;
+    width: 90%;
+    height: 200%;
+    align-items: center;
+}
+main accordian-section-header title {
+    display: inline-block;
+    font-size: 12pt;
+    line-height: 30px;  
+}
+accordian-section-header small {
+    display: inline-block;
+    font-size: 10pt;
+    align-self: flex-end;
+    padding-left: 5px;
+    padding-bottom: 10px;
+}
+main accordian-section-header button {
+    display: inline-block;
+    margin-left: auto;
+    height: 220%;
+    background-color: rgba(255, 0, 0, 0) ;
+    border-color: rgba(255, 0, 0, 0);
+}
+main accordian-section-header button img {
+    max-width: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main accordian-section-content {
+    grid-area: accordian-section-content;
+    display: block;
+    padding: 15px;
+}
+main accordian-section-content-comment textarea {
+    width: 100%;
+}
+main accordian-section-content-comment button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+main accordian li {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+main shame {
+    display: flex;
+    flex-direction: column;
+    background: var(--red);
+    box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    border-radius: 5px;
+    width: 60%;
+    padding: 15px;
+    margin-top: 15px;
+    align-items: center;
+}
+main shame h3 {
+    margin: 0;
+}
+main shame li {
+    list-style-type: circle;
+}
+
+
+
+
+main project {
+    display: grid;
+    grid-auto-rows: auto 350px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "description description"
+			     "updates tasks"
+			     "newup newup"
+                             "focus focus";
+    height: 100%;
+    width: 85%;
+    margin-bottom: 5%;
+}
+main project-description {
+    grid-area: description;
+    justify-self: center;
+    box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fafafa;
+    border-radius: 3px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom:10px;
+    padding-bottom:10px;
+}
+main project-description form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+main project-description form thead tr th:first-child,
+main project-description form tbody tr td:first-child {
+    padding-left: 20px;
+    vertical-align: top;
+    width: 8em;
+    min-width: 8em;
+    max-width: 8em;
+    word-break: break-all;
+}
+main project-description form tbody tr td {
+    width: 90%;
+}
+main project-description form tbody tr td textarea {
+    width: 90%;
+    min-height: 50px;
+}
+main project-description form tbody tr td .selectize-control {
+    width: 91%;
+}
+main project-description form input {
+    margin: 0 auto;
+    width: 90%;
+}
+.submit {
+    margin: 0 auto;
+    width: 150px;
+    height: 30px;
+    background-color: #fbbc0585;
+    border-radius: 20px;
+}
+main project-updates {
+    grid-area: updates;
+    justify-self: flex-end;
+    box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fafafa;
+    border-radius: 3px;
+    overflow-y: scroll;
+    width: 99%;
+    margin-bottom:10px;
+    margin-right:1%;
+}
+main project-tasks {
+    grid-area: tasks;
+    justify-self: flex-end;
+    box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fafafa;
+    border-radius: 3px;
+    overflow-y: scroll;
+    width: 99%;
+    margin-bottom:10px;
+    margin-left:1%;
+}
+main project-tasks div {
+    padding: 20px;
+}
+main project-tasks li {
+    list-style-type: circle;
+}
+
+main projects-owned {
+    width: 80%;
+}
+main projects-owned owned {
+    width: 100%;
+}
+main projects-owned a {
+    font-size: 24px;
+    text-decoration: none;
+}
+
+main project-new-update {
+    grid-area: newup;
+    box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fafafa;
+    border-radius: 3px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    overflow: auto;
+}
+main project-new-update form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 100%;
+}
+main project-new-update form select {
+    margin: 15px;
+    height: 10%;
+    font-size: 14px;
+    padding: 3px;
+}
+main project-new-update form textarea {
+    width: 95%;
+    height: 40%; 
+}
+main project-new-update color-radio input {
+    margin-left: 35px;
+}
+main project-new-update flags {
+    height: 40%;
+    width: 100%;
+    overflow: auto;
+}
+ul .checkbox {
+    margin: 0; 
+    padding: 0; 
+    margin-left: 20px; 
+    list-style: none;
+}
+ul.checkbox li input { 
+    margin: 0; 
+    padding: 0; 
+    margin-left: 50px; 
+    list-style: none; 
+}
+ul.checkbox li {
+    display: inline-block;
+    width: 16em;
+}
+
+main project-focus-areas {
+    grid-area: focus;
+    border: 1px solid black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+main training-overview {
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:         "totals totals"
+			"course-feedback upcoming-calendar"
+		      "training-feedback internal-calendar";
+    height: 100%;
+    width: 85%;
+}
+main training-overview training-totals {
+    grid-area: totals;
+}
+main training-overview course-feedback {
+    grid-area: course-feedback;
+}
+main training-overview training-feedback {
+    grid-area: training-feedback;
+}
+main training-overview upcoming-calendar {
+    grid-area: upcoming-calendar;
+}
+main training-overview internal-calendar {
+    grid-area: internal-calendar;
+}
+
+main training-development {
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 1fr;
+    grid-template-areas:         "development-pipeline"
+		                   "training-staffing";
+    height: 100%;
+    width: 85%;
+}
+main training-development development-pipeline {
+    grid-area: development-pipeline;
+}
+main training-development training-staffing {
+    grid-area: training-staffing;
+}
+
+main training-geo {
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 1fr 15%;
+    grid-template-areas: "training-map training-map"
+                         "training-log training-testimonials";
+    height: 100%;
+    width: 85%;
+}
+main training-geo training-map {
+    grid-area: training-map;
+}
+main training-geo training-map #training-map {
+    height: 450px;
+    width: 100%;
+    margin-bottom: 30px;
+    z-index: 2;
+}
+main training-geo training-log {
+    grid-area: training-log;
+}
+main training-geo training-testimonials {
+    grid-area: training-testimonials;
+}
+
+
+main flag-history {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+main flag-history flagged-update li {
+    border: 1px solid black;
+}
+
+main new-project {
+    height: 100%;
+    width: 80%;
+}
+main new-project form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main new-project form select {
+    width: 200px;
+}
+main new-project form input {
+    width: 200px;
+}
+main new-project form textarea {
+    width: 450px;
+    height: 60px;
+}
+main new-project form label {
+    width: 200px;
+}
+
+.redflag {
+    height: 20px;
+}
+.selectize-dropdown, .selectize-input {
+    min-width: 404px;
+}
+
+.selectize-dropdown {
+    border-radius: 10px !important;
+}
+
+.selectize-input {
+    border-radius: 45px !important;
+    border-color: rgb(185, 185, 185);
+}
+
+.selectize-control.multi .selectize-input>div {
+    border-radius: 12px;
+    padding: 1px 15px;
+}
+
+#tablesorter {
+    background-color: #fafafa;
+    box-shadow:0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    
+}
+
+table a {
+    text-decoration:none !important;
+}
+
+thead {
+    background-color:var(--govex-purple);
+    color:white;
+    text-align:center;
+    border-color:var(--govex-purple);
+    border-radius: 3px;
+}
+
+th{
+   background-color:var(--govex-purple);
+    color:white;
+    text-align:center;
+    border-color:var(--govex-purple);
+    padding:10px;
+}
+td {
+    text-align:justify-all;
+    max-width:550px !important;
+    padding:10px;
+}
+
+#affcity{
+    border:1px solid var(--govex-purple);
+    color:#20B2AA;
+    text-align:center;
+    text-transform: capitalize;
+}
+#affquestion{
+    background-color:#ccb7c9;
+    color:var(--govex-purple);
+    text-align:center;
+    border-radius: 4px;
+    padding: 2px 2px 2px 2px;
+}
+#affplot{
+    padding: 0px 10px 30px 10px;
+}
+#afftext{
+    text-align:justify;
+    color:#0c4744;
+    font-size: 12px;
+    line-height:1.3;
+    padding-top: 0px;
+    padding-right: 20px;
+    padding-bottom: 0px;
+    padding-left: 20px;
+}
