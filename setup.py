@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='housing-affordability',
       version='0.1',
@@ -7,7 +7,7 @@ setup(name='housing-affordability',
       author='Sara Bertran de Lis, Ben Miller',
       author_email='sbertran@jhu.edu, benjamin.miller@jhu.edu',
       license='',
-      packages=['housing_affordability'],
+      packages=find_packages(),
       install_requires=[
           'numpy',
           'scipy',
