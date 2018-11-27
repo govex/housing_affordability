@@ -1,6 +1,7 @@
 ''' 
 initial loading of government demographics and source
 '''
+import io
 import os
 import subprocess
 import pandas as pd
@@ -8,9 +9,11 @@ import sqlalchemy as sql
 import us
 import datetime 
 from census import Census
-from django.core.management.base import BaseCommand, CommandError
-from housing_affordability.models import Government, Gov_Demographic, Gov_Demographics_Source
+from pkg_resources import resource_string
 from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
+from housing_affordability import __name__
+from housing_affordability.models import Government, Gov_Demographic, Gov_Demographics_Source
 
 
 class Command(BaseCommand):
@@ -35,7 +38,9 @@ class Command(BaseCommand):
         ## load data from census
         
         # census variables we want
-        fields_df = pd.read_csv('./housing_affordability/data/census_vars.csv')
+        fields_data = resource_string(__name__, 'data/census_vars.csv')
+        fields_df = pd.read_csv(io.BytesIO(fields_data))
+        # fields_df = pd.read_csv('./housing_affordability/data/census_vars.csv')
         fields_df.columns = ['var_name', 'source_variable', 'description']
 
         # convert to dictionary

@@ -1,16 +1,19 @@
 ''' 
 initial loading of governments
 '''
+import io
 import os
 import pandas as pd
 import datetime
 import us
 import pytz
 from census import Census
+from pkg_resources import resource_string
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ValidationError
-from housing_affordability.models import Government
 from django.conf import settings
+from housing_affordability import __name__
+from housing_affordability.models import Government
 
 
 class Command(BaseCommand):
@@ -53,9 +56,9 @@ class Command(BaseCommand):
             acs5_df['name'] = [i[0] for i in cities]
 
             # get locations
-            lonlats = pd.read_csv('housing_affordability/data/2016_Gaz_place_national.txt',
-                                  sep='\t',
-                                  encoding='latin1')
+            lonlat_data = resource_string(__name__, 'data/2016_Gaz_place_national.txt')
+            lonlats = pd.read_csv(io.BytesIO(lonlat_data), sep='\t', encoding='latin1')
+
             lonlats.columns=['state_abbr','geoid','ANSICODE','name','LSAD','FUNCSTAT',
                              'ALAND','AWATER','ALAND_SQMI','AWATER_SQMI','latitude','longitude']
             lonlats = lonlats[['state_abbr', 'name', 'geoid', 'latitude', 'longitude']]
