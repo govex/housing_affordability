@@ -1,2 +1,4 @@
 include data/*.csv
 include data/*.txt
+include templates/housing_affordability/*.html
+include static/css/housing.css
