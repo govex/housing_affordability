@@ -5,23 +5,38 @@
 
 <main>
 
-    <table style="width:90%; border: 0px solid black; border-spacing:10px;">
+    <table class="aff-table">
         <tr>
-            <td id="affquestion">How much owners spend on the property tax?</td>
-            <td id="affquestion">Housing changes since 2009</td>
+            <td class="aff-question">How much do owners spend on property tax?</td>
+            <td class="aff-question">Housing changes since 2009</td>
         </tr>
         <tr>
-            <td id="affplot" style="width:45%;">{{ tax_div |safe  }}</td>
-            <td id="affplot" rowspan="4">{{ price_div |safe  }}</td>
+            <td class="aff-plot" style="width:45%;">
+                <div class="aff-plot">{{ tax_div |safe  }}</div>
+                <div class="aff-caption">
+                    The median annual <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a> as a function of the median <a class="aff-a-def" href="/analysis/housing/#housevalue">house value</a> is presented here. The size of the circles is proportional to the <a class="aff-a-def" href="/analysis/housing/#tax">real estate taxes</a> (or property tax), while the color represents the taxes as a percentage of the median annual <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a>. When hover over the points, these information together with the name of the city is shown.
+                </div>
+            </td>
+            <td class="aff-plot" rowspan="4">
+                <div class="aff-plot">{{ price_div |safe  }}</div>
+                <div class="aff-caption">
+                    Each bar indicates the percentage change of the corresponding variable since 2009 up to {{ lastyeardata }}, the most recent year with available data. The first column provides information about the change in the median <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a>, the second about median <a class="aff-a-def" href="/analysis/housing/#priceasked">house market prices</a>, the third refers to median <a class="aff-a-def" href="/analysis/housing/#contractrent">monthly rent amount</a>, and the last one about total population changes.
+                </div>
+            </td>
         </tr>
         <tr>
-            <td id="affquestion">How has rental/housing affordability changed?</td>
+            <td class="aff-question">How has rental/housing affordability changed?</td>
         </tr>
         <tr>
-            <td id="affplot">{{ aff_div |safe  }}</td>
+            <td class="aff-plot">
+                <div class="aff-plot">{{ aff_div |safe  }}</div>
+                <div class="aff-caption">
+                    Each column in this graph shows the <a class="aff-a-def" href="/analysis/housing/#afford">affordability</a> for a certain city and for the three types of tenure: rent, own with mortgage, and own without mortgage. The height of the column represents the percentage of homes that live beyond affordability for each type of tenure. This percentage together with the name of the city is shown when hover over each portion of the bars. Cities are alphabetically displayed counterclockwise.
+                </div>
+            </td>
         </tr>
         <tr>
-            <td id="affplot"> </td>
+            <td class="aff-plot"> </td>
         </tr>
 
 
