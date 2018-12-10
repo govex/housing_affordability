@@ -315,3 +315,6 @@ rent_pctincome_1,B25070_007E,Number of rented housing units that spends 30% - 34
 rent_pctincome_2,B25070_008E,Number of rented housing units that spends 35% - 39.99% of their income on housing
 rent_pctincome_3,B25070_009E,Number of rented housing units that spends 40% - 49.99% of their income on housing
 rent_pctincome_4,B25070_010E,Number of rented housing units that spends 50% of their income on housing
+
+
+

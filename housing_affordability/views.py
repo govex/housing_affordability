@@ -154,58 +154,72 @@ def affordability_wwc(request):
     #t3 = datetime.datetime.now()
     #print(t2-t1)
     #print(t3-t2)
-    
+ 
     #General plot settings
     colorA = 'orange'
     colorB = 'darkcyan'
     colorC = 'lightgrey'
+    colorD = 'purple'
     fontsize = 10
     single_width = 410
     double_width = 780
     total_height = 205
-
+    
     # Cities list
-    wwc_city_list = ['Albuquerque', 'Anchorage', 'Arlington', 'Athens', 'Augusta', 'Baltimore',
-                     'Baton Rouge', 'Bellevue', 'Birmingham', 'Boise', 'Boston', 'Boulder',
-                     'Buffalo', 'Cambridge', 'Cape Coral', 'Cary', 'Charleston', 'Charlotte',
-                     'Chattanooga', 'Chula Vista', 'Colorado Springs', 'Columbia', 'Corona',
-                     'Denton', 'Denver', 'Des Moines', 'Downey', 'Durham', 'Fargo', 'Fayetteville',
-                     'Fort Collins', 'Fort Lauderdale', 'Fort Worth', 'Gainesville', 'Gilbert',
-                     'Glendale', 'Grand Rapids', 'Greensboro', 'Gresham', 'Hartford', 'Hayward',
-                     'Honolulu', 'Independence', 'Indianapolis', 'Irving', 'Jackson', 'Kansas City',
-                     'Kansas City', 'Knoxville', 'Laredo', 'Las Vegas', 'Lewisville', 'Lexington',
-                     'Lincoln', 'Little Rock', 'Long Beach', 'Louisville', 'Madison', 'Memphis',
-                     'Mesa', 'Miami', 'Milwaukee', 'Minneapolis', 'Modesto', 'Naperville', 'Nashville',
-                     'New Haven', 'New Orleans', 'Norfolk', 'Oklahoma City', 'Olathe', 'Orlando',
-                     'Palmdale', 'Portland', 'Providence', 'Raleigh', 'Rancho Cucamonga', 'Riverside',
-                     'Saint Paul', 'Salinas', 'Salt Lake City', 'San Francisco', 'San Jose',
-                     'Scottsdale', 'Seattle', 'Sioux Falls', 'South Bend', 'Syracuse', 'Tacoma',
-                     'Tempe', 'Topeka', 'Tulsa', 'Tyler', 'Victorville', 'Virginia Beach', 'Waco',
-                     'Washington', 'West Palm Beach', 'Wichita', 'Winston-Salem']
-    wwc_stat_list = ['NM', 'AK', 'TX', 'GA', 'GA', 'MD', 'LA', 'WA', 'AL', 'ID', 'MA', 'CO',
-                     'NY', 'MA', 'FL', 'NC', 'SC', 'NC', 'TN', 'CA', 'CO', 'SC', 'CA',
-                     'TX', 'CO', 'IA', 'CA', 'NC', 'ND', 'NC', 'CO', 'FL', 'TX', 'FL', 'AZ',
-                     'AZ', 'MI', 'NC', 'OR', 'CT', 'CA', 'HI', 'MO', 'IN', 'TX', 'MS', 'KS',
-                     'MO', 'TN', 'TX', 'NV', 'TX', 'KY', 'NE', 'AR', 'CA', 'KY', 'WI', 'TN',
-                     'AZ', 'FL', 'WI', 'MN', 'CA', 'IL', 'TN', 'CT', 'LA', 'VA', 'OK', 'KS', 'FL',
-                     'CA', 'OR', 'RI', 'NC', 'CA', 'CA', 'MN', 'CA', 'UT', 'CA', 'CA',
-                     'AZ', 'WA', 'SD', 'IN', 'NY', 'WA', 'AZ', 'KS', 'OK', 'TX', 'CA', 'VA', 'TX',
-                     'DC', 'FL', 'KS', 'NC']
-    
-    
+    wwc_city_list = ['Albuquerque', 'Anchorage', 'Arlington', 'Athens',
+                     'Augusta', 'Baltimore', 'Baton Rouge', 'Bellevue',
+                     'Birmingham', 'Boise', 'Boston', 'Boulder', 'Buffalo',
+                     'Cambridge', 'Cape Coral', 'Cary', 'Charleston',
+                     'Charlotte', 'Chattanooga', 'Chula Vista',
+                     'Colorado Springs', 'Columbia', 'Corona', 'Denton',
+                     'Denver', 'Des Moines', 'Downey', 'Durham', 'Fargo',
+                     'Fayetteville', 'Fort Collins', 'Fort Lauderdale',
+                     'Fort Worth', 'Gainesville', 'Gilbert', 'Glendale',
+                     'Grand Rapids', 'Greensboro', 'Gresham', 'Hartford',
+                     'Hayward', 'Honolulu', 'Independence', 'Indianapolis',
+                     'Irving', 'Jackson', 'Kansas City', 'Kansas City',
+                     'Knoxville', 'Laredo', 'Las Vegas', 'Lewisville',
+                     'Lexington', 'Lincoln', 'Little Rock', 'Long Beach',
+                     'Louisville', 'Madison', 'Memphis', 'Mesa', 'Miami',
+                     'Milwaukee', 'Minneapolis', 'Modesto', 'Naperville',
+                     'Nashville', 'New Haven', 'New Orleans', 'Norfolk',
+                     'Oklahoma City', 'Olathe', 'Orlando', 'Palmdale',
+                     'Portland', 'Providence', 'Raleigh', 'Rancho Cucamonga',
+                     'Riverside', 'Saint Paul', 'Salinas', 'Salt Lake City',
+                     'San Francisco', 'San Jose', 'Scottsdale', 'Seattle',
+                     'Sioux Falls', 'South Bend', 'Syracuse', 'Tacoma',
+                     'Tempe', 'Topeka', 'Tulsa', 'Tyler', 'Victorville',
+                     'Virginia Beach', 'Waco', 'Washington', 'West Palm Beach',
+                     'Wichita', 'Winston-Salem']
+        
+    wwc_stat_list = ['NM', 'AK', 'TX', 'GA', 'GA', 'MD', 'LA', 'WA', 'AL',
+                     'ID', 'MA', 'CO', 'NY', 'MA', 'FL', 'NC', 'SC', 'NC',
+                     'TN', 'CA', 'CO', 'SC', 'CA', 'TX', 'CO', 'IA', 'CA',
+                     'NC', 'ND', 'NC', 'CO', 'FL', 'TX', 'FL', 'AZ', 'AZ',
+                     'MI', 'NC', 'OR', 'CT', 'CA', 'HI', 'MO', 'IN', 'TX',
+                     'MS', 'KS', 'MO', 'TN', 'TX', 'NV', 'TX', 'KY', 'NE',
+                     'AR', 'CA', 'KY', 'WI', 'TN', 'AZ', 'FL', 'WI', 'MN',
+                     'CA', 'IL', 'TN', 'CT', 'LA', 'VA', 'OK', 'KS', 'FL',
+                     'CA', 'OR', 'RI', 'NC', 'CA', 'CA', 'MN', 'CA', 'UT',
+                     'CA', 'CA', 'AZ', 'WA', 'SD', 'IN', 'NY', 'WA', 'AZ',
+                     'KS', 'OK', 'TX', 'CA', 'VA', 'TX', 'DC', 'FL', 'KS',
+                     'NC']
+        
     # Cities IDs & names
     gov_all = Government.objects.all()
-    gov_all = pd.DataFrame.from_records((gov_all.values('name','id', 'state_abbr')))
+    gov_all = pd.DataFrame.from_records((gov_all.values('name','id',
+                                                        'state_abbr')))
     wwc = []
     for i in np.arange(len(wwc_city_list)):
         row = gov_all[gov_all.name.str.contains(wwc_city_list[i]+' ') &
                       gov_all.state_abbr.str.contains(wwc_stat_list[i])]
         if wwc_city_list[i]=='Honolulu':
-            wwc.append([gov_all[gov_all.name.str.contains('Urban Honolulu')].id.values[0],
-                        wwc_city_list[i]+', '+wwc_stat_list[i]])
+            wwc.append([gov_all[gov_all.name.str.contains('Urban Honolulu'
+                        )].id.values[0], wwc_city_list[i]+', '+wwc_stat_list[i]])
         elif len(row)>1: #Select city name with shortest name
-            wwc.append([row[row.name.str.len() == row.name.str.len().min()].id.values[0],
-                        wwc_city_list[i]+', '+wwc_stat_list[i]])
+            wwc.append([row[row.name.str.len() ==
+                           row.name.str.len().min()].id.values[0],
+                       wwc_city_list[i]+', '+wwc_stat_list[i]])
         elif len(row)==1:
             wwc.append([row.id.values[0], wwc_city_list[i]+', '+wwc_stat_list[i]])
     wwc = pd.DataFrame(wwc, columns=['gov_id', 'gov_name'])
@@ -213,27 +227,36 @@ def affordability_wwc(request):
     # Cities all data
     data_all_list = []
     for city in wwc.gov_id:
-        df = pd.DataFrame.from_records(Gov_Demographic.objects.filter(gov_id=city).values('gov_id','var_id', 'value'))
+        df = pd.DataFrame.from_records(Gov_Demographic.objects.filter(
+             gov_id = city).values('gov_id','var_id', 'value'))
         data_all_list.append(df)
     data_all = pd.concat(data_all_list, ignore_index=True)
 
     # Variables IDs
     vars_id = pd.DataFrame.from_records(
-        Gov_Demographics_Source.objects.all().values('var_name','id','year'))
-
+              Gov_Demographics_Source.objects.all().values(
+              'var_name','id','year'))
+    
     #Real State Tax
-    source_mortg = vars_id[vars_id.var_name=='real_state_tax_mortg_median'][['year','id']]
-    source_hval = vars_id[vars_id.var_name=='house_median_value'][['year','id']]
-    source_inc = vars_id[vars_id.var_name=='household_income_own_median'][['year','id']]
-    source_pop = vars_id[vars_id.var_name=='population_total'][['year','id']]
-
-    data_tax_all = data_all.merge(source_mortg, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_inc_all = data_all.merge(source_inc, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_hval_all = data_all.merge(source_hval, left_on = 'var_id', right_on = 'id')[['year', 'value']]
+    source_mortg = vars_id[vars_id.var_name ==
+                           'real_state_tax_mortg_median'][['year','id']]
+    source_hval = vars_id[vars_id.var_name ==
+                          'house_median_value'][['year','id']]
+    source_inc = vars_id[vars_id.var_name ==
+                         'household_income_own_median'][['year','id']]
+    source_pop = vars_id[vars_id.var_name ==
+                         'population_total'][['year','id']]
+                           
+    data_tax_all = data_all.merge(source_mortg, left_on = 'var_id',
+                                  right_on = 'id')[['year', 'value', 'gov_id']]
+    data_inc_all = data_all.merge(source_inc, left_on = 'var_id',
+                                  right_on = 'id')[['year', 'value', 'gov_id']]
+    data_hval_all = data_all.merge(source_hval, left_on = 'var_id',
+                                   right_on = 'id')[['year', 'value']]
     data_per_all = data_tax_all.value.values/data_inc_all.value.values
     min_per = np.min(data_per_all)
     max_per = np.max(data_per_all)
-
+                           
     years_list = source_mortg.year.unique()
     tax_data = []
     tax_frames = []
@@ -243,14 +266,16 @@ def affordability_wwc(request):
         data_tax = data_tax_all[data_tax_all.year==yr].value
         data_inc = data_inc_all[data_inc_all.year==yr].value
         data_hval = data_hval_all[data_hval_all.year==yr].value
-        data_nam = data_tax_all[data_tax_all.year==yr].merge(wwc, on = 'gov_id').gov_name
+        data_nam = data_tax_all[data_tax_all.year==yr].merge(wwc,
+                   on = 'gov_id').gov_name
         data_per = data_tax/data_inc
-        
+                                                                                        
         tax_yr = go.Scatter(x=data_hval,
                             y=data_inc,
                             mode='markers',
                             hoverinfo = 'text',
-                            hovertext = [x+'<br>'+'${:.0f}<br>{:.1f}% HH inc'.format(y,z) for x,y,z in \
+                            hovertext = [x+'<br>'+'${:.0f}<br>{:.1f}% HH inc'
+                                         .format(y,z) for x,y,z in
                                          zip(data_nam, data_tax, data_per*100)],
                             marker=dict(color = data_per,
                                         opacity=0.5,
@@ -265,33 +290,34 @@ def affordability_wwc(request):
                                                       y=0.5,
                                                       x=1.0,
                                                       ypad=0,
-                                                      title = 'Real state tax as a percentage of HH income',
+                                                      title = 'Property tax as a percentage of HH income',
                                                       titleside='right',
                                                       outlinewidth=1,
-                                                      outlinecolor='white'))
+                                                      outlinecolor='white')
+                                        )
                             )
-                            
         if (yr == years_list.min()):
             tax_data.append(tax_yr)
-
-        slider_step = dict(args = [[yr], dict(
-                                              frame = dict(duration = 500,
+                                                                                                                    
+        slider_step = dict(args = [[yr], dict(frame = dict(duration = 500,
                                                            redraw = False),
                                               mode = 'immediate',
                                               transition = dict(duration= 150))],
                            label= '{:.0f}'.format(yr),
                            method = 'animate')
-                                 
+                                                                                                                        
         tax_frames.append(dict(data=[tax_yr], name='{:.0f}'.format(yr)))
         tax_slider_steps.append(slider_step)
 
-    tax_lay = go.Layout(xaxis = dict(range=[0.8*data_hval_all.value.min(), 1.1*data_hval_all.value.max()],
+    tax_lay = go.Layout(xaxis = dict(range=[0.8*data_hval_all.value.min(),
+                                            1.1*data_hval_all.value.max()],
                                      showgrid = False,
                                      zeroline = False,
                                      showline = True,
                                      automargin=True,
                                      title='Median house value'),
-                        yaxis = dict(range=[0.8*data_inc_all.value.min(), 1.1*data_inc_all.value.max()],
+                        yaxis = dict(range=[0.8*data_inc_all.value.min(),
+                                            1.1*data_inc_all.value.max()],
                                      showgrid = False,
                                      zeroline = False,
                                      showline = True,
@@ -300,7 +326,7 @@ def affordability_wwc(request):
                         font = dict(size=fontsize),
                         width = 1.3*single_width,
                         height = 2*total_height,
-                        margin = go.layout.Margin(l=50, r=10, b=0, t=10, pad=0),
+                        margin = go.layout.Margin(l=50, r=10, b=10, t=30, pad=0),
                         hovermode='closest',
                         updatemenus = [dict(type = 'buttons',
                                             buttons = [dict(label= 'Play',
@@ -326,11 +352,11 @@ def affordability_wwc(request):
                                         tickcolor = colorC,
                                         x = 0.15,
                                         y = -0.2,
-                                        len = 0.75,
+                                        len = 0.80,
                                         pad = dict(t=0),
                                         steps = tax_slider_steps)]
                         )
-
+    
     tax_config= dict(showLink = False,
                      modeBarButtonsToRemove = ['sendDataToCloud'
                                                'lasso2d',
@@ -338,80 +364,101 @@ def affordability_wwc(request):
                                                'pan2d'],
                      displaylogo = False,
                      responsive = True)
-
+        
     tax_div = py.offline.plot({'data':tax_data,
                               'frames':tax_frames,
                               'layout':tax_lay},
                               include_plotlyjs = False,
                               output_type = 'div',
                               config = tax_config)
-
+                     
     # Affordability
-    source_tot_own_mortg = vars_id.loc[vars_id.var_name.isin(['owner_costs_pctincome_mortg_tot'])]
-    source_tot_own_nomortg = vars_id.loc[vars_id.var_name.isin(['owner_costs_pctincome_nomortg_tot'])]
-    source_tot_rent = vars_id.loc[vars_id.var_name.isin(['rent_pctincome_tot'])]
-    source_own_mortg = vars_id.loc[vars_id.var_name.str.contains('^owner_costs_pctincome_mortg_[0-9]')]
-    source_own_nomortg = vars_id.loc[vars_id.var_name.str.contains('^owner_costs_pctincome_nomortg_[0-9]')]
-    source_rent = vars_id.loc[vars_id.var_name.str.contains('^rent_pctincome_[0-9]')]
-
-    data_tot_own_mortg_all = data_all.merge(source_tot_own_mortg, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_tot_own_nomortg_all = data_all.merge(source_tot_own_nomortg, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_tot_rent_all = data_all.merge(source_tot_rent, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_own_mortg_all = data_all.merge(source_own_mortg, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_own_nomortg_all = data_all.merge(source_own_nomortg, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_rent_all = data_all.merge(source_rent, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-
+    source_tot_own_mortg = vars_id.loc[vars_id.var_name.isin(
+                           ['owner_costs_pctincome_mortg_tot'])]
+    source_tot_own_nomortg = vars_id.loc[vars_id.var_name.isin(
+                             ['owner_costs_pctincome_nomortg_tot'])]
+    source_tot_rent = vars_id.loc[vars_id.var_name.isin(
+                      ['rent_pctincome_tot'])]
+    source_own_mortg = vars_id.loc[vars_id.var_name.str.contains(
+                       '^owner_costs_pctincome_mortg_[0-9]')]
+    source_own_nomortg = vars_id.loc[vars_id.var_name.str.contains(
+                        '^owner_costs_pctincome_nomortg_[0-9]')]
+    source_rent = vars_id.loc[vars_id.var_name.str.contains(
+                  '^rent_pctincome_[0-9]')]
+                     
+    data_tot_own_mortg_all = data_all.merge(source_tot_own_mortg, left_on =
+        'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
+    data_tot_own_nomortg_all = data_all.merge(source_tot_own_nomortg, left_on =
+        'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
+    data_tot_rent_all = data_all.merge(source_tot_rent, left_on =
+        'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
+    data_own_mortg_all = data_all.merge(source_own_mortg, left_on =
+        'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
+    data_own_nomortg_all = data_all.merge(source_own_nomortg, left_on =
+        'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
+    data_rent_all = data_all.merge(source_rent, left_on =
+        'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
+                     
     aff_frames = []
     aff_slider_steps = []
     max_range = 0
     for yr in years_list:
-
-        r_own_mortg = data_own_mortg_all[data_own_mortg_all.year==yr].groupby('gov_id').value.sum() \
-            /data_tot_own_mortg_all[data_tot_own_mortg_all.year==yr].set_index('gov_id').value
-        r_own_nomortg = data_own_nomortg_all[data_own_nomortg_all.year==yr].groupby('gov_id').value.sum() \
-            /data_tot_own_nomortg_all[data_tot_own_nomortg_all.year==yr].set_index('gov_id').value
-        r_rent = data_rent_all[data_rent_all.year==yr].groupby('gov_id').value.sum() \
-            /data_tot_rent_all[data_tot_rent_all.year==yr].set_index('gov_id').value
-        data_nam = data_tot_rent_all[data_tot_rent_all.year==yr].merge(wwc, on = 'gov_id').gov_name
+                         
+        r_own_mortg = (data_own_mortg_all[data_own_mortg_all.year == yr]
+                       .groupby('gov_id').value.sum()
+                       / data_tot_own_mortg_all[data_tot_own_mortg_all.year ==yr]
+                       .set_index('gov_id').value)
+        r_own_nomortg = (data_own_nomortg_all[data_own_nomortg_all.year == yr]
+                         .groupby('gov_id').value.sum()
+                        / data_tot_own_nomortg_all[data_tot_own_nomortg_all.year
+                        == yr].set_index('gov_id').value)
+        r_rent = (data_rent_all[data_rent_all.year ==yr]
+                  .groupby('gov_id').value.sum()
+                  /data_tot_rent_all[data_tot_rent_all.year == yr]
+                  .set_index('gov_id').value)
+        data_nam = (data_tot_rent_all[data_tot_rent_all.year == yr]
+                   .merge(wwc, on = 'gov_id').gov_name)
         max_yr = (r_own_mortg + r_own_nomortg + r_rent).max()
         if max_yr > max_range:
             max_range = max_yr
-
+                                                                                   
         aff_yr_0 = go.Barpolar(r = np.ones(len(r_own_mortg))*0.1,
                                hoverinfo = 'skip',
                                marker = dict(color='rgba(0,0,0,0)'),
                                showlegend = False)
         aff_yr_a = go.Barpolar(r = r_own_mortg,
                                hoverinfo = 'text',
-                               text = [x+'<br>{:.0f}%'.format(y*100) for x,y in zip(data_nam, r_own_mortg)],
+                               text = [x+'<br>{:.0f}%'.format(y*100) for x,y in
+                                       zip(data_nam, r_own_mortg)],
                                name = 'Owned w/ mortgage',
                                marker = dict(color=colorA),
                                opacity = 0.6)
         aff_yr_b = go.Barpolar(r = r_own_nomortg,
                                hoverinfo = 'text',
-                               text = [x+'<br>{:.0f}%'.format(y*100) for x,y in zip(data_nam, r_own_nomortg)],
+                               text = [x+'<br>{:.0f}%'.format(y*100) for x,y in
+                                       zip(data_nam, r_own_nomortg)],
                                name = 'Owned w/o mortgage',
                                marker = dict(color=colorC),
                                opacity = 0.5)
         aff_yr_c = go.Barpolar(r = r_rent,
                                hoverinfo = 'text',
-                               text = [x+'<br>{:.0f}%'.format(y*100) for x,y in zip(data_nam, r_rent)],
+                               text = [x+'<br>{:.0f}%'.format(y*100) for x,y in
+                                       zip(data_nam, r_rent)],
                                name = 'Rented',
                                marker = dict(color=colorB),
                                opacity = 0.5)
 
         if (yr == years_list.min()):
             aff_data = [aff_yr_0, aff_yr_c, aff_yr_a, aff_yr_b]
-                            
-        slider_step = dict(args = [[yr], dict(
-                                              frame = dict(duration = 500,
+                                                                                                                                                 
+        slider_step = dict(args = [[yr], dict(frame = dict(duration = 500,
                                                            redraw = False),
                                               mode = 'immediate',
                                               transition = dict(duration= 150))],
                            label= '{:.0f}'.format(yr),
                            method = 'animate')
-                                
-        aff_frames.append(dict(data=[aff_yr_0, aff_yr_c, aff_yr_a, aff_yr_b], name='{:.0f}'.format(yr)))
+        aff_frames.append(dict(data=[aff_yr_0, aff_yr_c, aff_yr_a, aff_yr_b],
+                                name='{:.0f}'.format(yr)))
         aff_slider_steps.append(slider_step)
 
     aff_lay = go.Layout(polar = dict(radialaxis = dict(showticklabels=False,
@@ -419,43 +466,47 @@ def affordability_wwc(request):
                                                        gridcolor = '#E6E6E6',
                                                        gridwidth = 0.5,
                                                        ticks = '',
-                                                       tickvals = np.array([0.3, 0.5, 0.7])*max_range,
+                                                       tickvals = np.array([0.3,
+                                                            0.5,0.7])*max_range,
                                                        range = [0,max_range+0.1]),
                                      angularaxis = dict(visible=False)),
                         font = dict(size=fontsize),
-                        width = 1.2*single_width,
-                        height = 2*total_height,
-                        margin = go.layout.Margin(l=0, r=0, b=0, t=0, pad=0),
+                        width = 1.3*single_width,
+                        height = 2.3*total_height,
+                        margin = go.layout.Margin(l=0, r=0, b=30, t=40, pad=0),
                         hovermode='y',
-                        legend = dict(x=0.15, y=1.07, orientation='h', bgcolor='rgba(0,0,0,0)'),
+                        legend = dict(x=0.13,
+                                      y=1.05,
+                                      orientation='h',
+                                      bgcolor='rgba(0,0,0,0)'),
                         updatemenus = [dict(type = 'buttons',
-                                            buttons = [dict(label= 'Play',
-                                                            method = 'animate',
-                                                            args = [None])],
-                                            bgcolor = 'white',
-                                            bordercolor = colorC,
-                                            showactive = False,
-                                            x = 0.1,
-                                            y = 0)],
-                        sliders = [dict(active = 0,
-                                        currentvalue = dict(prefix = 'Year: ',
-                                                            visible = True,
-                                                            xanchor = 'right',
-                                                            offset = 4),
-                                        transition = dict(duration = 150,
-                                                          easing = 'cubic-in-out'),
-                                        visible = True,
+                                        buttons = [dict(label= 'Play',
+                                                        method = 'animate',
+                                                        args = [None])],
                                         bgcolor = 'white',
-                                        activebgcolor = colorC,
                                         bordercolor = colorC,
-                                        ticklen = 5,
-                                        tickcolor = colorC,
-                                        x = 0.15,
-                                        y = 0.07,
-                                        len = 0.75,
-                                        pad = dict(t=0),
-                                        steps = tax_slider_steps)]
-                        )
+                                        showactive = False,
+                                        x = 0.18,
+                                        y = 0.07)],
+                    sliders = [dict(active = 0,
+                                    currentvalue = dict(prefix = 'Year: ',
+                                                        visible = True,
+                                                        xanchor = 'right',
+                                                        offset = 4),
+                                    transition = dict(duration = 150,
+                                                      easing = 'cubic-in-out'),
+                                    visible = True,
+                                    bgcolor = 'white',
+                                    activebgcolor = colorC,
+                                    bordercolor = colorC,
+                                    ticklen = 5,
+                                    tickcolor = colorC,
+                                    x = 0.22,
+                                    y = 0.12,
+                                    len = 0.61,
+                                    pad = dict(t=0),
+                                    steps = tax_slider_steps)]
+                    )
     
     aff_config= dict(showLink = False,
                      modeBarButtonsToRemove = ['sendDataToCloud'
@@ -471,156 +522,172 @@ def affordability_wwc(request):
                               include_plotlyjs = False,
                               output_type = 'div',
                               config = tax_config)
-
+                     
     # Rent/Buy price change
     source_tot_pop = vars_id.loc[vars_id.var_name.isin(['population_total'])]
     source_med_rent = vars_id.loc[vars_id.var_name.isin(['rent_contract_median'])]
-    source_med_inc = vars_id.loc[vars_id.var_name.isin(['household_income_median'])]
-    source_tot_price = vars_id.loc[vars_id.var_name.isin(['house_price_tot'])]
-    source_dist_price = vars_id.loc[vars_id.var_name.str.contains('^house_price_[0-9]+')]
-    
-    data_tot_pop_all = data_all.merge(source_tot_pop, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_med_rent_all = data_all.merge(source_med_rent, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_med_inc_all = data_all.merge(source_med_inc, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_tot_price_all = data_all.merge(source_tot_price, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-    data_dist_price_all = data_all.merge(source_dist_price, left_on = 'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-
-    # Note that 2 extra bins are added in 2015, but we do not need them to calculate the median
-    dist_price_minbins = np.array([0, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100,
-                                   125, 150, 175, 200, 250, 300, 400, 500, 750, 1000])*1000
+    source_med_inc = vars_id.loc[vars_id.var_name
+                     .isin(['household_income_median'])]
+    source_tot_price = vars_id.loc[vars_id.var_name
+                       .isin(['house_price_tot'])]
+    source_dist_price = vars_id.loc[vars_id.var_name
+                        .str.contains('^house_price_[0-9]+')]
+                     
+    data_tot_pop_all = data_all.merge(source_tot_pop, left_on = 'var_id',
+                       right_on = 'id')[['year', 'value', 'gov_id']]
+    data_med_rent_all = data_all.merge(source_med_rent, left_on = 'var_id',
+                        right_on = 'id')[['year', 'value', 'gov_id']]
+    data_med_inc_all = data_all.merge(source_med_inc, left_on = 'var_id',
+                       right_on = 'id')[['year', 'value', 'gov_id']]
+    data_tot_price_all = data_all.merge(source_tot_price, left_on = 'var_id',
+                         right_on = 'id')[['year', 'value', 'gov_id']]
+    data_dist_price_all = data_all.merge(source_dist_price, left_on = 'var_id',
+                          right_on = 'id')[['year', 'value', 'gov_id']]
+                     
+    # Note that 2 extra bins are added in 2015,
+    # but we do not need them to calculate the median
+    dist_price_minbins = np.array([0, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,
+                                   80, 90, 100, 125, 150, 175, 200, 250, 300,
+                                   400, 500, 750, 1000])*1000
     data_med_price_all = []
     for gov in wwc.gov_id:
         for yr in data_tot_pop_all.year.unique():
-            freq = data_dist_price_all[(data_dist_price_all.gov_id == gov) & (data_dist_price_all.year == yr)].value.values
-            totunits = data_tot_price_all[(data_tot_price_all.gov_id == gov) & (data_tot_price_all.year == yr)].value.values
+            freq = (data_dist_price_all[(data_dist_price_all.gov_id == gov) &
+                    (data_dist_price_all.year == yr)].value.values)
+            totunits = (data_tot_price_all[(data_tot_price_all.gov_id == gov) &
+                        (data_tot_price_all.year == yr)].value.values)
             if totunits:
                 med = median_from_hist(dist_price_minbins, freq, tot=totunits[0])
             else:
                 med = np.nan
             data_med_price_all.append([yr, gov, med])
-    data_med_price_all = pd.DataFrame(data_med_price_all, columns=['year', 'gov_id', 'value'])
 
-    price_data = []
-    for index, row in wwc.iterrows():
-        x_inc = data_med_inc_all[data_med_inc_all.gov_id==row.gov_id].value.pct_change().cumsum()
-        x_prc = data_med_price_all[data_med_price_all.gov_id==row.gov_id].value.pct_change().cumsum()
-        x_rnt = data_med_rent_all[data_med_rent_all.gov_id==row.gov_id].value.pct_change().cumsum()
-        x_pop = data_tot_pop_all[data_tot_pop_all.gov_id==row.gov_id].value.pct_change().cumsum()
-        years = data_med_rent_all[data_med_rent_all.gov_id==row.gov_id].year.values
-        y     = [row.gov_name]*len(x_rnt)
-        price_data.append(go.Scatter(x = x_inc,
-                                     y = y,
-                                     mode = 'markers',
-                                     marker = dict(color = years,
-                                                   colorscale = 'Greens',
-                                                   cmin = years.min(),
-                                                   cmax = years.max(),
-                                                   size = 8,
-                                                   opacity = 0.7,
-                                                   showscale=False,
-                                                   reversescale = True,
-                                                   line=dict(width=1, color='white')),
-                                     hoverinfo = 'text',
-                                     hovertext = [row.gov_name+'<br>'+str(y)+': '+'{:.1f}%'.format(x*100) for y,x in zip(years, x_inc)],
-                                     #legendgroup = str(yr),
-                                     showlegend = False,
-                                     xaxis='x',
-                                     yaxis='y'))
-        price_data.append(go.Scatter(x = x_prc,
-                                     y = y,
-                                     mode = 'markers',
-                                     marker = dict(color = years,
-                                                   colorscale = 'Reds',
-                                                   size = 8,
-                                                   opacity = 0.7,
-                                                   showscale=False,
-                                                   reversescale = False,
-                                                   line=dict(width=1, color='white')),
-                                     hoverinfo = 'text',
-                                     hovertext = [row.gov_name+'<br>'+str(y)+': '+'{:.1f}%'.format(x*100) for y,x in zip(years, x_prc)],
-                                     #legendgroup = str(yr),
-                                     showlegend = False,
-                                     xaxis='x2',
-                                     yaxis='y'))
-        price_data.append(go.Scatter(x = x_rnt,
-                                     y = y,
-                                     mode = 'markers',
-                                     marker = dict(color = years,
-                                                   colorscale = 'Blues',
-                                                   size = 8,
-                                                   opacity = 0.7,
-                                                   showscale=False,
-                                                   reversescale = True,
-                                                   line=dict(width=1, color='white')),
-                                     hoverinfo = 'text',
-                                     hovertext = [row.gov_name+'<br>'+str(y)+': '+'{:.1f}%'.format(x*100) for y,x in zip(years, x_rnt)],
-                                     #legendgroup = str(yr),
-                                     showlegend = False,
-                                     xaxis='x3',
-                                     yaxis='y'))
-        price_data.append(go.Scatter(x = x_pop,
-                                     y = y,
-                                     mode = 'markers',
-                                     marker = dict(color = years,
-                                                   colorscale = 'Greys',
-                                                   size = 8,
-                                                   opacity = 0.7,
-                                                   showscale=False,
-                                                   reversescale = True,
-                                                   line=dict(width=1, color='white')),
-                                     hoverinfo = 'text',
-                                     hovertext = [row.gov_name+'<br>'+str(y)+': '+'{:.1f}%'.format(x*100) for y,x in zip(years, x_pop)],
-                                     #legendgroup = str(yr),
-                                     showlegend = False,
-                                     xaxis='x4',
-                                     yaxis='y'))
+    data_med_price_all = pd.DataFrame(data_med_price_all,
+                                      columns=['year', 'gov_id', 'value'])
+    data_med_inc_all['pctchange'] = (data_med_inc_all.groupby(['gov_id'])
+                                     .value.pct_change())
+    data_med_inc_all['csum'] = (data_med_inc_all.groupby(['gov_id'])
+                                .pctchange.cumsum())
+    data_med_price_all['pctchange'] = (data_med_price_all.groupby(['gov_id'])
+                                       .value.pct_change())
+    data_med_price_all['csum'] = (data_med_price_all.groupby(['gov_id'])
+                                  .pctchange.cumsum())
+    data_med_rent_all['pctchange'] = (data_med_rent_all.groupby(['gov_id'])
+                                      .value.pct_change())
+    data_med_rent_all['csum'] = (data_med_rent_all.groupby(['gov_id'])
+                                 .pctchange.cumsum())
+    data_tot_pop_all['pctchange'] = (data_tot_pop_all.groupby(['gov_id'])
+                                     .value.pct_change())
+    data_tot_pop_all['csum'] = (data_tot_pop_all.groupby(['gov_id'])
+                                .pctchange.cumsum())
 
-    price_lay = go.Layout(xaxis = dict(domain=[0.02, 0.25],
-                                       showgrid = False,
+    years = data_med_rent_all.year.unique()
+    x_inc = data_med_inc_all[data_med_inc_all.year==years[-1]].csum.iloc[::-1]
+    x_prc = data_med_price_all[data_med_price_all.year==years[-1]].csum.iloc[::-1]
+    x_rnt = data_med_rent_all[data_med_rent_all.year==years[-1]].csum.iloc[::-1]
+    x_pop = data_tot_pop_all[data_tot_pop_all.year==years[-1]].csum.iloc[::-1]
+    y_nam = data_med_rent_all[data_med_rent_all.year==years[-1]
+                              ].merge(wwc, on='gov_id').gov_name.iloc[::-1]
+
+    price_data = [go.Bar(x = x_inc,
+                         y = y_nam,
+                         marker = dict(color = colorD,
+                                       line=dict(width=1, color='white')),
+                         opacity = 0.5,
+                         orientation='h',
+                         hoverinfo = 'text',
+                         hovertext = [n+'<br>{:.1f}%'.format(x*100) for n,x in
+                                      zip(y_nam, x_inc)],
+                         showlegend = False,
+                         xaxis='x',
+                         yaxis='y'),
+                  go.Bar(x = x_prc,
+                         y = y_nam,
+                         marker = dict(color = colorA,
+                                       line=dict(width=1, color='white')),
+                         opacity = 0.6,
+                         orientation='h',
+                         hoverinfo = 'text',
+                         hovertext = [n+'<br>{:.1f}%'.format(x*100) for n,x in
+                                      zip(y_nam, x_prc)],
+                         showlegend = False,
+                         xaxis='x2',
+                         yaxis='y'),
+                  go.Bar(x = x_rnt,
+                         y = y_nam,
+                         marker = dict(color = colorB,
+                                       line=dict(width=1, color='white')),
+                         opacity = 0.6,
+                         orientation='h',
+                         hoverinfo = 'text',
+                         hovertext = [n+'<br>{:.1f}%'.format(x*100) for n,x in
+                                      zip(y_nam, x_rnt)],
+                         showlegend = False,
+                         xaxis='x3',
+                         yaxis='y'),
+                  go.Bar(x = x_pop,
+                         y = y_nam,
+                         marker = dict(color = colorC,
+                                       line=dict(width=1, color='white')),
+                         opacity = 0.8,
+                         orientation='h',
+                         hoverinfo = 'text',
+                         hovertext = [n+'<br>{:.1f}%'.format(x*100) for n,x in
+                                      zip(y_nam, x_pop)],
+                         showlegend = False,
+                         xaxis='x4',
+                         yaxis='y'),
+                  ]
+    
+    price_lay = go.Layout(xaxis = dict(domain = [0.02, 0.25],
+                                       showgrid = True,
                                        showline = True,
                                        automargin=True,
-                                       tickformat= '.0%',
-                                       title='HH income',
-                                       tickangle = 270,
-                                       side= 'top'),
+                                       tickformat = '.0%',
+                                       title = 'HH income',
+                                       tickangle = 315,
+                                       side = 'top'),
                           yaxis = dict(showgrid = True,
                                        zeroline = False,
                                        showline = False,
-                                       automargin=True),
-                          xaxis2 = dict(domain=[0.27, 0.5],
-                                        showgrid = False,
+                                       automargin = True),
+                          xaxis2 = dict(domain = [0.27, 0.5],
+                                        showgrid = True,
                                         showline = True,
-                                        automargin=True,
+                                        automargin = True,
                                         anchor = 'y',
-                                        tickformat= '.0%',
-                                        title='House Price',
-                                        tickangle = 270,
-                                        side= 'top'),
-                          xaxis3 = dict(domain=[0.52, 0.75],
-                                        showgrid = False,
+                                        tickformat = '.0%',
+                                        title = 'House Price',
+                                        tickangle = 315,
+                                        side = 'top'),
+                          xaxis3 = dict(domain = [0.52, 0.75],
+                                        showgrid = True,
                                         showline = True,
-                                        automargin=True,
+                                        automargin = True,
                                         anchor = 'y',
-                                        tickformat= '.0%',
-                                        title='Rent contract',
-                                        tickangle = 270,
-                                        side= 'top'),
-                          xaxis4 = dict(domain=[0.77, 1.],
-                                        showgrid = False,
+                                        tickformat = '.0%',
+                                        title = 'Monthly rent amount',
+                                        tickangle = 315,
+                                        side = 'top'),
+                          xaxis4 = dict(domain = [0.77, 1.],
+                                        showgrid = True,
                                         showline = True,
-                                        automargin=True,
+                                        automargin = True,
                                         anchor = 'y',
-                                        tickformat= '.0%',
-                                        title='Population',
-                                        tickangle = 270,
-                                        side= 'top'),
+                                        tickformat = '.0%',
+                                        title = 'Population',
+                                        tickangle = 315,
+                                        side = 'top'),
                           font = dict(size=fontsize),
                           width = 1.6*single_width,
                           height = 5*total_height,
-                          margin = go.layout.Margin(l=0, r=0, b=0, t=70, pad=0),
-                          hovermode='closest',
+                          margin = go.layout.Margin(l = 0,
+                                                    r = 0,
+                                                    b = 10,
+                                                    t = 80,
+                                                    pad = 0),
                           )
-
+        
     price_config= dict(showLink = False,
                        modeBarButtonsToRemove = ['sendDataToCloud',
                                                  'lasso2d',
@@ -629,16 +696,17 @@ def affordability_wwc(request):
                        displaylogo = False,
                        responsive = True)
                           
-    price_div = py.offline.plot({'data':price_data[::-1],
-                                'layout':price_lay},
+    price_div = py.offline.plot({'data': price_data[::-1],
+                                'layout': price_lay},
                                 include_plotlyjs = False,
                                 output_type = 'div',
                                 config = price_config)
-
+                          
     context = {
-        'tax_div':tax_div,
-        'aff_div':aff_div,
-        'price_div':price_div
+        'tax_div': tax_div,
+        'aff_div': aff_div,
+        'price_div': price_div,
+        'lastyeardata': years[-1]
     }
 
 
@@ -647,6 +715,10 @@ def affordability_wwc(request):
                   'housing_affordability/affordability_wwc.html',
                   context
                   )
+    
+    
+    
+
 
 def affordability_overview(request, gov_id):
     '''project profile page'''
@@ -656,9 +728,9 @@ def affordability_overview(request, gov_id):
     colorB = 'darkcyan'
     colorC = 'lightgrey'
     fontsize = 10
-    margin_aff=go.layout.Margin(l=45, r=20, b=50, t=30, pad=0)
+    margin_aff=go.layout.Margin(l=45, r=20, b=50, t=50, pad=0)
     single_width = 410
-    double_width = 780
+    double_width = 830
     total_height = 205
     
     #Data request
@@ -723,7 +795,10 @@ def affordability_overview(request, gov_id):
                                          automargin=True),
                             font = dict(size=fontsize),
                             showlegend = True,
-                            legend = dict(x=0.3, y=1.25, orientation='h', bgcolor='rgba(0,0,0,0)'),
+                            legend = dict(x=0.3,
+                                          y=1.3,
+                                          orientation='h',
+                                          bgcolor='rgba(0,0,0,0)'),
                             autosize = False,
                             width = single_width,
                             height = total_height,
@@ -779,7 +854,7 @@ def affordability_overview(request, gov_id):
                                font=dict(size=fontsize),
                                showlegend=True,
                                legend=dict(x=0.52,
-                                           y=1.2,
+                                           y=1.3,
                                            orientation='h',
                                            bgcolor='rgba(0,0,0,0)'),
                                autosize=False,
@@ -870,20 +945,20 @@ def affordability_overview(request, gov_id):
                                      zeroline=False,
                                      nticks=round(max(hhincmed_city['value'])/5000),
                                      showline=True,
-                                     title='Average household income',
+                                     title='Median household income',
                                      automargin=True),
                           yaxis=dict(showgrid=True,
                                      zeroline=False,
                                      showline=True,
                                      tickvals=[1,2,3],
-                                     ticktext=[gov.country_abbr, gov.state_abbr, gov.name,],
+                                     ticktext=[gov.country_abbr, gov.state_abbr, gov.name.title(),],
                                      automargin=True),
                           font=dict(size=fontsize),
                           showlegend=False,
                           autosize=False,
                           width=double_width,
                           height=total_height,
-                          margin=margin_aff)
+                          margin=margin_aff,)
     hhinc_config={'showLink': False, 'displaylogo': False, 'responsive': True}
     hhinc_div = py.offline.plot({'data':hhinc_data, 'layout':hhinc_lay},
                                 include_plotlyjs=False,
@@ -891,10 +966,10 @@ def affordability_overview(request, gov_id):
                                 config=hhinc_config)
 
     # Distribution of prices asked
-    priceasked_city = df.loc[df.var_name.str.contains('^house_price_')]
+    priceasked_city = df.loc[df.var_name.str.contains('^house_price_[0-9]+')]
     
     listyears = priceasked_city['year'].unique()
-    max_range = 2*priceasked_city['value'].max()/(priceasked_city['value'].mean()*24)
+    max_range = 1.5*priceasked_city['value'].max()/(priceasked_city['value'].mean()*24)
     houseprice_data = []
     for y, yr in enumerate(listyears):
         
@@ -1019,7 +1094,7 @@ def affordability_overview(request, gov_id):
                                hovermode='y',
                                hoverdistance=10,
                                legend=dict(x=0.75,
-                                           y=1.2,
+                                           y=1.3,
                                            orientation='h',
                                            bgcolor='rgba(0,0,0,0)'),
                                font=dict(size=10),
@@ -1103,7 +1178,7 @@ def affordability_overview(request, gov_id):
 
     monthexp_inc_own = go.Bar(x = incmed_own.year,
                               y = incmed_own.value.values/12,
-                              name = 'Owners gross income',
+                              name = 'Owners income',
                               opacity = 0.5,
                               hoverinfo='text',
                               text = ['Net income:<br>${:.0f}'.format(x) for x in
@@ -1111,7 +1186,7 @@ def affordability_overview(request, gov_id):
                               marker = dict(color = colorA))
     monthexp_inc_rent = go.Bar(x = incmed_rent.year,
                                y = incmed_rent.value.values/12,
-                               name = 'Renters gross income',
+                               name = 'Renters income',
                                opacity=0.5,
                                hoverinfo='text',
                                text = ['Net income:<br>${:.0f}'.format(x) for x in
@@ -1119,14 +1194,14 @@ def affordability_overview(request, gov_id):
                                marker = dict(color = colorB))
     monthexp_rent = go.Scatter(x = rent_median.year,
                                y = rent_median.value,
-                               name = 'Renters gross expenses',
+                               name = 'Renters expenses',
                                mode = 'lines',
                                hoverinfo='none',
                                line = dict(color = colorB,
                                            width = 1))
     monthexp_own = go.Scatter(x = owncost_median.year,
                                y = owncost_median.value,
-                               name = 'Owners mortg expenses',
+                               name = 'Owners expenses',
                                mode = 'lines',
                                hoverinfo='none',
                                line = dict(color = colorA,
@@ -1147,7 +1222,7 @@ def affordability_overview(request, gov_id):
                                           range=[0, 1.15*range_max_plot]),
                              font = dict(size=fontsize),
                              showlegend = True,
-                             legend = dict(x=0.15,
+                             legend = dict(x=0.4,
                                            y=1.5,
                                            orientation='h',
                                            bgcolor='rgba(0,0,0,0)'),
@@ -1197,8 +1272,8 @@ def affordability_overview(request, gov_id):
                          yaxis = dict(showgrid = True,
                                       zeroline = False,
                                       showline = True,
-                                      title='median gross rent',
-                                      hoverformat = '.0f',
+                                      title='Median gross rent',
+                                      hoverformat = '$.0f',
                                       automargin=True),
                          font = dict(size=fontsize),
                          showlegend = True,
@@ -1271,7 +1346,7 @@ def affordability_index(request, gov_id):
     colorB = 'darkcyan'
     colorC = 'lightgrey'
     fontsize = 10
-    margin_aff=go.layout.Margin(l=45, r=20, b=50, t=30, pad=0)
+    margin_aff=go.layout.Margin(l=45, r=20, b=50, t=50, pad=0)
     single_width = 410
     double_width = 780
     total_height = 205
@@ -1327,7 +1402,7 @@ def affordability_index(request, gov_id):
     rent_y = rent_med.value.pct_change().fillna(0).cumsum()*100
     rent = go.Scatter(x=rent_med.year,
                       y=rent_y,
-                      name='Rent',
+                      name='Monthly rent',
                       mode = 'lines+markers',
                       marker = dict(color = colorB),
                       hoverinfo = 'text',
@@ -1344,7 +1419,7 @@ def affordability_index(request, gov_id):
                                            title='% change',
                                            automargin=True),
                                 showlegend=True,
-                                legend=dict(x=0.7,
+                                legend=dict(x=0.1,
                                             y=1.3,
                                             orientation='h'),
                                 font = dict(size=fontsize),
@@ -1405,7 +1480,7 @@ def affordability_index(request, gov_id):
                                    title='% hh income',
                                    automargin=True),
                         showlegend=True,
-                        legend=dict(x=0.,
+                        legend=dict(x=0.5,
                                     y=1.6,
                                     orientation='h',
                                     bgcolor='rgba(0,0,0,0)'),
@@ -1585,8 +1660,7 @@ def affordability_index(request, gov_id):
         t = rent_age_distr[rent_age_distr.var_name=='renthh_age_distrib_'+str(i+1)].value.values
         fig_affage_rent.append_trace(go.Bar(x = aff_age_x,
                                             y = y,
-                                            hoverinfo = 'text',
-                                            hovertext = ['{:.0f}%'.format(100*x) for x in y/t],
+                                            hoverinfo = 'y',
                                             name = labels_aff_age[i],
                                             marker = dict(color = colors_aff_age[i]),
                                             opacity = 0.6), 1, 1)

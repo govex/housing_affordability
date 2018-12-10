@@ -5,29 +5,60 @@
 
 <main>
 
-  <a href="/analysis/housing/overview/{{ govid }}">Overview</a> 
-
-    <table style="width:90%; border: 0px solid black; border-spacing:10px;">
+    <table class="aff-table">
         <tr>
-            <td colspan="6"><h2 id="affcity">{{ cityname_div |safe  }}</h2></td>
+            <td><div class="aff-city">{{ cityname_div |safe  }}</div></td>
         </tr>
         <tr>
-            <td colspan="2" id="affquestion">Are housing/renting prices rising faster than incomes?</td>
-            <td colspan="2" id="affquestion">How affordable is the city on average?</td>
-            <td colspan="2" id="affquestion">Is the city affordable to ELI households?</td>
+            <td class="aff-nav">
+                <li class="aff-nav-li"><a class="aff-a" href="/analysis/housing/overview/{{ govid }}">City housing overview</a></li>
+                <li class="aff-nav-li">City affordability</li>
+            </td>
+        </tr>
+    </table>
+    <table class="aff-table">
+        <tr>
+            <td colspan="2" class="aff-question">Are housing/renting prices rising faster than incomes?</td>
+            <td colspan="2" class="aff-question">How affordable is the City on average?</td>
+            <td colspan="2" class="aff-question">Is the City affordable to ELI households?</td>
         </tr>
         <tr>
-            <td colspan="2" id="affplot">{{ pricechange_div |safe  }}</td>
-            <td colspan="2" id="affplot">{{ aff_div |safe  }}</td>
-            <td colspan="2" id="affplot">{{ eli_div |safe }}</td>
+            <td colspan="2">
+                <div class="aff-plot">{{ pricechange_div |safe  }}</div>
+                <div class="aff-caption">
+                    The annual percentage change of the median <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a> is compared to the change in housing prices. As a reference for owning prices, the <a class="aff-a-def" href="/analysis/housing/#housevalue">house value</a> is used; for renting the <a class="aff-a-def" href="/analysis/housing/#contractrent">monthly rent amount</a> is depicted.
+                </div>
+            </td>
+            <td colspan="2">
+                <div class="aff-plot">{{ aff_div |safe  }}</div>
+                <div class="aff-caption">
+                     Comparison of the percentage of the <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a> that is devoted to housing for different tenure types. We use the <a class="aff-a-def" href="/analysis/housing/#owncosts">monthly costs</a> and <a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a> to account for owners and renters housing expenses, respectively. The <a class="aff-a-def" href="/analysis/housing/#afford">affordability theshold</a>, 30%, is the percentage above which housing is not considered affordable
+                </div>
+            </td>
+            <td colspan="2">
+                <div class="aff-plot">{{ eli_div |safe }}</div>
+                <div class="aff-caption">
+                    Here we display the percentage of homes, and absolute value when hover, that are affordable for the <a class="aff-a-def" href="/analysis/housing/#eli">Extremely Low Income (ELI)</a> households.
+                </div>
+            </td>
         </tr>
         <tr>
-            <td colspan="3" id="affquestion">How many renters live beyond affordability?</td>
-            <td colspan="3" style="width:50%;" id="affquestion">How many owners live beyond affordability?</td>
+            <td colspan="3" class="aff-question">How many renters live beyond affordability?</td>
+            <td colspan="3" style="width:50%;" class="aff-question">How many owners live beyond affordability?</td>
         </tr>
         <tr>
-            <td colspan="3" id="affplot">{{ affagerent_div |safe }}</td>
-            <td colspan="3" style="width:50%;" id="affplot">{{ affageown_div |safe }}</td>
+            <td colspan="3">
+                <div class="aff-plot">{{ affagerent_div |safe }}</div>
+                <div class="aff-caption">
+                    The upper bar graph shows the number of renting homes by age that live beyond <a class="aff-a-def" href="/analysis/housing/#afford">affordability</a>, i.e. they spend more than 30% of the <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a> on housing expenses (<a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a>). When hover over the bars, the number of homes within each age group is shown. Bottom Graph shows the same information but in percentage within each age group.
+                </div>
+            </td>
+            <td colspan="3" style="width:50%;">
+                <div class="aff-plot">{{ affageown_div |safe }}</div>
+                <div class="aff-caption">
+                    The upper bar graph shows the number of owner occupied homes by age that live beyond <a class="aff-a-def" href="/analysis/housing/#afford">affordability</a>, i.e. they spend more than 30% of the <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a> on housing expenses (<a class="aff-a-def" href="/analysis/housing/#owncosts">monthly owner costs</a>). When hover over the bars, the number of homes within each age group is shown. Bottom Graph shows the same information but in percentage within each age group.
+                </div>
+            </td>
         </tr>
     </table>
 
