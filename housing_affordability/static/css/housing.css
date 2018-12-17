@@ -557,31 +557,103 @@ td {
     text-align:justify-all;
     max-width:550px !important;
     padding:10px;
+    vertical-align: top;
 }
 
-#affcity{
+.aff-city{
     border:1px solid var(--govex-purple);
     color:#20B2AA;
+    font-size:24px;
     text-align:center;
     text-transform: capitalize;
+    font-weight: bold;
 }
-#affquestion{
+.aff-question {
     background-color:#ccb7c9;
     color:var(--govex-purple);
     text-align:center;
     border-radius: 4px;
     padding: 2px 2px 2px 2px;
 }
-#affplot{
-    padding: 0px 10px 30px 10px;
+.aff-plot {
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
 }
-#afftext{
+.aff-caption {
     text-align:justify;
     color:#0c4744;
     font-size: 12px;
     line-height:1.3;
-    padding-top: 0px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.aff-p {
+    width: 90%;
+    text-align: left;
+    font-size: 12pt;
+    padding-top: 50px;
+}
+
+.aff-p-title {
+    color: var(--govex-purple);
+    font-size: 14pt;
+}
+
+.aff-nav {
+    list-style: none;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align:center;
+    font-weight: bold;
+    color: var(--govex-purple);
+    padding: 0px;
+}
+
+.aff-nav-li {
+    display: inline-block;
     padding-right: 20px;
-    padding-bottom: 0px;
-    padding-left: 20px;
+    list-style: none;
+}
+.aff-a {
+    color: var(--govex-purple);
+}
+
+a.aff-a-def:link{
+    color:#0c4744;
+    text-decoration: underline !important;
+}
+
+a.aff-a-def:hover{
+    color:#85a3a1;
+    text-decoration: underline !important;
+}
+
+.aff-table {
+    width:90%;
+    border: 0px solid black;
+    border-spacing:10px;
+}
+
+table.aff-def {
+    width:80%;
+    border: 1px solid var(--govex-purple);
+    border-spacing:0px;
+    border-collapse:collapse;
+    margin-left: 10%;
+    margin-right: 10%;
+    line-height: 1.5;
+}
+
+table.aff-def th, table.aff-def td {
+    border: 1px solid var(--govex-purple);
+    vertical-align: middle;
+}
+
+table.aff-def td:nth-child(odd) {
+    background-color: #d6c5d3;
 }
