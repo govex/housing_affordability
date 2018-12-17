@@ -58,26 +58,22 @@ def affordability_select(request):
     #rgba(0,0,0,0)
     
     # Filter and select data
-    govs = Government.objects.all()
-    long = []
-    lat  = []
-    pop  = []
-    mrks = []
-    txt  = []
-    link = []
-    for gov in govs:
-        p = gov.gov_demographic_set.filter(var__var_name='population_total')[0].value
-        if p >= 30000:
-            long.append(gov.longitude)
-            lat.append(gov.latitude)
-            txt.append(gov.name)
-            pop.append(p)
-            marksize = 4 + 5*np.log2(p/50000)
-            if marksize < 4: marksize = 4
-            mrks.append(marksize)
-            link.append('<a target="_top" href="/analysis/housing/overview/'+str(gov.id)+\
-                        '" style="color:rgba(0,0,0,0);">.</a>')
+    
+    govs = Government.objects.prefetch_related('gov_demographic_set')\
+                             .filter(Q(gov_demographic__var__var_name='population_total') &\
+                                     Q(gov_demographic__value__gt=30000) &\
+                                     Q(gov_demographic__var__year=2016))
 
+    long = [i['longitude'] for i in govs.values('longitude')]
+    lat = [i['latitude'] for i in govs.values('latitude')]
+    txt = [i['name'] for i in govs.values('name')]
+    link = ['<a target="_top" href="/analysis/housing/overview/{}" style="color:rgba(0,0,0,0);">.</a>'.format(i['id']) for i in govs.values('id')]
+    pops = Gov_Demographic.objects.filter(gov__in=govs,
+                                          var__year=2016,
+                                          var__var_name='population_total')
+    pop = [i.value for i in pops]
+    mrks = [4 + 5*np.log2(i/50000) if 4 + 5*np.log2(i/50000)>4 else 4 for i in pop]
+    
     # Map Data
     map_data = [dict(
                      type = 'scattergeo',
