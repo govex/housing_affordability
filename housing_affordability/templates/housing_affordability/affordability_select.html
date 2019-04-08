@@ -4,9 +4,22 @@
 {% block content %}
 
   <main>
-            
+        <li>
+            <form >
+                <select id="search" multiple onchange="go()">
+                    {% for gov in govs %}
+                        <option id={{ gov.id }} value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}</option>
+                    {% endfor %}
+
+                </select>
+            </form>
+        </li>
     <li> {{ map_div |safe  }}</li>
 
   </main>
-
+  <script>
+    $(function() {
+    $("#search").selectize({placeholder: "Search"});
+    });
+  </script>
 {% endblock %}

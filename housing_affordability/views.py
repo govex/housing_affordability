@@ -17,7 +17,7 @@ def govs_all(request):
     '''display all governments'''
     max_year = Gov_Demographics_Source.objects.all().aggregate(Max('year'))['year__max']
 
-    # get the governments sorted by population 
+    # get the governments sorted by population
     govs = Government.objects.all()
     for gov in govs:
         gov.population = gov.gov_demographic_set.filter(var__var_name='population_total')[0].value
@@ -53,12 +53,12 @@ def affordability(request):
 
 def affordability_select(request):
     '''project profile page'''
-    
+
     landcolor = '#d9d9d9'
     #rgba(0,0,0,0)
-    
+
     # Filter and select data
-    
+
     govs = Government.objects.prefetch_related('gov_demographic_set')\
                              .filter(Q(gov_demographic__var__var_name='population_total') &\
                                      Q(gov_demographic__value__gt=30000) &\
@@ -73,7 +73,7 @@ def affordability_select(request):
                                           var__var_name='population_total')
     pop = [i.value for i in pops]
     mrks = [4 + 5*np.log2(i/50000) if 4 + 5*np.log2(i/50000)>4 else 4 for i in pop]
-    
+
     # Map Data
     map_data = [dict(
                      type = 'scattergeo',
@@ -131,10 +131,11 @@ def affordability_select(request):
                               )
 
     context = {
-        'map_div':map_div
+        'map_div':map_div,
+        'govs':govs
     }
-    
-    
+
+
     return render(
                   request,
                   'housing_affordability/affordability_select.html',
@@ -144,13 +145,13 @@ def affordability_select(request):
 
 def affordability_wwc(request):
     '''project profile page'''
-    
+
     #t1 = datetime.datetime.now()
     #t2 = datetime.datetime.now()
     #t3 = datetime.datetime.now()
     #print(t2-t1)
     #print(t3-t2)
- 
+
     #General plot settings
     colorA = 'orange'
     colorB = 'darkcyan'
@@ -160,7 +161,7 @@ def affordability_wwc(request):
     single_width = 410
     double_width = 780
     total_height = 205
-    
+
     # Cities list
     wwc_city_list = ['Albuquerque', 'Anchorage', 'Arlington', 'Athens',
                      'Augusta', 'Baltimore', 'Baton Rouge', 'Bellevue',
@@ -187,7 +188,7 @@ def affordability_wwc(request):
                      'Tempe', 'Topeka', 'Tulsa', 'Tyler', 'Victorville',
                      'Virginia Beach', 'Waco', 'Washington', 'West Palm Beach',
                      'Wichita', 'Winston-Salem']
-        
+
     wwc_stat_list = ['NM', 'AK', 'TX', 'GA', 'GA', 'MD', 'LA', 'WA', 'AL',
                      'ID', 'MA', 'CO', 'NY', 'MA', 'FL', 'NC', 'SC', 'NC',
                      'TN', 'CA', 'CO', 'SC', 'CA', 'TX', 'CO', 'IA', 'CA',
@@ -200,7 +201,7 @@ def affordability_wwc(request):
                      'CA', 'CA', 'AZ', 'WA', 'SD', 'IN', 'NY', 'WA', 'AZ',
                      'KS', 'OK', 'TX', 'CA', 'VA', 'TX', 'DC', 'FL', 'KS',
                      'NC']
-        
+
     # Cities IDs & names
     gov_all = Government.objects.all()
     gov_all = pd.DataFrame.from_records((gov_all.values('name','id',
@@ -232,7 +233,7 @@ def affordability_wwc(request):
     vars_id = pd.DataFrame.from_records(
               Gov_Demographics_Source.objects.all().values(
               'var_name','id','year'))
-    
+
     #Real State Tax
     source_mortg = vars_id[vars_id.var_name ==
                            'real_state_tax_mortg_median'][['year','id']]
@@ -242,7 +243,7 @@ def affordability_wwc(request):
                          'household_income_own_median'][['year','id']]
     source_pop = vars_id[vars_id.var_name ==
                          'population_total'][['year','id']]
-                           
+
     data_tax_all = data_all.merge(source_mortg, left_on = 'var_id',
                                   right_on = 'id')[['year', 'value', 'gov_id']]
     data_inc_all = data_all.merge(source_inc, left_on = 'var_id',
@@ -252,7 +253,7 @@ def affordability_wwc(request):
     data_per_all = data_tax_all.value.values/data_inc_all.value.values
     min_per = np.min(data_per_all)
     max_per = np.max(data_per_all)
-                           
+
     years_list = source_mortg.year.unique()
     tax_data = []
     tax_frames = []
@@ -265,7 +266,7 @@ def affordability_wwc(request):
         data_nam = data_tax_all[data_tax_all.year==yr].merge(wwc,
                    on = 'gov_id').gov_name
         data_per = data_tax/data_inc
-                                                                                        
+
         tax_yr = go.Scatter(x=data_hval,
                             y=data_inc,
                             mode='markers',
@@ -294,14 +295,14 @@ def affordability_wwc(request):
                             )
         if (yr == years_list.min()):
             tax_data.append(tax_yr)
-                                                                                                                    
+
         slider_step = dict(args = [[yr], dict(frame = dict(duration = 500,
                                                            redraw = False),
                                               mode = 'immediate',
                                               transition = dict(duration= 150))],
                            label= '{:.0f}'.format(yr),
                            method = 'animate')
-                                                                                                                        
+
         tax_frames.append(dict(data=[tax_yr], name='{:.0f}'.format(yr)))
         tax_slider_steps.append(slider_step)
 
@@ -352,7 +353,7 @@ def affordability_wwc(request):
                                         pad = dict(t=0),
                                         steps = tax_slider_steps)]
                         )
-    
+
     tax_config= dict(showLink = False,
                      modeBarButtonsToRemove = ['sendDataToCloud'
                                                'lasso2d',
@@ -360,14 +361,14 @@ def affordability_wwc(request):
                                                'pan2d'],
                      displaylogo = False,
                      responsive = True)
-        
+
     tax_div = py.offline.plot({'data':tax_data,
                               'frames':tax_frames,
                               'layout':tax_lay},
                               include_plotlyjs = False,
                               output_type = 'div',
                               config = tax_config)
-                     
+
     # Affordability
     source_tot_own_mortg = vars_id.loc[vars_id.var_name.isin(
                            ['owner_costs_pctincome_mortg_tot'])]
@@ -381,7 +382,7 @@ def affordability_wwc(request):
                         '^owner_costs_pctincome_nomortg_[0-9]')]
     source_rent = vars_id.loc[vars_id.var_name.str.contains(
                   '^rent_pctincome_[0-9]')]
-                     
+
     data_tot_own_mortg_all = data_all.merge(source_tot_own_mortg, left_on =
         'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
     data_tot_own_nomortg_all = data_all.merge(source_tot_own_nomortg, left_on =
@@ -394,12 +395,12 @@ def affordability_wwc(request):
         'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
     data_rent_all = data_all.merge(source_rent, left_on =
         'var_id', right_on = 'id')[['year', 'value', 'gov_id']]
-                     
+
     aff_frames = []
     aff_slider_steps = []
     max_range = 0
     for yr in years_list:
-                         
+
         r_own_mortg = (data_own_mortg_all[data_own_mortg_all.year == yr]
                        .groupby('gov_id').value.sum()
                        / data_tot_own_mortg_all[data_tot_own_mortg_all.year ==yr]
@@ -417,7 +418,7 @@ def affordability_wwc(request):
         max_yr = (r_own_mortg + r_own_nomortg + r_rent).max()
         if max_yr > max_range:
             max_range = max_yr
-                                                                                   
+
         aff_yr_0 = go.Barpolar(r = np.ones(len(r_own_mortg))*0.1,
                                hoverinfo = 'skip',
                                marker = dict(color='rgba(0,0,0,0)'),
@@ -446,7 +447,7 @@ def affordability_wwc(request):
 
         if (yr == years_list.min()):
             aff_data = [aff_yr_0, aff_yr_c, aff_yr_a, aff_yr_b]
-                                                                                                                                                 
+
         slider_step = dict(args = [[yr], dict(frame = dict(duration = 500,
                                                            redraw = False),
                                               mode = 'immediate',
@@ -503,7 +504,7 @@ def affordability_wwc(request):
                                     pad = dict(t=0),
                                     steps = tax_slider_steps)]
                     )
-    
+
     aff_config= dict(showLink = False,
                      modeBarButtonsToRemove = ['sendDataToCloud'
                                                'lasso2d',
@@ -511,14 +512,14 @@ def affordability_wwc(request):
                                                'pan2d'],
                      displaylogo = False,
                      responsive = True)
-        
+
     aff_div = py.offline.plot({'data':aff_data,
                               'frames':aff_frames,
                               'layout':aff_lay},
                               include_plotlyjs = False,
                               output_type = 'div',
                               config = tax_config)
-                     
+
     # Rent/Buy price change
     source_tot_pop = vars_id.loc[vars_id.var_name.isin(['population_total'])]
     source_med_rent = vars_id.loc[vars_id.var_name.isin(['rent_contract_median'])]
@@ -528,7 +529,7 @@ def affordability_wwc(request):
                        .isin(['house_price_tot'])]
     source_dist_price = vars_id.loc[vars_id.var_name
                         .str.contains('^house_price_[0-9]+')]
-                     
+
     data_tot_pop_all = data_all.merge(source_tot_pop, left_on = 'var_id',
                        right_on = 'id')[['year', 'value', 'gov_id']]
     data_med_rent_all = data_all.merge(source_med_rent, left_on = 'var_id',
@@ -539,7 +540,7 @@ def affordability_wwc(request):
                          right_on = 'id')[['year', 'value', 'gov_id']]
     data_dist_price_all = data_all.merge(source_dist_price, left_on = 'var_id',
                           right_on = 'id')[['year', 'value', 'gov_id']]
-                     
+
     # Note that 2 extra bins are added in 2015,
     # but we do not need them to calculate the median
     dist_price_minbins = np.array([0, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,
@@ -634,7 +635,7 @@ def affordability_wwc(request):
                          xaxis='x4',
                          yaxis='y'),
                   ]
-    
+
     price_lay = go.Layout(xaxis = dict(domain = [0.02, 0.25],
                                        showgrid = True,
                                        showline = True,
@@ -683,7 +684,7 @@ def affordability_wwc(request):
                                                     t = 80,
                                                     pad = 0),
                           )
-        
+
     price_config= dict(showLink = False,
                        modeBarButtonsToRemove = ['sendDataToCloud',
                                                  'lasso2d',
@@ -691,13 +692,13 @@ def affordability_wwc(request):
                                                  'pan2d'],
                        displaylogo = False,
                        responsive = True)
-                          
+
     price_div = py.offline.plot({'data': price_data[::-1],
                                 'layout': price_lay},
                                 include_plotlyjs = False,
                                 output_type = 'div',
                                 config = price_config)
-                          
+
     context = {
         'tax_div': tax_div,
         'aff_div': aff_div,
@@ -711,9 +712,9 @@ def affordability_wwc(request):
                   'housing_affordability/affordability_wwc.html',
                   context
                   )
-    
-    
-    
+
+
+
 
 
 def affordability_overview(request, gov_id):
@@ -728,7 +729,7 @@ def affordability_overview(request, gov_id):
     single_width = 410
     double_width = 830
     total_height = 205
-    
+
     #Data request
     gov = Government.objects.get(id=gov_id)
     demos = Gov_Demographic.objects.filter(gov_id=gov_id)
@@ -738,10 +739,10 @@ def affordability_overview(request, gov_id):
     demos_source = pd.DataFrame(list(demos_source.values()))
     demos['value'] = [(i > 0) * i for i in demos['value']]
     df = demos.merge(demos_source, left_on = 'var_id', right_on = 'id')[['var_name','description','year','value']]
-    
+
     #City name
     cityname_div = gov.name+', '+gov.state_abbr
-    
+
     #Rented vs. owned units
     renttot = df.loc[df['var_name'].isin(['house_renter_occupied'])]
     owntot  = df.loc[df['var_name'].isin(['house_owner_occupied'])]
@@ -779,7 +780,7 @@ def affordability_overview(request, gov_id):
                              text = ['{:.0f}%'.format(i) for i in vacper],
                              fill = 'tozeroy')
     ownrent_data = [ownrent_vac, ownrent_rent, ownrent_own]
-    
+
     ownrent_lay = go.Layout(xaxis = dict(showgrid = False,
                                          zeroline = False,
                                          showline = True,
@@ -812,14 +813,14 @@ def affordability_overview(request, gov_id):
     #Renters vs. owners population
     rentpop = df.loc[df['var_name'].isin(['pop_rented'])]
     ownpop  = df.loc[df['var_name'].isin(['pop_owned'])]
-    
+
     rentpopper = [float(rentpop[rentpop['year']==y].value) /
                   (float(ownpop[ownpop['year']==y].value) +
                   float(rentpop[rentpop['year']==y].value))*100 for y in rentpop.year]
     ownpopper  = [float(ownpop[ownpop['year']==y].value) /
                   (float(ownpop[ownpop['year']==y].value) +
                    float(rentpop[rentpop['year']==y].value))*100 for y in ownpop.year]
-    
+
     ownrentpop_rent = go.Scatter(x=rentpop['year'],
                                  y=rentpopper,
                                  name='Renters',
@@ -837,7 +838,7 @@ def affordability_overview(request, gov_id):
                                 text=['{:.0f}%'.format(i) for i in ownpopper],
                                 fill='tonexty')
     ownrentpop_data = [ownrentpop_rent, ownrentpop_own]
-                              
+
     ownrentpop_lay = go.Layout(xaxis=dict(showgrid=False,
                                           zeroline=False,
                                           showline=True,
@@ -870,7 +871,7 @@ def affordability_overview(request, gov_id):
     hhincmed_city = df.loc[df['var_name'].isin(['household_income_median'])]
     hhincmed_us   = [51425, 51914, 52762, 53046, 53046, 53482, 53889, 55322]
     hhincmed_st   = [69475, 70647, 72419, 72999, 73538, 74149, 74551, 76067]
-    
+
     hhincmed_city_pct = hhincmed_city.value.pct_change()
     hhincmed_st_pct = pd.Series(hhincmed_st).pct_change()
     hhincmed_us_pct = pd.Series(hhincmed_us).pct_change()
@@ -886,7 +887,7 @@ def affordability_overview(request, gov_id):
     hhinc_city_hovertxt[0] = str(hhincmed_city.year.iloc[0])
     hhinc_st_hovertxt[0] = str(hhincmed_city.year.iloc[0])
     hhinc_us_hovertxt[0] = str(hhincmed_city.year.iloc[0])
-    
+
     hhinc_city = go.Scatter(x=hhincmed_city['value'],
                             y=np.ones(len(hhincmed_city['value']))*3,
                             mode = 'markers',
@@ -936,7 +937,7 @@ def affordability_overview(request, gov_id):
                           hoverinfo = 'text+x',
                           text=hhinc_us_hovertxt)
     hhinc_data = [hhinc_city, hhinc_st, hhinc_us]
-    
+
     hhinc_lay = go.Layout(xaxis=dict(showgrid=True,
                                      zeroline=False,
                                      nticks=round(max(hhincmed_city['value'])/5000),
@@ -963,12 +964,12 @@ def affordability_overview(request, gov_id):
 
     # Distribution of prices asked
     priceasked_city = df.loc[df.var_name.str.contains('^house_price_[0-9]+')]
-    
+
     listyears = priceasked_city['year'].unique()
     max_range = 1.5*priceasked_city['value'].max()/(priceasked_city['value'].mean()*24)
     houseprice_data = []
     for y, yr in enumerate(listyears):
-        
+
         houseprice_city_bins = []
         houseprice_stat_bins = []
         houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
@@ -999,11 +1000,11 @@ def affordability_overview(request, gov_id):
                                                     (priceasked_city['var_name']=='house_price_12')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_13')].value.values[0])
-                                        
+
         for n in [14, 15, 16, 17, 18, 19, 20, 21]:
             houseprice_city_bins.append( priceasked_city[(priceasked_city['year']==yr) &
                                                          (priceasked_city['var_name']=='house_price_'+'{:02.0f}'.format(n))].value.values[0] )
-        
+
         houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_22')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
@@ -1040,9 +1041,9 @@ def affordability_overview(request, gov_id):
         if y!=0: houseprice_state.update(dict(showlegend= False))
         houseprice_data.append(houseprice_state)
 
-    
-        
-    
+
+
+
     housevalmed_city = df.loc[df['var_name'].isin(['house_median_value'])]
     yval = [12500, 37500, 62500, 87500, 112500, 137500, 162500, 187500, 225000, 275000, 350000, 450000, 750000]
     f = interp1d(yval, np.arange(len(yval)), kind='cubic', bounds_error=False, fill_value=len(yval))
@@ -1063,7 +1064,7 @@ def affordability_overview(request, gov_id):
                           hoverinfo = 'none',
                           showlegend = False)
     houseprice_data.append(avg_stat)
-    
+
 
 
     ylab = [' ', '50', ' ', '100', ' ', '150', ' ', '200',
@@ -1095,7 +1096,7 @@ def affordability_overview(request, gov_id):
                                            bgcolor='rgba(0,0,0,0)'),
                                font=dict(size=10),
                                margin=margin_aff)
-    
+
     houseprice_config={'showLink': False, 'displaylogo': False, 'responsive': True}
     houseprice_div = py.offline.plot({"data":houseprice_data,
                                      "layout":houseprice_lay},
@@ -1106,7 +1107,7 @@ def affordability_overview(request, gov_id):
     #Average househould size owners vs. renters
     ppsize_own = df.loc[df['var_name'].isin(['household_average_size_own'])]
     ppsize_rent = df.loc[df['var_name'].isin(['household_average_size_rent'])]
-    
+
     bdsize_own_distr = df.loc[df.var_name.str.contains('house_own_.beds')]
     bdsize_own = []
     for yr in ppsize_own.year:
@@ -1241,7 +1242,7 @@ def affordability_overview(request, gov_id):
     colors_beds = ['purple', colorA, colorC, colorB]
     minbins_2009 = [0, 200, 300, 500, 750, 1000]
     minbins_2015 = [0, 300, 500, 750, 1000, 1500]
-    
+
     beds_data = []
     for bd in numbeds:
         med_arr = []
@@ -1324,10 +1325,10 @@ def median_from_hist(minbins, freq, tot=0):
     # Total number of observations
     if tot==0:
         tot = distr_cum[-1]
-    
+
     # Locate bin containing median
     idx = (np.abs(distr_cum - tot/2)).argmin()
-    
+
     # Assume homogeneous distribution inside the bin to find median
     med = minbins[idx] + ((tot/2 - distr_cum[idx-1]) / freq[idx]) * (minbins[idx+1] - minbins[idx])
 
@@ -1336,7 +1337,7 @@ def median_from_hist(minbins, freq, tot=0):
 
 def affordability_index(request, gov_id):
     '''project profile page'''
-    
+
     #General plot settings
     colorA = 'orange'
     colorB = 'darkcyan'
@@ -1346,7 +1347,7 @@ def affordability_index(request, gov_id):
     single_width = 410
     double_width = 780
     total_height = 205
-    
+
     plot_config= dict(showLink = False,
                       modeBarButtonsToRemove = ['sendDataToCloud',
                                                 'lasso2d',
@@ -1360,7 +1361,7 @@ def affordability_index(request, gov_id):
                       displaylogo = False,
                       responsive = True,
                       scrollZoom = True)
-    
+
     #Data request
     gov = Government.objects.get(id=gov_id)
     demos = Gov_Demographic.objects.filter(gov_id=gov_id)
@@ -1370,15 +1371,15 @@ def affordability_index(request, gov_id):
     demos_source = pd.DataFrame(list(demos_source.values()))
     demos['value'] = [(i > 0) * i for i in demos['value']]
     df = demos.merge(demos_source, left_on = 'var_id', right_on = 'id')[['var_name','description','year','value']]
-    
+
     #City name
     cityname_div = gov.name+', '+gov.state_abbr
-    
+
     #Housing/Renting prices
     hhinc_med = df.loc[df['var_name'].isin(['household_income_median'])]
     houseval_med = df.loc[df['var_name'].isin(['house_median_value'])]
     rent_med = df.loc[df['var_name'].isin(['rent_contract_median'])]
-    
+
     hhinc_y = hhinc_med.value.pct_change().fillna(0).cumsum()*100
     hhinc = go.Bar(x=hhinc_med.year,
                    y= hhinc_y,
@@ -1404,7 +1405,7 @@ def affordability_index(request, gov_id):
                       hoverinfo = 'text',
                       text = ['{:.1f}%'.format(i) for i in rent_y])
     pricechange_data = [houseval, rent, hhinc]
-    
+
     pricechange_lay = go.Layout(xaxis=dict(showgrid=False,
                                            zeroline=False,
                                            showline=True,
@@ -1423,19 +1424,19 @@ def affordability_index(request, gov_id):
                                 width = single_width,
                                 height = total_height,
                                 margin = margin_aff)
-    
+
     pricechange_div = py.offline.plot({'data':pricechange_data,
                                       'layout':pricechange_lay},
                                       include_plotlyjs = False,
                                       output_type = 'div',
                                       config = plot_config)
-                
-    
+
+
     #Affordability
     own_costs_mortg = df.loc[df['var_name'].isin(['owner_costs_pctincome_mortg_median'])]
     own_costs_nomortg = df.loc[df['var_name'].isin(['owner_costs_pctincome_nomortg_median'])]
     rent_costs = df.loc[df['var_name'].isin(['rent_gros_pctincome_median'])]
-    
+
     aff_own_nomortg = go.Bar(x=own_costs_nomortg.year,
                              y=own_costs_nomortg.value,
                              name='Owners w/o mortgage',
@@ -1465,7 +1466,7 @@ def affordability_index(request, gov_id):
                              line=dict(width=1),
                              hoverinfo='none')
     aff_data = [aff_percent, aff_rent, aff_own_mortg, aff_own_nomortg]
-    
+
     aff_lay = go.Layout(xaxis=dict(showgrid=False,
                                    zeroline=False,
                                    showline=True,
@@ -1485,13 +1486,13 @@ def affordability_index(request, gov_id):
                         width = single_width,
                         height = total_height,
                         margin = margin_aff)
-    
+
     aff_div = py.offline.plot({'data':aff_data,
                               'layout':aff_lay},
                               include_plotlyjs = False,
                               output_type = 'div',
                               config = plot_config)
-    
+
     #Low income affordability
     # Note that variables for this plot have changed in the Census since 2009 to add
     # more bins to the distribution of gross rents. However, we probably do not need
@@ -1501,40 +1502,40 @@ def affordability_index(request, gov_id):
     own_costs_distr = df.loc[df.var_name.str.contains('^own_costs_distr_')]
     rent_tot = df.loc[df['var_name'].isin(['rent_gross_cashtot'])]
     own_tot = df.loc[df['var_name'].isin(['house_owner_occupied'])]
-    
+
     # Inferior range limit of the bin
     rent_ranges = np.array([0, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550,
                             600, 650, 700, 750, 800, 900, 1000, 1250, 1500, 2000])
     own_ranges = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500])
     rent_midbin = (rent_ranges[1:] - rent_ranges[:-1])/2 + rent_ranges[:-1]
     own_midbin = (own_ranges[1:] - own_ranges[:-1])/2 + own_ranges[:-1]
-    
+
     def eli_get_data(yr):
 
         #Total units
         rent_units = rent_tot[rent_tot.year==yr].value.values[0]
         own_units = own_tot[own_tot.year==yr].value.values[0]
-    
+
         #ELI: Extremely low income below 30% of the median income
         eli_budget = med_inc[med_inc.year==yr].value/12*0.3*0.3
-    
+
         #Cumulative distributions
         rent_distr_cum = rent_costs_distr[rent_costs_distr.year==yr].value.cumsum()
         own_distr_cum = own_costs_distr[own_costs_distr.year==yr].value.cumsum()
-    
+
         #Fit cumulative distribution
         fint_rent = interp1d(rent_midbin, rent_distr_cum[:len(rent_midbin)], kind='cubic')
         fint_own = interp1d(own_midbin, own_distr_cum[:len(own_midbin)], kind='cubic')
-        
+
         #ELI available units
         avail_rent = fint_rent(eli_budget)
         avail_own = fint_own(eli_budget)
-        
+
         data = [[avail_rent[0], rent_units-avail_rent[0]],
                 [avail_own[0], own_units-avail_own[0]]]
-        
+
         return data
-    
+
     dt_init = eli_get_data(med_inc.year.iloc[0])
     eli_rent = go.Pie(values = dt_init[0],
                       labels = ['ELI affordable', 'ELI not affordable'])
@@ -1572,7 +1573,7 @@ def affordability_index(request, gov_id):
                             hole = 0,
                             domain = dict(x = [.52, 1]),
                             showlegend = False)
-                            
+
         slider_step = dict(args = [[yr], dict(
                                               frame = dict(duration = 500,
                                                            redraw = False),
@@ -1580,10 +1581,10 @@ def affordability_index(request, gov_id):
                                               transition = dict(duration= 150))],
                            label= yr,
                            method = 'animate')
-    
+
         eli_frames.append(dict(data=[eli_rent_yr, eli_own_yr], name='{:.0f}'.format(yr)))
         eli_slider_steps.append(slider_step)
-    
+
     eli_lay = go.Layout(annotations = [dict(font = dict(size = fontsize),
                                             showarrow = False,
                                             text = 'Own',
@@ -1602,7 +1603,7 @@ def affordability_index(request, gov_id):
                                             buttons = [dict(label= 'Play',
                                                             method = 'animate',
                                                             args = [None])],
-                                            
+
                                             bgcolor = 'white',
                                             bordercolor = colorC,
                                             showactive = False,
@@ -1627,7 +1628,7 @@ def affordability_index(request, gov_id):
                                         pad = dict(t=0),
                                         steps = eli_slider_steps)]
                         )
-    
+
     eli_div = py.offline.plot({'data':eli_data,
                               'frames':eli_frames,
                               'layout':eli_lay},
@@ -1641,14 +1642,14 @@ def affordability_index(request, gov_id):
 
     colors_aff_age = [colorA, colorB, colorC, '#57114c']
     labels_aff_age = ['15-24yr', '25-34yr', '35-64yr', '65+yr']
-    
+
     fig_affage_rent = tools.make_subplots(rows=2,
                                           cols=1,
                                           specs=[[{}], [{}]],
                                           shared_xaxes=True,
                                           shared_yaxes=True,
                                           vertical_spacing=0.1)
-                                         
+
     aff_age_x = rent_aff_age_distr[rent_aff_age_distr.var_name=='renter_costs_pctincome_age_1'].year
     for i in np.arange(4)[::-1]:
         y = rent_aff_age_distr[rent_aff_age_distr.var_name=='renter_costs_pctincome_age_'+str(i*2+1)].value.values + \
@@ -1749,11 +1750,10 @@ def affordability_index(request, gov_id):
         'affagerent_div':affage_rent_div,
         'affageown_div':affage_own_div,
     }
-    
-    
+
+
     return render(
                   request,
                   'housing_affordability/affordability_index.html',
                   context
                   )
-
