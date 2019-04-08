@@ -14,9 +14,6 @@
                 </select>
             </form>
         </li>
-        {% for gov in all_govs %}
-            <td id={{ gov.id }} value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}</td>
-        {% endfor %}
     <li> {{ map_div |safe  }}</li>
 
   </main>
