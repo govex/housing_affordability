@@ -25,4 +25,12 @@
     $("#search").selectize({placeholder: "Search"});
     });
   </script>
+
+      <script>
+
+        function go() {
+        var search = document.getElementById("search")
+        window.open("{{ HTTP_HOST }}/" + search.value, "_self");
+        }
+      </script>
 {% endblock %}
