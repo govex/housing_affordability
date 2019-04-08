@@ -21,13 +21,13 @@
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.3/js/jquery.tablesorter.min.js"></script> -->
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.4/js/parsers/parser-input-select.min.js"></script> -->
 
-	
+
 	<!-- moment -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
 
 	<!-- selectize -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.1/js/standalone/selectize.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap2.min.css"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap2.min.css">
 
 	<link rel="stylesheet" href="/static/css/housing.css">
 
@@ -42,9 +42,9 @@
 
 
 	{% block head %}{% endblock %}
-	
+
     </head>
-    
+
     <header>
         <img src='/static/logo-white.svg'/>
         <span>HOUSING</span>
@@ -55,5 +55,17 @@
       {% block content %}
       {% endblock %}
     </body>
+    <script>
+      $(function() {
+      $("#search").selectize({placeholder: "Search"});
+      });
+    </script>
+
+        <script>
+
+          function go() {
+          var search = document.getElementById("search")
+          window.open("{{ HTTP_HOST }}/" + search.value, "_self");
+          }
+        </script>
 <html>
-  
