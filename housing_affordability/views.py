@@ -132,7 +132,6 @@ def affordability_select(request):
 
     context = {
         'map_div':map_div,
-        'govs':govs
     }
 
 
