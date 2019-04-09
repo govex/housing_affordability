@@ -58,7 +58,7 @@ def affordability_select(request):
     #rgba(0,0,0,0)
 
     # Filter and select data
-
+    all_govs = Government.objects.all()
     govs = Government.objects.prefetch_related('gov_demographic_set')\
                              .filter(Q(gov_demographic__var__var_name='population_total') &\
                                      Q(gov_demographic__value__gt=30000) &\
