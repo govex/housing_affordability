@@ -5,7 +5,7 @@
 
   <main>
         <li>
-                <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+                <select class="search" name="states[]" multiple="multiple">
                     {% for gov in govs %}
                         <option id={{ gov.id }} value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}</option>
                     {% endfor %}
