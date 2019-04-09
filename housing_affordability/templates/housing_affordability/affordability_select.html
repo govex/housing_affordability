@@ -6,8 +6,8 @@
   <main>
         <li>
                 <select class="search" name="states[]" multiple="multiple">
-                    {% for gov in new_england %}
-                        <option id={{ gov.id }} value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}</option>
+                    {% for gov in all_govs %}
+                        <option id='{{ gov.id }}'' value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}</option>
                     {% endfor %}
                 </select>
         </li>
