@@ -54,80 +54,80 @@ def affordability(request):
 def affordability_select(request):
     '''project profile page'''
 
-    landcolor = '#d9d9d9'
+    # landcolor = '#d9d9d9'
     #rgba(0,0,0,0)
 
     # Filter and select data
     all_govs = Government.objects.all()
-    govs = Government.objects.prefetch_related('gov_demographic_set')\
-                             .filter(Q(gov_demographic__var__var_name='population_total') &\
-                                     Q(gov_demographic__value__gt=30000) &\
-                                     Q(gov_demographic__var__year=2016))
+    # govs = Government.objects.prefetch_related('gov_demographic_set')\
+    #                          .filter(Q(gov_demographic__var__var_name='population_total') &\
+    #                                  Q(gov_demographic__value__gt=30000) &\
+    #                                  Q(gov_demographic__var__year=2016))
 
-    long = [i['longitude'] for i in govs.values('longitude')]
-    lat = [i['latitude'] for i in govs.values('latitude')]
-    txt = [i['name'] for i in govs.values('name')]
-    link = ['<a target="_top" href="/analysis/housing/overview/{}" style="color:rgba(0,0,0,0);">.</a>'.format(i['id']) for i in govs.values('id')]
-    pops = Gov_Demographic.objects.filter(gov__in=govs,
-                                          var__year=2016,
-                                          var__var_name='population_total')
-    pop = [i.value for i in pops]
-    mrks = [4 + 5*np.log2(i/50000) if 4 + 5*np.log2(i/50000)>4 else 4 for i in pop]
+    # long = [i['longitude'] for i in govs.values('longitude')]
+    # lat = [i['latitude'] for i in govs.values('latitude')]
+    # txt = [i['name'] for i in govs.values('name')]
+    # link = ['<a target="_top" href="/analysis/housing/overview/{}" style="color:rgba(0,0,0,0);">.</a>'.format(i['id']) for i in govs.values('id')]
+    # pops = Gov_Demographic.objects.filter(gov__in=govs,
+    #                                       var__year=2016,
+    #                                       var__var_name='population_total')
+    # pop = [i.value for i in pops]
+    # mrks = [4 + 5*np.log2(i/50000) if 4 + 5*np.log2(i/50000)>4 else 4 for i in pop]
 
     # Map Data
-    map_data = [dict(
-                     type = 'scattergeo',
-                     locationmode = 'USA-states',
-                     lon = long,
-                     lat = lat,
-                     mode = 'markers+text',
-                     hoverinfo = 'text',
-                     hovertext = txt,
-                     text = link,
-                     marker = dict(size = mrks,
-                                   color = np.log(pop),
-                                   colorscale='Viridis',
-                                   cmax = np.log(2000000),
-                                   cmin = np.log(30000),
-                                   line = dict(width=0)),
-                     textfont=dict(size=mrks),
-                     opacity = 0.6)]
+    # map_data = [dict(
+    #                  type = 'scattergeo',
+    #                  locationmode = 'USA-states',
+    #                  lon = long,
+    #                  lat = lat,
+    #                  mode = 'markers+text',
+    #                  hoverinfo = 'text',
+    #                  hovertext = txt,
+    #                  text = link,
+    #                  marker = dict(size = mrks,
+    #                                color = np.log(pop),
+    #                                colorscale='Viridis',
+    #                                cmax = np.log(2000000),
+    #                                cmin = np.log(30000),
+    #                                line = dict(width=0)),
+    #                  textfont=dict(size=mrks),
+    #                  opacity = 0.6)]
 
     # Map Layout
-    map_lay = go.Layout(autosize=True,
-                        hovermode='closest',
-                        geo = dict(scope='usa',
-                                   projection=dict(type='albers usa'),
-                                   showland = True,
-                                   landcolor = landcolor,
-                                   subunitwidth=1,
-                                   countrywidth=1,
-                                   subunitcolor='white',
-                                   countrycolor='white',
-                                   showlakes=True,
-                                   lakecolor='white',
-                                   resolution=50),
-                        showlegend = False,
-                        width = 900,
-                        height = 500,
-                        margin = go.layout.Margin(l=10, r=10, b=10, t=30, pad=0),
-                        )
+    # map_lay = go.Layout(autosize=True,
+    #                     hovermode='closest',
+    #                     geo = dict(scope='usa',
+    #                                projection=dict(type='albers usa'),
+    #                                showland = True,
+    #                                landcolor = landcolor,
+    #                                subunitwidth=1,
+    #                                countrywidth=1,
+    #                                subunitcolor='white',
+    #                                countrycolor='white',
+    #                                showlakes=True,
+    #                                lakecolor='white',
+    #                                resolution=50),
+    #                     showlegend = False,
+    #                     width = 900,
+    #                     height = 500,
+    #                     margin = go.layout.Margin(l=10, r=10, b=10, t=30, pad=0),
+    #                     )
 
     # Create figure
-    map_div = py.offline.plot({'data':map_data,
-                              'layout':map_lay},
-                              include_plotlyjs = False,
-                              output_type = 'div',
-                              config = dict(showLink = False,
-                                            modeBarButtonsToRemove = ['sendDataToCloud',
-                                                                      'lasso2d',
-                                                                      'select2d',
-                                                                      'pan2d'],
-                                            #modeBarButtonsToAdd = ['zoomInGeo'],
-                                            displaylogo = False,
-                                            scrollZoom = True,
-                                            #displayModeBar = False,
-                                            responsive = True)
+    # map_div = py.offline.plot({'data':map_data,
+    #                           'layout':map_lay},
+    #                           include_plotlyjs = False,
+    #                           output_type = 'div',
+    #                           config = dict(showLink = False,
+    #                                         modeBarButtonsToRemove = ['sendDataToCloud',
+    #                                                                   'lasso2d',
+    #                                                                   'select2d',
+    #                                                                   'pan2d'],
+    #                                         #modeBarButtonsToAdd = ['zoomInGeo'],
+    #                                         displaylogo = False,
+    #                                         scrollZoom = True,
+    #                                         #displayModeBar = False,
+    #                                         responsive = True)
                               )
     new_england = ['CT','ME','MA','ME','NH','RI','VT']
     mideast = ['DE','DC','MD','NJ','NY','PA']
@@ -140,8 +140,8 @@ def affordability_select(request):
     regions = [new_england,mideast,great_lakes,plains,southeast,southwest,rocky_mtn,far_west]
 
     context = {
-        'map_div':map_div,
-        'all_govs':govs,
+        #'map_div':map_div,
+        'all_govs':all_govs,
         'new_england':new_england,
         'mideast':mideast,
         'great_lakes':great_lakes,
