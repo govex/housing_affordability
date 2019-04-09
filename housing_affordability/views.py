@@ -128,7 +128,7 @@ def affordability_select(request):
     #                                         scrollZoom = True,
     #                                         #displayModeBar = False,
     #                                         responsive = True)
-                              )
+    #                           )
     new_england = ['CT','ME','MA','ME','NH','RI','VT']
     mideast = ['DE','DC','MD','NJ','NY','PA']
     great_lakes = ['IL','IN','MI','OH','WI']
