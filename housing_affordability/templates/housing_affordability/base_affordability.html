@@ -3,45 +3,59 @@
     <head>
         <meta charset="utf-8">
         <title>{% block title %}{% endblock %}</title>
-
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
         {% load static %}
         <link rel="stylesheet" id="govex-fonts-css" href="https://fonts.googleapis.com/css?family=Palanquin%3A400%2C100%2C300%2C600&amp;ver=4.5.3" type="text/css" media="all">
         <script src="https://use.fontawesome.com/1e584e064d.js"></script>
 
-	 <!-- leaflet -->
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin=""/>
-	<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    	 <!-- leaflet -->
+    	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin=""/>
+    	<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    	<!-- jQuery -->
+    	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-	<!-- tablesorter -->
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.3/js/jquery.tablesorter.min.js"></script> -->
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.4/js/parsers/parser-input-select.min.js"></script> -->
-
-
-	<!-- moment -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-
-	<!-- selectize -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.1/js/standalone/selectize.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap2.min.css">
-
-	<link rel="stylesheet" href="/static/css/housing.css">
-
-    <!-- plotly -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-        <!-- bokeh -->
-    <link
-    href="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
-    rel="stylesheet" type="text/css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/0.13.0/bokeh.js"></script>
+    	<!-- tablesorter -->
+    	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.3/js/jquery.tablesorter.min.js"></script> -->
+    	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.4/js/parsers/parser-input-select.min.js"></script> -->
 
 
-	{% block head %}{% endblock %}
+    	<!-- moment -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+
+    	<!-- selectize -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.1/js/standalone/selectize.js"></script>
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap2.min.css">
+
+    	<link rel="stylesheet" href="/static/css/housing.css">
+
+        <!-- plotly -->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+            <!-- bokeh -->
+        <link
+        href="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css"
+        rel="stylesheet" type="text/css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bokeh/0.13.0/bokeh.js"></script>
+
+
+        <script>
+        $(document).ready(function() {
+          $('.search').select2();
+        });
+        </script>
+
+        <script>
+
+          function go() {
+          var search = document.getElementById("search")
+          window.open("{{ HTTP_HOST }}/" + search.value, "_self");
+          }
+        </script>
+    	{% block head %}{% endblock %}
 
     </head>
 
@@ -55,17 +69,4 @@
       {% block content %}
       {% endblock %}
     </body>
-    <script>
-      $(function() {
-      $("#search").selectize({placeholder: "Search"});
-      });
-    </script>
-
-        <script>
-
-          function go() {
-          var search = document.getElementById("search")
-          window.open("{{ HTTP_HOST }}/" + search.value, "_self");
-          }
-        </script>
 <html>

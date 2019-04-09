@@ -129,10 +129,28 @@ def affordability_select(request):
                                             #displayModeBar = False,
                                             responsive = True)
                               )
+    new_england = ['CT','ME','MA','ME','NH','RI','VT']
+    mideast = ['DE','DC','MD','NJ','NY','PA']
+    great_lakes = ['IL','IN','MI','OH','WI']
+    plains = ['IA','KS','MN','MO','NE','ND','SD']
+    southeast = ['AL','AR','FL','GA','KY','LA','MS','NC','SC','TN','VA','WV']
+    southwest = ['AZ','NM','OK','TX']
+    rocky_mtn = ['CO','ID','MT','UT','WY']
+    far_west = ['AK','CA','HI','NV','OR','WA']
+    regions = [new_england,mideast,great_lakes,plains,southeast,southwest,rocky_mtn,far_west]
 
     context = {
         'map_div':map_div,
-        'all_govs':govs
+        'all_govs':govs,
+        'new_england':new_england,
+        'mideast':mideast,
+        'great_lakes':great_lakes,
+        'plains':plains,
+        'southeast':southeast,
+        'southwest':southwest,
+        'rocky_mnt':rocky_mtn,
+        'far_west':far_west,
+        'regions': regions
     }
 
 
