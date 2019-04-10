@@ -7,14 +7,15 @@
         <li>
                 <select class="search"  name="place">
                     {% for region in regions %}
+                        {% with current_region = region }
                         <optgroup label={{region}}>
 
                                 {% for gov in all_govs %}
-                                    {% if gov.state_abbr in {{regions[{{region}}]}} %}
+                                    {% if gov.state_abbr in regions[current_region] %}
                                     <option id='{{ gov.id }}' value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}, {{ gov.state_abbr }}</option>
                                     {% endif %}
                                 {% endfor %}
-
+                        {%endwith%}
                     {% endfor %}
                 </select>
         </li>
