@@ -10,7 +10,7 @@
                         <optgroup label={{region}}>
 
                                 {% for gov in all_govs %}
-                                    {% if gov.state_abbr in regions[region] %}
+                                    {% if gov.state_abbr in regions[{{region}}] %}
                                     <option id='{{ gov.id }}' value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}, {{ gov.state_abbr }}</option>
                                     {% endif %}
                                 {% endfor %}
