@@ -6,11 +6,11 @@
   <main>
         <li>
                 <select class="search"  name="place">
-                    {% for key, value in regions %}
-                        <optgroup label={{key}}>
+                    {% for region in regions %}
+                        <optgroup label={{region.key}}>
 
                                 {% for gov in all_govs %}
-                                    {% if gov.state_abbr in value %}
+                                    {% if gov.state_abbr in region.value %}
                                     <option id='{{ gov.id }}' value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}, {{ gov.state_abbr }}</option>
                                     {% endif %}
                                 {% endfor %}
