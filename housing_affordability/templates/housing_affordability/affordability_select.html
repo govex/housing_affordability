@@ -5,9 +5,16 @@
 
   <main>
         <li>
-                <select class="search" name="states[]" multiple="multiple">
-                    {% for gov in all_govs %}
-                        <option id='{{ gov.id }}'' value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}</option>
+                <select class="search"  name="place">
+                    {% for region in regions %}
+                        <optgroup label={{region}}>
+
+                                {% for gov in all_govs %}
+                                    {% if gov.state_abbr in region %}
+                                    <option id='{{ gov.id }}' value="/analysis/housing/overview/{{ gov.id }}">{{ gov.name }}, {{ gov.state_abbr }}</option>
+                                    {% endif %}
+                                {% endfor %}
+
                     {% endfor %}
                 </select>
         </li>
