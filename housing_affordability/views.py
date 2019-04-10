@@ -137,7 +137,7 @@ def affordability_select(request):
     southwest = ['AZ','NM','OK','TX']
     rocky_mtn = ['CO','ID','MT','UT','WY']
     far_west = ['AK','CA','HI','NV','OR','WA']
-    regions = [new_england,mideast,great_lakes,plains,southeast,southwest,rocky_mtn,far_west]
+    regions = {'New England':new_england,'Mideast': mideast,'Great Lakes': great_lakes,'Plains':plains,'Southeast':southeast,'Southwest':southwest,'Rocky Mountain':rocky_mtn,'Far West':far_west}
 
     context = {
         #'map_div':map_div,
