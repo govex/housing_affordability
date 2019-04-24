@@ -639,6 +639,23 @@ a.aff-a-def:hover{
     border-spacing:10px;
 }
 
+.aff-ovw-table{
+    width:90%;
+    border:1px solid var(--govex-purple);
+    border-collapse:collapse;
+    font-size: 13px;
+    margin: 0 auto;
+}
+
+table.aff-ovw-table td{
+    border:1px solid var(--govex-purple);
+    vertical-align:middle;
+}
+
+table.aff-ovw-table td:nth-child(2) {
+    text-align: center;
+}
+
 table.aff-def {
     width:80%;
     border: 1px solid var(--govex-purple);
@@ -656,4 +673,65 @@ table.aff-def th, table.aff-def td {
 
 table.aff-def td:nth-child(odd) {
     background-color: #d6c5d3;
+}
+
+.dropdown-aff{
+    float: center;
+    min-width: 200px;
+    margin: 0px;
+    border: 0px solid var(--govex-purple);
+}
+
+.dropdown-aff select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #ccb7c9;
+    color: black;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    min-width: 160px;
+    border-radius: 5px;
+    overflow:hidden;
+}
+
+.dropdown-aff select:disabled {
+    background-color: #f1f1f1;
+    opacity:0.6;
+}
+
+table.aff-select{
+    border-spacing:0px;
+    border-collapse:collapse;
+    border: 0px solid var(--govex-purple);
+}
+
+table.aff-select td{
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom:0px;
+    border-spacing:0px;
+    border-collapse:collapse;
+    border: 0px solid var(--govex-purple);
+}
+
+.dropdown-aff button{
+    background-color: var(--govex-purple);
+    border: 0px solid var(--govex-purple);
+    color: white;
+    font-size: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px grey;
+    cursor:pointer;
+}
+
+.dropdown-aff button:disabled{
+    background-color: #f1f1f1;
+    color: black;
 }

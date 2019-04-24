@@ -1,4 +1,4 @@
-{% extends 'housing_affordability/base_affordability.html' %}
+{% extends 'housing_affordability/base_housing.html' %}
 {% load humanize %}
 
 {% block content %}
@@ -7,7 +7,9 @@
     
     <table class="aff-table">
         <tr>
-            <td><div class="aff-city">{{ cityname_div |safe  }}</div></td>
+            <td><div class="aff-city">
+                {{ cityname_div |safe}}
+            </div></td>
         </tr>
         <tr>
             <td class="aff-nav">
@@ -18,32 +20,39 @@
     </table>
     <table class="aff-table">
         <tr>
-            <td class="aff-question">What percentage of the homes are owned vs. rented? </td>
+            <td class="aff-question">General data</td>
             <td colspan="2" class="aff-question">What is the household income compared to state-wide and country-wide?</td>
         </tr>
         <tr>
             <td>
-                <div class="aff-plot">{{ ownrent_div |safe  }}</div>
-                <div class="aff-caption">
-                Tenure type is shown as the percentage of the total housing units that are either rented, owned or vacant
+                <div>
+                    <table class="aff-ovw-table">
+                        <tr><td>Population</td><td>{{ population_table |safe  }}</td></tr>
+                        <tr><td>Median age</td><td>{{ age_table |safe  }}</td></tr>
+                        <tr><td>Number of housing units</td><td>{{ totalunits_table |safe  }}</td></tr>
+                        <tr>
+                            <td>Housing units receiving SNAP, SSI<br>or Public Assistance Income</td>
+                            <td>{{ snap_table |safe  }}</td>
+                        </tr>
+                </table>
                 </div>
             </td>
             <td colspan="2">
                 <div class="aff-plot">{{ hhinc_div |safe  }}</div>
                 <div class="aff-caption">
-                Each circle represents the median annual <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a> for the corresponding year and location. The annual percentage change is shown when hover over the circles.
+                Each circle represents the median annual <a class="aff-a-def" href="/analysis/housing/#hhinc">household income</a> for the corresponding year and location. The annual percentage change is shown when hover over the circles. Data for the state has been calculated as the median value of the cities with a population of 30k+ in it.
                 </div>
             </td>
         </tr>
         <tr>
-            <td class="aff-question">What percentage of the population live in owned vs. rented? </td>
+            <td class="aff-question">What percentage of the homes are owned vs. rented?</td>
             <td colspan="2" class="aff-question">What is the house price compared to state-wide and country-wide?</td>
         </tr>
         <tr>
             <td style="width:35%;">
-                <div class="aff-plot">{{ ownrentpop_div |safe }}</div>
+                <div class="aff-plot">{{ ownrent_div |safe  }}</div>
                 <div class="aff-caption">
-                Population is shown as the percentage of the total population that live in owned or rented housing units
+                    Tenure type is shown as the percentage of the total housing units that are either rented, owned or vacant
                 </div>
             </td>
             <td colspan="2">
@@ -54,23 +63,22 @@
             </td>
         </tr>
         <tr>
+            <td class="aff-question">What percentage of the population live in owned vs. rented?</td>
             <td class="aff-question">What is the average home occupancy?</td>
-            <td class="aff-question">How much is the rent per bedroom?</td>
             <td class="aff-question">What are the average monthly housing expenses?</td>
         </tr>
         <tr>
             <td>
+                <div class="aff-plot">{{ ownrentpop_div |safe }}</div>
+                <div class="aff-caption">
+                    Population is shown as the percentage of the total population that live in owned or rented housing units
+                </div>
+            </td>
+            <td style="width:32.5%;">
                 <div class="aff-plot">{{ hhsize_div |safe  }}</div>
                 <div class="aff-caption">
                     Comparison of the <a class="aff-a-def" href="/analysis/housing/#occupancy">occupancy</a> rates for owned and rented housing units
                 </div>
-            </td>
-            <td style="width:32.5%;">
-                <div class="aff-plot">{{ beds_div |safe  }}</div>
-                <div class="aff-caption">
-                    Median <a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a> is shown for different number of bedrooms in the housing unit.
-                </div>
-                
             </td>
             <td>
                 <div class="aff-plot">{{ monthexp_div |safe }}</div>
@@ -78,6 +86,21 @@
                     Bars in this graph represent the median monthly <a class="aff-a-def" href="/analysis/housing/#hhinc">household gross income</a>, while lines show the total monthly housing expenses. We use the <a class="aff-a-def" href="/analysis/housing/#owncosts">monthly costs</a> and <a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a> to account for owners with mortgage only and renters housing expenses respectively. The <a class="aff-a-def" href="/analysis/housing/#netinc">net income</a> is shown when hover.
                 </div>
             </td>
+        </tr>
+        <tr>
+            <td class="aff-question">How much is the rent by number of bedrooms?</td>
+            <td class="aff-question"></td>
+            <td class="aff-question"></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="aff-plot">{{ beds_div |safe  }}</div>
+                <div class="aff-caption">
+                    Median <a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a> is shown for different number of bedrooms in the housing unit.
+                </div>
+            </td>
+            <td></td>
+            <td></td>
         </tr>
     </table>
     
