@@ -1,0 +1,70 @@
+{% extends 'housing_affordability/base_housing.html' %}
+{% load humanize %}
+
+{% block content %}
+
+  <main>
+      <div class="dropdown-aff">
+          <table class="aff-select">
+              <tr>
+                  <td>State</td>
+                  <td>
+                      <select name="state_abbr" id="state_abbr" onchange="SearchCities()">
+                          <option value="0">Select</option>
+                          {% for st in dropdown_st %}
+                            <option value="{{ st }}">{{ st }}</option>
+                          {% endfor %}
+                      </select>
+                  </td>
+              </tr>
+              <tr>
+                  <td>City</td>
+                  <td>
+                      <select name="city_name" id="city_name" disabled="true" onchange="EnableSubmit()">
+                          <option value="0">Select</option>
+                      </select>
+                  </td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td align="right">
+                      <button type="submit" id="Go" onclick="GoToCity()" disabled="true">Go!</button>
+                  </td>
+              </tr>
+          </table>
+      </div>
+      <div>
+        <li> {{ map_div |safe  }}</li>
+      </div>
+      <div class="aff-caption">
+          This map depicts the U.S. cities with population over 30000, according to the most recent 5-year American Community Survey. Color and <br>size of the bubbles is logarithmically proportional to the population, where yellow are the most populated cities and purple the less ones.
+      </div>
+  </main>
+
+  <script>
+      function SearchCities(){
+          if ($("#state_abbr option:selected").text() == 'Select'){
+              $("#city_name").prop('disabled', true);
+          }else{
+              var options = '<option value="0">Select</option>';
+              {% for city in city_list %}
+                if ("{{ city.state_abbr }}" == $("#state_abbr option:selected").text()){
+                    options += '<option value="{{city.id}}">{{ city.name }}</option>';
+                }
+              {% endfor %}
+              $("#city_name").html(options);
+              $("#city_name").removeAttr('disabled');
+          }
+      }
+      function EnableSubmit(){
+          if ($("#city_name option:selected").text() != 'Select'){
+          $("#Go").removeAttr('disabled');
+          }
+      }
+      function GoToCity(){
+          var city_id = $("#city_name option:selected").val()
+          window.location.href='/analysis/housing/overview/'+city_id
+      }
+      
+ </script>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends 'housing_affordability/base_housing.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<main>
+    <div class="dropdown-aff">
+        <table class="aff-select">
+            <tr>
+                <td>Type of grouping</td>
+                <td>
+                    <select name="group_type" id="group_type" onchange="LoadGroup()">
+                        <option value="0">Select</option>
+                        <option value="0">By state</option>
+                        <option value="0">By region</option>
+                        <option value="0">By population</option>
+                        <option value="0">Custom</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Group</td>
+                <td id="group_cell">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td align="right">
+                    <button type="submit" id="Go" onclick="GoToComp()" disabled="true">Go!</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+
+<script>
+    function LoadGroup(){
+        if ($("#group_type option:selected").text() == 'Select'){
+            $("#group").prop('disabled', true);
+        }else{
+            $("#Go").prop('disabled', true);
+            var options = '';
+            if ($("#group_type option:selected").text() == 'By state'){
+                options += '<select name="group" id="group" disabled="true" onchange="EnableSubmit()">'+
+                '<option value="0">Select</option>';
+                {% for st in dropdown_st %}
+                    options += '<option value="{{ st }}">{{ st }}</option>'
+                {% endfor %}
+                options += '</select>';
+            }else if ($("#group_type option:selected").text() == 'By region'){
+                options += '<select name="group" id="group" disabled="true" onchange="EnableSubmit()">'+
+                '<option value="0">Select</option>' +
+                '<option value="1">Northeast: New England (ME, VT, NH, MA, CT, RI)</option>' +
+                '<option value="2">Northeast: Middle Atlantic (NY, PA, NJ, DE, MD, DC)</option>' +
+                '<option value="3">Midwest: East North Central (MI, WI, IL, IN, OH)</option>' +
+                '<option value="4">Midwest: West North Central (ND, SD, MN, IA, NE, MO, KS)</option>' +
+                '<option value="5">South: South Atlantic (FL, GA, SC, NC, VA, WV)</option>' +
+                '<option value="6">South: East South Central (AL, MS, LA, AR, TN, KY)</option>' +
+                '<option value="7">South: West South Central (LA, AR, TX, OK)</option>' +
+                '<option value="8">West: Mountain (MT, ID, WY, NV, UT, CO, AZ, NM)</option>' +
+                '<option value="9">West: Pacific (CA, OR, WA)</option>'+
+                '</select>';
+            }else if ($("#group_type option:selected").text() == 'By population'){
+                options += '<select name="group" id="group" disabled="true" onchange="EnableSubmit()">'+
+                '<option value="0">Select</option>' +
+                '<option value="10">30,000 - 50,000</option>' +
+                '<option value="11">50,000 - 75,000</option>' +
+                '<option value="12">75,000 - 100,000</option>' +
+                '<option value="13">100,000 - 125,000</option>' +
+                '<option value="14">125,000 - 150,000</option>' +
+                '<option value="15">150,000 - 200,000</option>' +
+                '<option value="16">200,000 - 500,000</option>' +
+                '<option value="17">500,000 - 1,000,000</option>' +
+                '<option value="18">+1,000,000</option>'+
+                '</select>';
+            }else if ($("#group_type option:selected").text() == 'Custom'){
+                options += '<input id="group" type="text" name="group" placeholder="City">';
+            }
+            document.getElementById('group_cell').innerHTML = options;
+            $("#group").removeAttr('disabled');
+        }
+    }
+    function autocomplete(inp, arr) {
+        var currentFocus;
+        inp.addEventListener("input", function(e) {
+            var a, b, i, val = this.value;
+            // Close old lists of autocompleted values
+            closeAllLists();
+            if (!val) { return false;}
+            currentFocus = -1;
+            // Create div for autocompleted options
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            // Append div as child of autocomplete container
+            this.parentNode.appendChild(a);
+            // For each city
+            for (i = 0; i < arr.length; i++) {
+                // Check if the item starts with the same letters as the text field value
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    // Create a DIV element for each matching element
+                    b = document.createElement("DIV");
+                    // Make the matching letters bold
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    // Insert a input field that will hold the current array item's value
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    // Execute a function when someone clicks on the item value (DIV element)
+                    b.addEventListener("click", function(e) {
+                        // Insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        // Close the list of autocompleted values
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        // Execute a function when pressed key on keyboard
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) {x = x.getElementsByTagName("div");}
+            if (e.keyCode == 40) {
+                // If the arrow DOWN key is pressed, highlight next item
+                currentFocus++;
+                addActive(x);
+            } else if (e.keyCode == 38) {
+                // If arrow UP key is pressed, highlight previous item
+                currentFocus--;
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                // If the ENTER key is pressed, prevent the form from being submitted
+                e.preventDefault();
+                // Simulate a click on the "active" item
+                if (currentFocus > -1) {
+                    if (x) {x[currentFocus].click();}
+                }
+            }
+        });
+    }
+    function addActive(){
+    
+    }
+    function EnableSubmit(){
+        if ($("#group option:selected").text() != 'Select'){
+            $("#Go").removeAttr('disabled');
+        }
+    }
+    function GoToComp(){
+        var group_id = $("#group option:selected").val()
+        window.location.href='/analysis/housing/comp/'+group_id
+    }
+
+    </script>
+
+{% endblock %}

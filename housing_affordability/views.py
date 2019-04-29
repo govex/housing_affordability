@@ -2,6 +2,8 @@ import pandas as pd
 import os
 import datetime
 import numpy as np
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render
 from django.db.models import Max, Count, Sum, Case, When, IntegerField, CharField, Q
 from housing_affordability.models import *
@@ -33,21 +35,35 @@ def govs_all(request):
         context
         )
 
-
-def affordability(request):
-    '''project profile page'''
-
-
-    map_div = "Here goes a map"
-
+def home(request):
+    '''project home page'''
+    
+    
+    some_div = "Something"
+    
     context = {
-        'map_div':map_div
+        'some_div':some_div
     }
 
+    return render(
+                  request,
+                  'housing_affordability/housing_home.html',
+                  context
+                  )
+
+def about(request):
+    '''project about page'''
+
+
+    some_div = "Something"
+
+    context = {
+        'some_div':some_div
+    }
 
     return render(
         request,
-        'housing_affordability/affordability.html',
+        'housing_affordability/housing_about.html',
         context
         )
 
@@ -58,22 +74,29 @@ def affordability_select(request):
     #rgba(0,0,0,0)
     
     # Filter and select data
-    
-    govs = Government.objects.prefetch_related('gov_demographic_set')\
-                             .filter(Q(gov_demographic__var__var_name='population_total') &\
-                                     Q(gov_demographic__value__gt=30000) &\
-                                     Q(gov_demographic__var__year=2016))
+    govs = Government.objects.all()
+    long = []
+    lat  = []
+    pop  = []
+    mrks = []
+    txt  = []
+    link = []
+    for gov in govs:
+        p = gov.gov_demographic_set.filter(var__var_name='population_total')[0].value
+        if p >= 30000:
+            long.append(gov.longitude)
+            lat.append(gov.latitude)
+            txt.append(gov.name)
+            pop.append(p)
+            marksize = 4 + 5*np.log2(p/50000)
+            if marksize < 4: marksize = 4
+            mrks.append(marksize)
+            link.append('<a target="_top" href="/analysis/housing/overview/'+str(gov.id)+\
+                        '" style="color:rgba(0,0,0,0);">.</a>')
 
-    long = [i['longitude'] for i in govs.values('longitude')]
-    lat = [i['latitude'] for i in govs.values('latitude')]
-    txt = [i['name'] for i in govs.values('name')]
-    link = ['<a target="_top" href="/analysis/housing/overview/{}" style="color:rgba(0,0,0,0);">.</a>'.format(i['id']) for i in govs.values('id')]
-    pops = Gov_Demographic.objects.filter(gov__in=govs,
-                                          var__year=2016,
-                                          var__var_name='population_total')
-    pop = [i.value for i in pops]
-    mrks = [4 + 5*np.log2(i/50000) if 4 + 5*np.log2(i/50000)>4 else 4 for i in pop]
-    
+    city_list = pd.DataFrame.from_records((govs.values('id','name', 'state_abbr')))
+    dropdown_st = city_list['state_abbr'].sort_values().unique()
+
     # Map Data
     map_data = [dict(
                      type = 'scattergeo',
@@ -131,18 +154,40 @@ def affordability_select(request):
                               )
 
     context = {
-        'map_div':map_div
+        'map_div':map_div,
+        'city_list':govs,
+        'dropdown_st':dropdown_st
     }
     
     
     return render(
                   request,
-                  'housing_affordability/affordability_select.html',
+                  'housing_affordability/housing_select.html',
+                  context
+                  )
+
+def affordability_comp_select(request):
+    
+    #List of cities and states
+    govs = Government.objects.all()
+    city_list = pd.DataFrame.from_records((govs.values('id','name', 'state_abbr')))
+    dropdown_st = city_list['state_abbr'].sort_values().unique()
+    
+    context = {
+        'dropdown_st': dropdown_st,
+        'city_list': city_list, #Dataframe with columns id, name, state_abbr
+    }
+    
+    
+    return render(
+                  request,
+                  'housing_affordability/housing_comp_select.html',
                   context
                   )
 
 
-def affordability_wwc(request):
+
+def affordability_comp(request):
     '''project profile page'''
     
     #t1 = datetime.datetime.now()
@@ -708,7 +753,7 @@ def affordability_wwc(request):
 
     return render(
                   request,
-                  'housing_affordability/affordability_wwc.html',
+                  'housing_affordability/housing_comp.html',
                   context
                   )
     
@@ -739,14 +784,37 @@ def affordability_overview(request, gov_id):
     demos['value'] = [(i > 0) * i for i in demos['value']]
     df = demos.merge(demos_source, left_on = 'var_id', right_on = 'id')[['var_name','description','year','value']]
     
+    #State data request
+    st_govs = Government.objects.filter(state_abbr=gov.state_abbr)
+    gov_id = pd.DataFrame.from_records(st_govs.values('id'))
+    vars_ids = Gov_Demographics_Source.objects.filter(var_name='household_income_median')
+    vars_ids = pd.DataFrame.from_records(vars_ids.values('id','year'))
+    hhincmed_st = Gov_Demographic.objects.filter(var_id__in=vars_ids['id'], gov_id__in=gov_id['id'])
+    hhincmed_st = pd.DataFrame.from_records(hhincmed_st.values('value','gov_id','var_id'))
+    hhincmed_st = hhincmed_st.merge(vars_ids, left_on='var_id', right_on='id')
+    hhincmed_st = hhincmed_st.groupby('year').median()
+    
+    #hhincmed_city = df.loc[df['var_name'].isin(['household_income_median'])]
+    
     #City name
     cityname_div = gov.name+', '+gov.state_abbr
     
-    #Rented vs. owned units
+    #General data table
+    population_total = df.loc[(df['var_name'].isin(['population_total'])) &
+                              (df['year'] == df['year'].max()), 'value'].values[0]
+    age_median = df.loc[(df['var_name'].isin(['age_median'])) &
+                        (df['year'] == df['year'].max()), 'value'].values[0]
+    totalunits = df.loc[(df['var_name'].isin(['house_units'])) &
+                     (df['year'] == df['year'].max()), 'value'].values[0]
+    snap = df.loc[(df['var_name'].isin(['poverty_benefit_recipient'])) &
+                  (df['year'] == df['year'].max()), 'value'].values[0]
+    snap = '{:.3f}%'.format(100*snap/totalunits)
+    
+    #Rented vs. owned vs. vacant units
     renttot = df.loc[df['var_name'].isin(['house_renter_occupied'])]
     owntot  = df.loc[df['var_name'].isin(['house_owner_occupied'])]
-    vactot  = df.loc[df['var_name'].isin(['house_vacant'])]
     unittot = df.loc[df['var_name'].isin(['house_units'])]
+    vactot  = df.loc[df['var_name'].isin(['house_vacant'])]
     rentper = [float(renttot[renttot['year']==y].value) /
                float(unittot[unittot['year']==y].value)*100 for y in unittot.year]
     ownper  = [float(owntot[owntot['year']==y].value) /
@@ -761,7 +829,7 @@ def affordability_overview(request, gov_id):
                               marker = dict(color = colorB),
                               hoverinfo = 'text',
                               text = ['{:.0f}%'.format(i) for i in rentper],
-                              fill = 'tonexty')
+                              stackgroup='one')
     ownrent_own = go.Scatter(x = owntot['year'],
                              y = ownper,
                              name = 'Owned',
@@ -769,7 +837,7 @@ def affordability_overview(request, gov_id):
                              marker = dict(color = colorA),
                              hoverinfo = 'text',
                              text = ['{:.0f}%'.format(i) for i in ownper],
-                             fill ='tonexty')
+                             stackgroup='one')
     ownrent_vac = go.Scatter(x = vactot['year'],
                              y = vacper,
                              name = 'Vacant',
@@ -777,7 +845,7 @@ def affordability_overview(request, gov_id):
                              marker = dict(color = colorC),
                              hoverinfo = 'text',
                              text = ['{:.0f}%'.format(i) for i in vacper],
-                             fill = 'tozeroy')
+                             stackgroup='one')
     ownrent_data = [ownrent_vac, ownrent_rent, ownrent_own]
     
     ownrent_lay = go.Layout(xaxis = dict(showgrid = False,
@@ -827,7 +895,7 @@ def affordability_overview(request, gov_id):
                                  marker=dict(color = colorB),
                                  hoverinfo='text',
                                  text=['{:.0f}%'.format(i) for i in rentpopper],
-                                 fill='tozeroy')
+                                 stackgroup='one')
     ownrentpop_own = go.Scatter(x=ownpop['year'],
                                 y=ownpopper,
                                 name='Owners',
@@ -835,7 +903,7 @@ def affordability_overview(request, gov_id):
                                 marker=dict(color = colorA),
                                 hoverinfo = 'text',
                                 text=['{:.0f}%'.format(i) for i in ownpopper],
-                                fill='tonexty')
+                                stackgroup='one')
     ownrentpop_data = [ownrentpop_rent, ownrentpop_own]
                               
     ownrentpop_lay = go.Layout(xaxis=dict(showgrid=False,
@@ -868,11 +936,11 @@ def affordability_overview(request, gov_id):
 
     #Average household income
     hhincmed_city = df.loc[df['var_name'].isin(['household_income_median'])]
-    hhincmed_us   = [51425, 51914, 52762, 53046, 53046, 53482, 53889, 55322]
-    hhincmed_st   = [69475, 70647, 72419, 72999, 73538, 74149, 74551, 76067]
+    hhincmed_us   = [51425, 51914, 52762, 53046, 53046, 53482, 53889, 55322, 57652]
+    #hhincmed_st   = [69475, 70647, 72419, 72999, 73538, 74149, 74551, 76067, 80000]
     
     hhincmed_city_pct = hhincmed_city.value.pct_change()
-    hhincmed_st_pct = pd.Series(hhincmed_st).pct_change()
+    hhincmed_st_pct = pd.Series(hhincmed_st['value']).pct_change()
     hhincmed_us_pct = pd.Series(hhincmed_us).pct_change()
     hhinc_city_hovertxt = [str(hhincmed_city.year.iloc[i])+
                            '<br>{0:+.2f}%'.format(hhincmed_city_pct.iloc[i]*100)
@@ -909,7 +977,7 @@ def affordability_overview(request, gov_id):
                                                         outlinecolor='white')),
                             hoverinfo = 'text+x',
                             text=hhinc_city_hovertxt)
-    hhinc_st = go.Scatter(x=hhincmed_st,
+    hhinc_st = go.Scatter(x=hhincmed_st['value'],
                           y=np.ones(len(hhincmed_city['value']))*2,
                           mode = 'markers',
                           marker = dict(color = hhincmed_city['year'],
@@ -1302,13 +1370,17 @@ def affordability_overview(request, gov_id):
         'hhinc_div':hhinc_div,
         'houseprice_div':houseprice_div,
         'monthexp_div':monthexp_div,
-        'beds_div':beds_div
+        'beds_div':beds_div,
+        'population_table':population_total,
+        'age_table':age_median,
+        'totalunits_table':totalunits,
+        'snap_table':snap,
     }
 
 
     return render(
         request,
-        'housing_affordability/affordability_overview.html',
+        'housing_affordability/housing_overview.html',
         context
         )
 
@@ -1753,7 +1825,7 @@ def affordability_index(request, gov_id):
     
     return render(
                   request,
-                  'housing_affordability/affordability_index.html',
+                  'housing_affordability/housing_affordability.html',
                   context
                   )
 
