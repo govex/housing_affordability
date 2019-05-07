@@ -13,8 +13,8 @@
         </tr>
         <tr>
             <td class="aff-nav">
-                <li class="aff-nav-li">City housing overview</li>
-                <li class="aff-nav-li"><a class="aff-a" href="/analysis/housing/index/{{ govid }}">City affordability</a></li>
+                <li class="aff-nav-li"><a class="aff-a-noactive" href="">City housing overview</a></li>
+                <li class="aff-nav-li"><a class="aff-a-active" href="/analysis/housing/index/{{ govid }}">City affordability</a></li>
             </td>
         </tr>
     </table>
@@ -63,21 +63,21 @@
             </td>
         </tr>
         <tr>
-            <td class="aff-question">What percentage of the population live in owned vs. rented?</td>
             <td class="aff-question">What is the average home occupancy?</td>
+            <td class="aff-question">How much is the rent by number of bedrooms?</td>
             <td class="aff-question">What are the average monthly housing expenses?</td>
         </tr>
         <tr>
             <td>
-                <div class="aff-plot">{{ ownrentpop_div |safe }}</div>
-                <div class="aff-caption">
-                    Population is shown as the percentage of the total population that live in owned or rented housing units
-                </div>
-            </td>
-            <td style="width:32.5%;">
                 <div class="aff-plot">{{ hhsize_div |safe  }}</div>
                 <div class="aff-caption">
                     Comparison of the <a class="aff-a-def" href="/analysis/housing/#occupancy">occupancy</a> rates for owned and rented housing units
+                </div>
+            </td>
+            <td style="width:32.5%;">
+                <div class="aff-plot">{{ beds_div |safe  }}</div>
+                <div class="aff-caption">
+                    Median <a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a> is shown for different number of bedrooms in the housing unit.
                 </div>
             </td>
             <td>
@@ -86,21 +86,6 @@
                     Bars in this graph represent the median monthly <a class="aff-a-def" href="/analysis/housing/#hhinc">household gross income</a>, while lines show the total monthly housing expenses. We use the <a class="aff-a-def" href="/analysis/housing/#owncosts">monthly costs</a> and <a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a> to account for owners with mortgage only and renters housing expenses respectively. The <a class="aff-a-def" href="/analysis/housing/#netinc">net income</a> is shown when hover.
                 </div>
             </td>
-        </tr>
-        <tr>
-            <td class="aff-question">How much is the rent by number of bedrooms?</td>
-            <td class="aff-question"></td>
-            <td class="aff-question"></td>
-        </tr>
-        <tr>
-            <td>
-                <div class="aff-plot">{{ beds_div |safe  }}</div>
-                <div class="aff-caption">
-                    Median <a class="aff-a-def" href="/analysis/housing/#grossrent">gross rent</a> is shown for different number of bedrooms in the housing unit.
-                </div>
-            </td>
-            <td></td>
-            <td></td>
         </tr>
     </table>
     

@@ -1,0 +1,77 @@
+{% extends 'housing_affordability/base_housing.html' %}
+{% load humanize %}
+
+{% block content %}
+
+
+  <main>
+      
+        <div class="aff-intro-onecol">
+            <div class="aff-question">Definitions</div>
+        </div>
+        <div class="aff-intro-onecol">
+        <table class="aff-def">
+            <tr id="afford">
+                <td>Affordability</td>
+                <td>Many criteria can be used to define affordability. Here, we assume that a home is affordable when 30% or less of the annual household income is devoted to cover all the combined housing expenses. For renters, housing expenses are defined as the gross rent while for home owners the monthly owner costs are used</td>
+            </tr>
+            <tr id="hhinc">
+                <td>Household income</td>
+                <td>Any type of gross income received by all the individuals 15 years old and over in the household</td>
+            </tr>
+            <tr id="priceasked">
+                <td>House price asked</td>
+                <td>Price asked for vacant for sale and sold but not occupied housing units</td>
+            </tr>
+            <tr id="housevalue">
+                <td>House value</td>
+                <td>Either the price asked for vacant for sale and sold but not occupied or, for owned-occupied housing units, the estimate of how much the property would sell for</td>
+            </tr>
+            <tr id="owncosts">
+                <td>Monthly owner costs</td>
+                <td>Owner housing expenses including mortgage, any other debts on the property, real state taxes, insurance on the property, utilities, and fuels</td>
+            </tr>
+            <tr id="tax">
+                <td>Real estate taxes</td>
+                <td>Also know as property tax, is the total annual amount of all real estate taxes on the entire property (land and buildings) payable to all taxing jurisdictions, including special assessments, school taxes, county taxes, and so forth</td>
+            </tr>
+            <tr id="contractrent">
+                <td>Monthly rent amount</td>
+                <td>Also know as contract rent, is the monthly rent agreed, contracted or asked</td>
+            </tr>
+            <tr id="grossrent">
+                <td>Gross rent</td>
+                <td>Renting housing expenses including the contract rent plus the estimated average cost of utilities and fuels</td>
+            </tr>
+            <tr id="eli">
+                <td>ELI</td>
+                <td>Extremely low income households, those with income below 30% of the median income in the location</td>
+            </tr>
+            <tr id="occupancy">
+                <td>Occupancy</td>
+                <td>Calculated here as the average number of people people, divided by the avgerage number of bedrooms in a housing unit. Note that this it is not the same as the average people per bedroom</td>
+            </tr>
+            <tr id="netinc">
+                <td>Net income</td>
+                <td>Calcualted here as the difference between median gross household income and the median housing expenses</td>
+            </tr>
+        </table>
+        </div>
+        <div class="aff-intro-onecol">
+            <div class="aff-question">Technical note</div>
+        <div style="font-size: 11pt;">
+        GovEx Housing web app retrieves data from the <a href="https://www.census.gov/data/developers/data-sets/acs-5year.html">U.S. Census Bureau API</a>. In particular, we use the 5-year estimates from the American Community Survey (ACS), that were first released in 2009. These datasets include data collected during a 5-year period, which provides greater statistical reliability when compared to the single year estimates thanks to the larger sample used. However, when using these estimates for temporal series or to calculate temporal percentage changes, one should take into account that data labeled as e.g. 2009 was actually collected during 2005-2009. Therefore, fast social changes would appear slightly blurred in the 5-year data and delayed in time.<br>
+        
+        Further information about the ACS data can be found <a href="https://www.census.gov/programs-surveys/acs/technical-documentation/code-lists.html">here</a>.
+        </div>
+        </div>
+        
+
+      <div>
+      
+    
+    
+
+  </main>
+
+{% endblock %}

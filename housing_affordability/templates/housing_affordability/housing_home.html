@@ -1,13 +1,51 @@
-{% extends 'housing_affordability/base_housing.html' %}
-{% load humanize %}
-
-{% block content %}
-
-<main>
-
-
-
-
-  </main>
-
-{% endblock %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        
+        {% load static %}
+        <link rel="stylesheet" id="govex-fonts-css" href="https://fonts.googleapis.com/css?family=Palanquin%3A400%2C100%2C300%2C600&amp;ver=4.5.3" type="text/css" media="all">
+        <script src="https://use.fontawesome.com/1e584e064d.js"></script>
+        
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        
+        <link rel="stylesheet" href="/static/css/housing.css">
+            
+        {% block head %}{% endblock %}
+    </head>
+    
+    <header>
+        <img src='/static/logo-white.svg'/>
+        <span>HOUSING</span>
+    </header>
+    
+    <nav class="aff-homemenu">
+        <li><a href="/analysis/housing/about/">About</a></li>
+        <li><a target="_blank" href="https://civicimpact.jhu.edu/">Civic Impact</a></li>
+        <li><a target="_blank" href="https://govex.jhu.edu/">GovEx</a></li>
+        <li><a href="https://civicimpact.jhu.edu/tools-and-guidance/">More Tools</a></li>
+    </nav>
+    
+    <body>
+ 
+       <div class="aff-homepic">
+             <img src='/static/homepic.png'/>
+            <div class="aff-hometitle">
+                A Portrait of Housing in the U.S. According to Census Data
+            </div>
+       </div>
+       <div class="aff-homenav">
+           <div class="aff-homelinka" style="cursor: pointer;" onclick="window.location='/analysis/housing/glossary/';">
+                Glossary and <br>Technical Note
+            </div>
+            <div class="aff-homelinkb" style="cursor: pointer;" onclick="window.location='/analysis/housing/select/';">
+                Select a City
+            </div>
+            <div class="aff-homelinkc" style="cursor: pointer;" onclick="window.location='/analysis/housing/comp/';">
+                Cities Comparison
+            </div>
+        </div>
+    </body>
+</html>

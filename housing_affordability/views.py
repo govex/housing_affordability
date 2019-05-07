@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import re
 import datetime
 import numpy as np
 import json
@@ -51,7 +52,7 @@ def home(request):
                   context
                   )
 
-def about(request):
+def glossary(request):
     '''project about page'''
 
 
@@ -63,9 +64,25 @@ def about(request):
 
     return render(
         request,
-        'housing_affordability/housing_about.html',
+        'housing_affordability/housing_glossary.html',
         context
         )
+
+def about(request):
+    '''project about page'''
+    
+    
+    some_div = "Something"
+    
+    context = {
+        'some_div':some_div
+    }
+
+    return render(
+                  request,
+                  'housing_affordability/housing_about.html',
+                  context
+                  )
 
 def affordability_select(request):
     '''project profile page'''
@@ -93,6 +110,8 @@ def affordability_select(request):
             mrks.append(marksize)
             link.append('<a target="_top" href="/analysis/housing/overview/'+str(gov.id)+\
                         '" style="color:rgba(0,0,0,0);">.</a>')
+        gov.name = gov.name.title()
+        gov.name = gov.name.replace('City City', 'City')
 
     city_list = pd.DataFrame.from_records((govs.values('id','name', 'state_abbr')))
     dropdown_st = city_list['state_abbr'].sort_values().unique()
@@ -109,7 +128,7 @@ def affordability_select(request):
                      text = link,
                      marker = dict(size = mrks,
                                    color = np.log(pop),
-                                   colorscale='Viridis',
+                                   colorscale='Hot',
                                    cmax = np.log(2000000),
                                    cmin = np.log(30000),
                                    line = dict(width=0)),
@@ -175,9 +194,8 @@ def affordability_comp_select(request):
     
     context = {
         'dropdown_st': dropdown_st,
-        'city_list': city_list, #Dataframe with columns id, name, state_abbr
+        'city_list': govs,
     }
-    
     
     return render(
                   request,
@@ -187,7 +205,7 @@ def affordability_comp_select(request):
 
 
 
-def affordability_comp(request):
+def affordability_comp(request, comp_option):
     '''project profile page'''
     
     #t1 = datetime.datetime.now()
@@ -196,7 +214,122 @@ def affordability_comp(request):
     #print(t2-t1)
     #print(t3-t2)
  
-    #General plot settings
+    #Select cities
+    gov_all = Government.objects.all()
+    gov_all = pd.DataFrame.from_records((gov_all.values('name','id', 'state_abbr')))
+
+    if re.match(r'^state', comp_option):
+        cities = gov_all[gov_all['state_abbr'] == comp_option[-2:]]
+        cities_names = cities[['id', 'name', 'state_abbr']]
+        cities_names.rename(columns={'id': 'gov_id'}, inplace = True)
+
+    elif re.match(r'^region', comp_option):
+
+        regions = dict(region1 = ['ME', 'VT', 'NH', 'MA', 'CT', 'RI'],
+                       region2 = ['NY', 'PA', 'NJ', 'DE', 'MD', 'DC'],
+                       region3 = ['MI', 'WI', 'IL', 'IN', 'OH'],
+                       region4 = ['ND', 'SD', 'MN', 'IA', 'NE', 'MO', 'KS'],
+                       region5 = ['FL', 'GA', 'SC', 'NC', 'VA', 'WV'],
+                       region6 = ['AL', 'MS', 'LA', 'AR', 'TN', 'KY'],
+                       region7 = ['LA', 'AR', 'TX', 'OK'],
+                       region8 = ['MT', 'ID', 'WY', 'NV', 'UT', 'CO', 'AZ', 'NM'],
+                       region9 = ['CA', 'OR', 'WA'])
+
+        cities = gov_all[gov_all['state_abbr'].isin(regions[comp_option])]
+        cities_names = cities[['id', 'name', 'state_abbr']]
+        cities_names.rename(columns={'id': 'gov_id'}, inplace = True)
+
+    elif re.match(r'^pop', comp_option):
+
+        pop_bins = dict(pop1 = [60000, 70000],
+                        pop2 = [70000, 80000],
+                        pop3 = [80000, 100000],
+                        pop4 = [100000, 125000],
+                        pop5 = [125000, 150000],
+                        pop6 = [150000, 200000],
+                        pop7 = [200000, 500000],
+                        pop8 = [500000, 1000000],
+                        pop9 = [1000000, 50000000])
+
+        pop_id = pd.DataFrame.from_records(Gov_Demographics_Source.objects.filter(var_name='population_total').values('id','year', 'var_name'))
+        pop_id = pop_id[pop_id['year'] == pop_id['year'].max()]
+        pop_list = pd.DataFrame.from_records(Gov_Demographic.objects.filter(var_id=pop_id.id).values('value', 'gov_id'))
+        pop_list = pop_list[(pop_list['value'] < pop_bins[comp_option][1]) & (pop_list['value'] >= pop_bins[comp_option][0])]
+        cities = gov_all[gov_all['id'].isin(pop_list['gov_id'])]
+        cities_names = cities[['id', 'name', 'state_abbr']]
+        cities_names.rename(columns={'id': 'gov_id'}, inplace = True)
+
+    elif re.match(r'^network', comp_option):
+
+        wwc_city_list = ['Albuquerque', 'Anchorage', 'Arlington', 'Athens',
+                 'Augusta', 'Baltimore', 'Baton Rouge', 'Bellevue',
+                 'Birmingham', 'Boise', 'Boston', 'Boulder', 'Buffalo',
+                 'Cambridge', 'Cape Coral', 'Cary', 'Charleston',
+                 'Charlotte', 'Chattanooga', 'Chula Vista',
+                 'Colorado Springs', 'Columbia', 'Corona', 'Denton',
+                 'Denver', 'Des Moines', 'Downey', 'Durham', 'Fargo',
+                 'Fayetteville', 'Fort Collins', 'Fort Lauderdale',
+                 'Fort Worth', 'Gainesville', 'Gilbert', 'Glendale',
+                 'Grand Rapids', 'Greensboro', 'Gresham', 'Hartford',
+                 'Hayward', 'Honolulu', 'Independence', 'Indianapolis',
+                 'Irving', 'Jackson', 'Kansas City', 'Kansas City',
+                 'Knoxville', 'Laredo', 'Las Vegas', 'Lewisville',
+                 'Lexington', 'Lincoln', 'Little Rock', 'Long Beach',
+                 'Louisville', 'Madison', 'Memphis', 'Mesa', 'Miami',
+                 'Milwaukee', 'Minneapolis', 'Modesto', 'Naperville',
+                 'Nashville', 'New Haven', 'New Orleans', 'Norfolk',
+                 'Oklahoma City', 'Olathe', 'Orlando', 'Palmdale',
+                 'Portland', 'Providence', 'Raleigh', 'Rancho Cucamonga',
+                 'Riverside', 'Saint Paul', 'Salinas', 'Salt Lake City',
+                 'San Francisco', 'San Jose', 'Scottsdale', 'Seattle',
+                 'Sioux Falls', 'South Bend', 'Syracuse', 'Tacoma',
+                 'Tempe', 'Topeka', 'Tulsa', 'Tyler', 'Victorville',
+                 'Virginia Beach', 'Waco', 'Washington', 'West Palm Beach',
+                 'Wichita', 'Winston-Salem']
+
+        wwc_stat_list = ['NM', 'AK', 'TX', 'GA', 'GA', 'MD', 'LA', 'WA', 'AL',
+                 'ID', 'MA', 'CO', 'NY', 'MA', 'FL', 'NC', 'SC', 'NC',
+                 'TN', 'CA', 'CO', 'SC', 'CA', 'TX', 'CO', 'IA', 'CA',
+                 'NC', 'ND', 'NC', 'CO', 'FL', 'TX', 'FL', 'AZ', 'AZ',
+                 'MI', 'NC', 'OR', 'CT', 'CA', 'HI', 'MO', 'IN', 'TX',
+                 'MS', 'KS', 'MO', 'TN', 'TX', 'NV', 'TX', 'KY', 'NE',
+                 'AR', 'CA', 'KY', 'WI', 'TN', 'AZ', 'FL', 'WI', 'MN',
+                 'CA', 'IL', 'TN', 'CT', 'LA', 'VA', 'OK', 'KS', 'FL',
+                 'CA', 'OR', 'RI', 'NC', 'CA', 'CA', 'MN', 'CA', 'UT',
+                 'CA', 'CA', 'AZ', 'WA', 'SD', 'IN', 'NY', 'WA', 'AZ',
+                 'KS', 'OK', 'TX', 'CA', 'VA', 'TX', 'DC', 'FL', 'KS',
+                 'NC']
+
+        cities = pd.DataFrame()
+        cities_names = []
+        for i in np.arange(len(wwc_city_list)):
+            row = gov_all[gov_all.name.str.contains(wwc_city_list[i]+' ') & gov_all.state_abbr.str.contains(wwc_stat_list[i])]
+            if wwc_city_list[i]=='Honolulu':
+                cities = cities.append(gov_all[gov_all.name.str.contains('Urban Honolulu')])
+                cities_names.append([row['id'].values[0], wwc_city_list[i], wwc_stat_list[i]])
+            elif len(row)>1: #Select city name with shortest name
+                cities = cities.append([row[row.name.str.len() == row.name.str.len().min()]])
+                cities_names.append([row['id'].values[0], wwc_city_list[i], wwc_stat_list[i]])
+            elif len(row)==1:
+                cities = cities.append(row)
+                cities_names.append([row['id'].values[0], wwc_city_list[i], wwc_stat_list[i]])
+
+        cities_names = pd.DataFrame(cities_names, columns=['gov_id', 'name', 'state_abbr'])
+
+    else:
+        list = re.split(r'(, [A-Z]{2})',comp_option)
+        cities = pd.DataFrame()
+        for i in np.arange(len(list)-1)[0::2]:
+            cities = cities.append(gov_all[(gov_all['name'] == list[i]) & (gov_all['state_abbr'] == list[i+1][-2:])])
+        cities_names = cities[['id', 'name', 'state_abbr']]
+        cities_names.rename(columns={'id': 'gov_id'}, inplace = True)
+
+    # Edit cities names
+    cities_names['name'] = cities_names['name'].replace('\s\(balance\)', '', regex=True)
+    cities_names['name'] = cities_names['name'].str.replace('\s(consolidated|metro|metropolitan|unified) government', '', regex=True)
+    cities_names['name'] = cities_names['name']+', '+cities_names['state_abbr']
+
+    # General plot settings
     colorA = 'orange'
     colorB = 'darkcyan'
     colorC = 'lightgrey'
@@ -205,73 +338,9 @@ def affordability_comp(request):
     single_width = 410
     double_width = 780
     total_height = 205
-    
-    # Cities list
-    wwc_city_list = ['Albuquerque', 'Anchorage', 'Arlington', 'Athens',
-                     'Augusta', 'Baltimore', 'Baton Rouge', 'Bellevue',
-                     'Birmingham', 'Boise', 'Boston', 'Boulder', 'Buffalo',
-                     'Cambridge', 'Cape Coral', 'Cary', 'Charleston',
-                     'Charlotte', 'Chattanooga', 'Chula Vista',
-                     'Colorado Springs', 'Columbia', 'Corona', 'Denton',
-                     'Denver', 'Des Moines', 'Downey', 'Durham', 'Fargo',
-                     'Fayetteville', 'Fort Collins', 'Fort Lauderdale',
-                     'Fort Worth', 'Gainesville', 'Gilbert', 'Glendale',
-                     'Grand Rapids', 'Greensboro', 'Gresham', 'Hartford',
-                     'Hayward', 'Honolulu', 'Independence', 'Indianapolis',
-                     'Irving', 'Jackson', 'Kansas City', 'Kansas City',
-                     'Knoxville', 'Laredo', 'Las Vegas', 'Lewisville',
-                     'Lexington', 'Lincoln', 'Little Rock', 'Long Beach',
-                     'Louisville', 'Madison', 'Memphis', 'Mesa', 'Miami',
-                     'Milwaukee', 'Minneapolis', 'Modesto', 'Naperville',
-                     'Nashville', 'New Haven', 'New Orleans', 'Norfolk',
-                     'Oklahoma City', 'Olathe', 'Orlando', 'Palmdale',
-                     'Portland', 'Providence', 'Raleigh', 'Rancho Cucamonga',
-                     'Riverside', 'Saint Paul', 'Salinas', 'Salt Lake City',
-                     'San Francisco', 'San Jose', 'Scottsdale', 'Seattle',
-                     'Sioux Falls', 'South Bend', 'Syracuse', 'Tacoma',
-                     'Tempe', 'Topeka', 'Tulsa', 'Tyler', 'Victorville',
-                     'Virginia Beach', 'Waco', 'Washington', 'West Palm Beach',
-                     'Wichita', 'Winston-Salem']
-        
-    wwc_stat_list = ['NM', 'AK', 'TX', 'GA', 'GA', 'MD', 'LA', 'WA', 'AL',
-                     'ID', 'MA', 'CO', 'NY', 'MA', 'FL', 'NC', 'SC', 'NC',
-                     'TN', 'CA', 'CO', 'SC', 'CA', 'TX', 'CO', 'IA', 'CA',
-                     'NC', 'ND', 'NC', 'CO', 'FL', 'TX', 'FL', 'AZ', 'AZ',
-                     'MI', 'NC', 'OR', 'CT', 'CA', 'HI', 'MO', 'IN', 'TX',
-                     'MS', 'KS', 'MO', 'TN', 'TX', 'NV', 'TX', 'KY', 'NE',
-                     'AR', 'CA', 'KY', 'WI', 'TN', 'AZ', 'FL', 'WI', 'MN',
-                     'CA', 'IL', 'TN', 'CT', 'LA', 'VA', 'OK', 'KS', 'FL',
-                     'CA', 'OR', 'RI', 'NC', 'CA', 'CA', 'MN', 'CA', 'UT',
-                     'CA', 'CA', 'AZ', 'WA', 'SD', 'IN', 'NY', 'WA', 'AZ',
-                     'KS', 'OK', 'TX', 'CA', 'VA', 'TX', 'DC', 'FL', 'KS',
-                     'NC']
-        
-    # Cities IDs & names
-    gov_all = Government.objects.all()
-    gov_all = pd.DataFrame.from_records((gov_all.values('name','id',
-                                                        'state_abbr')))
-    wwc = []
-    for i in np.arange(len(wwc_city_list)):
-        row = gov_all[gov_all.name.str.contains(wwc_city_list[i]+' ') &
-                      gov_all.state_abbr.str.contains(wwc_stat_list[i])]
-        if wwc_city_list[i]=='Honolulu':
-            wwc.append([gov_all[gov_all.name.str.contains('Urban Honolulu'
-                        )].id.values[0], wwc_city_list[i]+', '+wwc_stat_list[i]])
-        elif len(row)>1: #Select city name with shortest name
-            wwc.append([row[row.name.str.len() ==
-                           row.name.str.len().min()].id.values[0],
-                       wwc_city_list[i]+', '+wwc_stat_list[i]])
-        elif len(row)==1:
-            wwc.append([row.id.values[0], wwc_city_list[i]+', '+wwc_stat_list[i]])
-    wwc = pd.DataFrame(wwc, columns=['gov_id', 'gov_name'])
 
     # Cities all data
-    data_all_list = []
-    for city in wwc.gov_id:
-        df = pd.DataFrame.from_records(Gov_Demographic.objects.filter(
-             gov_id = city).values('gov_id','var_id', 'value'))
-        data_all_list.append(df)
-    data_all = pd.concat(data_all_list, ignore_index=True)
+    data_all = pd.DataFrame.from_records(Gov_Demographic.objects.filter(gov_id__in = cities['id'].values).values('gov_id','var_id', 'value'))
 
     # Variables IDs
     vars_id = pd.DataFrame.from_records(
@@ -307,10 +376,10 @@ def affordability_comp(request):
         data_tax = data_tax_all[data_tax_all.year==yr].value
         data_inc = data_inc_all[data_inc_all.year==yr].value
         data_hval = data_hval_all[data_hval_all.year==yr].value
-        data_nam = data_tax_all[data_tax_all.year==yr].merge(wwc,
-                   on = 'gov_id').gov_name
+        data_nam = data_tax_all[data_tax_all.year==yr].merge(cities_names,
+                   on = 'gov_id').name
         data_per = data_tax/data_inc
-                                                                                        
+        
         tax_yr = go.Scatter(x=data_hval,
                             y=data_inc,
                             mode='markers',
@@ -320,7 +389,7 @@ def affordability_comp(request):
                                          zip(data_nam, data_tax, data_per*100)],
                             marker=dict(color = data_per,
                                         opacity=0.5,
-                                        size=2+data_tax.values/200.,
+                                        size=2+np.clip(data_tax.values, a_min=0, a_max=None)/200.,
                                         showscale = True,
                                         colorscale='YlOrRd',
                                         cmin = min_per,
@@ -458,7 +527,7 @@ def affordability_comp(request):
                   /data_tot_rent_all[data_tot_rent_all.year == yr]
                   .set_index('gov_id').value)
         data_nam = (data_tot_rent_all[data_tot_rent_all.year == yr]
-                   .merge(wwc, on = 'gov_id').gov_name)
+                   .merge(cities_names, on = 'gov_id').name)
         max_yr = (r_own_mortg + r_own_nomortg + r_rent).max()
         if max_yr > max_range:
             max_range = max_yr
@@ -586,12 +655,12 @@ def affordability_comp(request):
                           right_on = 'id')[['year', 'value', 'gov_id']]
                      
     # Note that 2 extra bins are added in 2015,
-    # but we do not need them to calculate the median
+    # but we do not need them to calculate the median (almost never)
     dist_price_minbins = np.array([0, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70,
                                    80, 90, 100, 125, 150, 175, 200, 250, 300,
                                    400, 500, 750, 1000])*1000
     data_med_price_all = []
-    for gov in wwc.gov_id:
+    for gov in cities.id:
         for yr in data_tot_pop_all.year.unique():
             freq = (data_dist_price_all[(data_dist_price_all.gov_id == gov) &
                     (data_dist_price_all.year == yr)].value.values)
@@ -628,7 +697,7 @@ def affordability_comp(request):
     x_rnt = data_med_rent_all[data_med_rent_all.year==years[-1]].csum.iloc[::-1]
     x_pop = data_tot_pop_all[data_tot_pop_all.year==years[-1]].csum.iloc[::-1]
     y_nam = data_med_rent_all[data_med_rent_all.year==years[-1]
-                              ].merge(wwc, on='gov_id').gov_name.iloc[::-1]
+                              ].merge(cities_names, on='gov_id').name.iloc[::-1]
 
     price_data = [go.Bar(x = x_inc,
                          y = y_nam,
@@ -679,7 +748,11 @@ def affordability_comp(request):
                          xaxis='x4',
                          yaxis='y'),
                   ]
-    
+
+    if len(cities_names) > 50:
+        height_price = 5*total_height
+    else:
+        height_price = None
     price_lay = go.Layout(xaxis = dict(domain = [0.02, 0.25],
                                        showgrid = True,
                                        showline = True,
@@ -721,7 +794,7 @@ def affordability_comp(request):
                                         side = 'top'),
                           font = dict(size=fontsize),
                           width = 1.6*single_width,
-                          height = 5*total_height,
+                          height = height_price,
                           margin = go.layout.Margin(l = 0,
                                                     r = 0,
                                                     b = 10,
@@ -782,19 +855,11 @@ def affordability_overview(request, gov_id):
     demos_source = Gov_Demographics_Source.objects.all()
     demos_source = pd.DataFrame(list(demos_source.values()))
     demos['value'] = [(i > 0) * i for i in demos['value']]
-    df = demos.merge(demos_source, left_on = 'var_id', right_on = 'id')[['var_name','description','year','value']]
+    df = demos.merge(demos_source, left_on = 'var_id', right_on = 'id')[['var_name','year','value']]
     
     #State data request
     st_govs = Government.objects.filter(state_abbr=gov.state_abbr)
     gov_id = pd.DataFrame.from_records(st_govs.values('id'))
-    vars_ids = Gov_Demographics_Source.objects.filter(var_name='household_income_median')
-    vars_ids = pd.DataFrame.from_records(vars_ids.values('id','year'))
-    hhincmed_st = Gov_Demographic.objects.filter(var_id__in=vars_ids['id'], gov_id__in=gov_id['id'])
-    hhincmed_st = pd.DataFrame.from_records(hhincmed_st.values('value','gov_id','var_id'))
-    hhincmed_st = hhincmed_st.merge(vars_ids, left_on='var_id', right_on='id')
-    hhincmed_st = hhincmed_st.groupby('year').median()
-    
-    #hhincmed_city = df.loc[df['var_name'].isin(['household_income_median'])]
     
     #City name
     cityname_div = gov.name+', '+gov.state_abbr
@@ -808,8 +873,11 @@ def affordability_overview(request, gov_id):
                      (df['year'] == df['year'].max()), 'value'].values[0]
     snap = df.loc[(df['var_name'].isin(['poverty_benefit_recipient'])) &
                   (df['year'] == df['year'].max()), 'value'].values[0]
-    snap = '{:.3f}%'.format(100*snap/totalunits)
-    
+    population_total = '{:.0f}'.format(population_total)
+    age_median = '{:.1f}'.format(age_median)
+    snap = '{:.1f}%'.format(100*snap/totalunits)
+    totalunits = '{:.0f}'.format(totalunits)
+   
     #Rented vs. owned vs. vacant units
     renttot = df.loc[df['var_name'].isin(['house_renter_occupied'])]
     owntot  = df.loc[df['var_name'].isin(['house_owner_occupied'])]
@@ -878,66 +946,73 @@ def affordability_overview(request, gov_id):
                                   config = ownrent_config)
 
     #Renters vs. owners population
-    rentpop = df.loc[df['var_name'].isin(['pop_rented'])]
-    ownpop  = df.loc[df['var_name'].isin(['pop_owned'])]
+    #rentpop = df.loc[df['var_name'].isin(['pop_rented'])]
+    #ownpop  = df.loc[df['var_name'].isin(['pop_owned'])]
     
-    rentpopper = [float(rentpop[rentpop['year']==y].value) /
-                  (float(ownpop[ownpop['year']==y].value) +
-                  float(rentpop[rentpop['year']==y].value))*100 for y in rentpop.year]
-    ownpopper  = [float(ownpop[ownpop['year']==y].value) /
-                  (float(ownpop[ownpop['year']==y].value) +
-                   float(rentpop[rentpop['year']==y].value))*100 for y in ownpop.year]
+    #rentpopper = [float(rentpop[rentpop['year']==y].value) /
+    #              (float(ownpop[ownpop['year']==y].value) +
+    #              float(rentpop[rentpop['year']==y].value))*100 for y in rentpop.year]
+    #ownpopper  = [float(ownpop[ownpop['year']==y].value) /
+    #              (float(ownpop[ownpop['year']==y].value) +
+    #               float(rentpop[rentpop['year']==y].value))*100 for y in ownpop.year]
     
-    ownrentpop_rent = go.Scatter(x=rentpop['year'],
-                                 y=rentpopper,
-                                 name='Renters',
-                                 mode='lines',
-                                 marker=dict(color = colorB),
-                                 hoverinfo='text',
-                                 text=['{:.0f}%'.format(i) for i in rentpopper],
-                                 stackgroup='one')
-    ownrentpop_own = go.Scatter(x=ownpop['year'],
-                                y=ownpopper,
-                                name='Owners',
-                                mode='lines',
-                                marker=dict(color = colorA),
-                                hoverinfo = 'text',
-                                text=['{:.0f}%'.format(i) for i in ownpopper],
-                                stackgroup='one')
-    ownrentpop_data = [ownrentpop_rent, ownrentpop_own]
+    #ownrentpop_rent = go.Scatter(x=rentpop['year'],
+    #                             y=rentpopper,
+    #                             name='Renters',
+    #                             mode='lines',
+    #                             marker=dict(color = colorB),
+    #                             hoverinfo='text',
+    #                             text=['{:.0f}%'.format(i) for i in rentpopper],
+    #                             stackgroup='one')
+    #ownrentpop_own = go.Scatter(x=ownpop['year'],
+    #                            y=ownpopper,
+    #                            name='Owners',
+    #                            mode='lines',
+    #                            marker=dict(color = colorA),
+    #                            hoverinfo = 'text',
+    #                           text=['{:.0f}%'.format(i) for i in ownpopper],
+    #                            stackgroup='one')
+    #ownrentpop_data = [ownrentpop_rent, ownrentpop_own]
                               
-    ownrentpop_lay = go.Layout(xaxis=dict(showgrid=False,
-                                          zeroline=False,
-                                          showline=True,
-                                          automargin=True),
-                               yaxis=dict(showgrid=True,
-                                          zeroline=False,
-                                          showline=True,
-                                          title='Population (%)',
-                                          automargin=True),
-                               font=dict(size=fontsize),
-                               showlegend=True,
-                               legend=dict(x=0.52,
-                                           y=1.3,
-                                           orientation='h',
-                                           bgcolor='rgba(0,0,0,0)'),
-                               autosize=False,
-                               width=single_width,
-                               height=total_height,
-                               margin=margin_aff)
-    ownrentpop_config= dict(showLink = False,
-                            modeBarButtonsToRemove = ['sendDataToCloud'],
-                            displaylogo = False,
-                            responsive = True)
-    ownrentpop_div = py.offline.plot({'data':ownrentpop_data, 'layout':ownrentpop_lay},
-                                     include_plotlyjs=False,
-                                     output_type='div',
-                                     config=ownrentpop_config)
+    #ownrentpop_lay = go.Layout(xaxis=dict(showgrid=False,
+    #                                      zeroline=False,
+    #                                      showline=True,
+    #                                      automargin=True),
+    #                           yaxis=dict(showgrid=True,
+    #                                      zeroline=False,
+    #                                      showline=True,
+    #                                      title='Population (%)',
+    #                                      automargin=True),
+    #                           font=dict(size=fontsize),
+    #                           showlegend=True,
+    #                           legend=dict(x=0.52,
+    #                                       y=1.3,
+    #                                       orientation='h',
+    #                                       bgcolor='rgba(0,0,0,0)'),
+    #                           autosize=False,
+    #                           width=single_width,
+    #                           height=total_height,
+    #                           margin=margin_aff)
+    #ownrentpop_config= dict(showLink = False,
+    #                        modeBarButtonsToRemove = ['sendDataToCloud'],
+    #                        displaylogo = False,
+    #                        responsive = True)
+    #ownrentpop_div = py.offline.plot({'data':ownrentpop_data, 'layout':ownrentpop_lay},
+    #                                 include_plotlyjs=False,
+    #                                 output_type='div',
+    #                                 config=ownrentpop_config)
 
     #Average household income
     hhincmed_city = df.loc[df['var_name'].isin(['household_income_median'])]
-    hhincmed_us   = [51425, 51914, 52762, 53046, 53046, 53482, 53889, 55322, 57652]
-    #hhincmed_st   = [69475, 70647, 72419, 72999, 73538, 74149, 74551, 76067, 80000]
+    hhincmed_us = [51425, 51914, 52762, 53046, 53046, 53482, 53889, 55322, 57652]
+    hhincmed_us = hhincmed_us[0:len(hhincmed_city['year'])]
+    
+    vars_ids = Gov_Demographics_Source.objects.filter(var_name='household_income_median')
+    vars_ids = pd.DataFrame.from_records(vars_ids.values('id','year'))
+    hhincmed_st = Gov_Demographic.objects.filter(var_id__in=vars_ids['id'], gov_id__in=gov_id['id'])
+    hhincmed_st = pd.DataFrame.from_records(hhincmed_st.values('value','gov_id','var_id'))
+    hhincmed_st = hhincmed_st.merge(vars_ids, left_on='var_id', right_on='id')
+    hhincmed_st = hhincmed_st.groupby('year').median()
     
     hhincmed_city_pct = hhincmed_city.value.pct_change()
     hhincmed_st_pct = pd.Series(hhincmed_st['value']).pct_change()
@@ -1031,14 +1106,32 @@ def affordability_overview(request, gov_id):
 
     # Distribution of prices asked
     priceasked_city = df.loc[df.var_name.str.contains('^house_price_[0-9]+')]
+    priceasked_city_tot = df.loc[df['var_name'] == 'house_price_tot']
     
+    vars_ids = Gov_Demographics_Source.objects.filter(var_name__iregex='^house_price_[0-9]+')
+    vars_ids = pd.DataFrame.from_records(vars_ids.values('id', 'year', 'var_name'))
+    priceasked_st_sum = Gov_Demographic.objects.filter(var_id__in=vars_ids['id'], gov_id__in=gov_id['id'])
+    priceasked_st_sum = pd.DataFrame.from_records(priceasked_st_sum.values('value','gov_id','var_id'))
+    priceasked_st_sum = priceasked_st_sum.merge(vars_ids, left_on='var_id', right_on='id')
+    priceasked_st_sum = priceasked_st_sum.groupby(['year','var_name']).sum()
+    priceasked_st_sum.reset_index(inplace=True)
+    
+    vars_ids = Gov_Demographics_Source.objects.filter(var_name='house_price_tot')
+    vars_ids = pd.DataFrame.from_records(vars_ids.values('id', 'year', 'var_name'))
+    priceasked_st_tot = Gov_Demographic.objects.filter(var_id__in=vars_ids['id'], gov_id__in=gov_id['id'])
+    priceasked_st_tot = pd.DataFrame.from_records(priceasked_st_tot.values('value','gov_id','var_id'))
+    priceasked_st_tot = priceasked_st_tot.merge(vars_ids, left_on='var_id', right_on='id')
+    priceasked_st_tot = priceasked_st_tot.groupby(['year']).sum()
+    priceasked_st_tot.reset_index(inplace=True)
+    #priceasked_st_tot = priceasked_st_sum.groupby(['year']).value.sum()
+ 
     listyears = priceasked_city['year'].unique()
     max_range = 1.5*priceasked_city['value'].max()/(priceasked_city['value'].mean()*24)
     houseprice_data = []
     for y, yr in enumerate(listyears):
         
         houseprice_city_bins = []
-        houseprice_stat_bins = []
+        houseprice_st_bins = []
         houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_01')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
@@ -1047,6 +1140,14 @@ def affordability_overview(request, gov_id):
                                                     (priceasked_city['var_name']=='house_price_03')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_04')].value.values[0])
+        houseprice_st_bins.append(priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_01')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_02')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_03')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_04')].value.values[0])
         houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_05')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
@@ -1055,54 +1156,86 @@ def affordability_overview(request, gov_id):
                                                     (priceasked_city['var_name']=='house_price_07')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_08')].value.values[0])
+        houseprice_st_bins.append(priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_05')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_06')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_07')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_08')].value.values[0])
         houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_09')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_10')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_11')].value.values[0]/2)
+        houseprice_st_bins.append(priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_09')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_10')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_11')].value.values[0]/2)
         houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_11')].value.values[0]/2 +
                                     priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_12')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_13')].value.values[0])
+        houseprice_st_bins.append(priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_11')].value.values[0]/2 +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_12')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_13')].value.values[0])
                                         
         for n in [14, 15, 16, 17, 18, 19, 20, 21]:
-            houseprice_city_bins.append( priceasked_city[(priceasked_city['year']==yr) &
-                                                         (priceasked_city['var_name']=='house_price_'+'{:02.0f}'.format(n))].value.values[0] )
+            houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
+                                                         (priceasked_city['var_name']=='house_price_'+
+                                                          '{:02.0f}'.format(n))].value.values[0])
+            houseprice_st_bins.append(priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                          (priceasked_st_sum['var_name']=='house_price_'+
+                                                           '{:02.0f}'.format(n))].value.values[0])
         
         houseprice_city_bins.append(priceasked_city[(priceasked_city['year']==yr) &
                                                     (priceasked_city['var_name']=='house_price_22')].value.values[0] +
                                     priceasked_city[(priceasked_city['year']==yr) &
-                                                    (priceasked_city['var_name']=='house_price_23')].value.values[0] +
-                                    priceasked_city[(priceasked_city['year']==yr) &
-                                                    (priceasked_city['var_name']=='house_price_24')].value.values[0])
-
-        tot = sum([float(i) for i in houseprice_city_bins])
-        norm = [-1*float(i)/tot for i in houseprice_city_bins]
-        ylab = ['{:.0f}%'.format(-1*float(i)*100)  for i in norm]
-        houseprice_city = go.Bar(y=np.arange(len(norm)),
-                                 x=norm,
+                                                    (priceasked_city['var_name']=='house_price_23')].value.values[0])
+        houseprice_st_bins.append(priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_22')].value.values[0] +
+                                  priceasked_st_sum[(priceasked_st_sum['year']==yr) &
+                                                    (priceasked_st_sum['var_name']=='house_price_23')].value.values[0])
+                                                    
+        tot_city = sum([float(i) for i in houseprice_city_bins])
+        tot_st = sum([float(i) for i in houseprice_st_bins])
+        houseprice_city_bins.append(priceasked_city_tot[priceasked_city_tot['year']==yr].value.values[0] - tot_city)
+        houseprice_st_bins.append(priceasked_st_tot[priceasked_st_tot['year']==yr].value.values[0] - tot_st)
+    
+        #tot = sum([float(i) for i in houseprice_city_bins])
+        #norm = [-1*float(i)/tot for i in houseprice_city_bins]
+        norm_city = [-1*float(i)/priceasked_city_tot[priceasked_city_tot['year']==yr].value.values[0] for i in houseprice_city_bins]
+        ylab_city = ['{:.0f}%'.format(-1*float(i)*100)  for i in norm_city]
+        houseprice_city = go.Bar(y=np.arange(len(norm_city)),
+                                 x=norm_city,
                                  base=y*max_range*2,
                                  orientation='h',
                                  name=gov.name,
                                  hoverinfo='text',
-                                 text=ylab,
+                                 text=ylab_city,
                                  hoverlabel=dict(bgcolor=colorA, bordercolor='white'),
                                  marker=dict(color=colorA, opacity=0.5))
         if y!=0: houseprice_city.update(dict(showlegend= False))
         houseprice_data.append(houseprice_city)
 
-        norm_c = [float(i)/tot for i in houseprice_city_bins]
-        ylab_c = [str(round(float(i)*100))+'%' for i in norm]
-        houseprice_state = go.Bar(y=np.arange(len(norm_c)),
-                                  x=norm_c,
+        norm_st = [float(i)/priceasked_st_tot[priceasked_st_tot['year']==yr].value.values[0] for i in houseprice_st_bins]
+        ylab_st = [str(round(float(i)*100))+'%' for i in norm_st]
+        houseprice_state = go.Bar(y=np.arange(len(norm_st)),
+                                  x=norm_st,
                                   base=y*max_range*2,
                                   orientation='h',
                                   name=gov.state_abbr,
                                   hoverinfo='text',
-                                  text=ylab,
+                                  text=ylab_st,
                                   hoverlabel=dict(bgcolor=colorB, bordercolor='white'),
                                   marker=dict(color=colorB, opacity=0.5))
         if y!=0: houseprice_state.update(dict(showlegend= False))
@@ -1111,9 +1244,9 @@ def affordability_overview(request, gov_id):
     
         
     
-    housevalmed_city = df.loc[df['var_name'].isin(['house_median_value'])]
-    yval = [12500, 37500, 62500, 87500, 112500, 137500, 162500, 187500, 225000, 275000, 350000, 450000, 750000]
-    f = interp1d(yval, np.arange(len(yval)), kind='cubic', bounds_error=False, fill_value=len(yval))
+    housevalmed_city = df.loc[df['var_name'] == 'house_median_value']
+    yval = [12500, 37500, 62500, 87500, 112500, 137500, 162500, 187500, 225000, 275000, 350000, 450000, 750000, 1250000]
+    f = interp1d(yval, np.arange(len(yval)), kind='linear', bounds_error=False, fill_value=len(yval))
     avg_city_val = f(housevalmed_city.value.values)
     avg_city = go.Scatter(x=np.arange(len(housevalmed_city.year))*max_range*2,
                           y=avg_city_val,
@@ -1123,8 +1256,17 @@ def affordability_overview(request, gov_id):
                           hoverinfo = 'none',
                           showlegend = False)
     houseprice_data.append(avg_city)
-    avg_stat = go.Scatter(x=np.arange(len(housevalmed_city.year))*max_range*2,
-                          y=avg_city_val+0.5,
+    
+    vars_ids = Gov_Demographics_Source.objects.filter(var_name='house_median_value')
+    vars_ids = pd.DataFrame.from_records(vars_ids.values('id', 'year', 'var_name'))
+    housevalmed_st = Gov_Demographic.objects.filter(var_id__in=vars_ids['id'], gov_id__in=gov_id['id'])
+    housevalmed_st = pd.DataFrame.from_records(housevalmed_st.values('value','gov_id','var_id'))
+    housevalmed_st = housevalmed_st.merge(vars_ids, left_on='var_id', right_on='id')
+    housevalmed_st = housevalmed_st.groupby(['year']).mean()
+    housevalmed_st.reset_index(inplace=True)
+    avg_st_val = f(housevalmed_st.value.values)
+    avg_stat = go.Scatter(x=np.arange(len(housevalmed_st.year))*max_range*2,
+                          y=avg_st_val,
                           mode = 'lines',
                           line=dict(width=1.0),
                           marker = dict(color = colorB),
@@ -1132,17 +1274,16 @@ def affordability_overview(request, gov_id):
                           showlegend = False)
     houseprice_data.append(avg_stat)
     
-
-
     ylab = [' ', '50', ' ', '100', ' ', '150', ' ', '200',
-            ' ', '300', ' ', '500']
+            ' ', '300', ' ', '500', '1000']
     houseprice_lay = go.Layout(yaxis=dict(title='Price (k$)',
                                           tickvals=np.arange(len(ylab))+0.5,
                                           ticktext=ylab,
                                           showgrid=True,
                                           zeroline=False,
                                           showline=True,
-                                          automargin=True),
+                                          automargin=True,
+                                          tickfont=dict(size=8)),
                                xaxis=dict(range=[-max_range, 2*max_range*len(listyears)-max_range],
                                           ticktext=listyears,
                                           tickvals=np.arange(len(listyears))*max_range*2,
@@ -1169,7 +1310,7 @@ def affordability_overview(request, gov_id):
                                      "layout":houseprice_lay},
                                      include_plotlyjs=False,
                                      output_type='div',
-                                     config=ownrentpop_config)
+                                     config=ownrent_config)
 
     #Average househould size owners vs. renters
     ppsize_own = df.loc[df['var_name'].isin(['household_average_size_own'])]
@@ -1245,7 +1386,7 @@ def affordability_overview(request, gov_id):
                               name = 'Owners income',
                               opacity = 0.5,
                               hoverinfo='text',
-                              text = ['Net income:<br>${:.0f}'.format(x) for x in
+                              text = ['Income:<br>${:.0f}'.format(x) for x in
                                       incmed_own.value.values/12 - owncost_median.value],
                               marker = dict(color = colorA))
     monthexp_inc_rent = go.Bar(x = incmed_rent.year,
@@ -1365,7 +1506,7 @@ def affordability_overview(request, gov_id):
         'govid':gov.id,
         'cityname_div':cityname_div,
         'ownrent_div':ownrent_div,
-        'ownrentpop_div':ownrentpop_div,
+        #'ownrentpop_div':ownrentpop_div,
         'hhsize_div':hhsize_div,
         'hhinc_div':hhinc_div,
         'houseprice_div':houseprice_div,
@@ -1401,7 +1542,11 @@ def median_from_hist(minbins, freq, tot=0):
     idx = (np.abs(distr_cum - tot/2)).argmin()
     
     # Assume homogeneous distribution inside the bin to find median
-    med = minbins[idx] + ((tot/2 - distr_cum[idx-1]) / freq[idx]) * (minbins[idx+1] - minbins[idx])
+    if idx < len(minbins)-1:
+        med = minbins[idx] + ((tot/2 - distr_cum[idx-1]) / freq[idx]) * (minbins[idx+1] - minbins[idx])
+    else:
+        # Median is in the last bin
+        med = minbins[-1]
 
     return med
 
