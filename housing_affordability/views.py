@@ -326,7 +326,7 @@ def affordability_comp(request, comp_option):
 
     # Edit cities names
     cities_names['name'] = cities_names['name'].replace('\s\(balance\)', '', regex=True)
-    cities_names['name'] = cities_names['name'].str.replace('\s(consolidated|metro|metropolitan|unified) government', '', regex=True)
+    cities_names['name'] = cities_names['name'].replace('\s(consolidated|metro|metropolitan|unified) government', '', regex=True)
     cities_names['name'] = cities_names['name']+', '+cities_names['state_abbr']
 
     # General plot settings
