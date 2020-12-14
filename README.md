@@ -1,6 +1,7 @@
 # GovEx Housing Affordability
 
 This is not a full Django project, just an app to be included in an existing project.
+Visit this project [here](https://www.govex.works/analysis/housing/about/)
 
 ## Setup and Installation 
 
